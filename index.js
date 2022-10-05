@@ -45,7 +45,7 @@ function animate() {
 
     player.update();
     player.draw();
-    player.drawCollisionBox();
+    // player.drawCollisionBox();
 }
 
 animate()
