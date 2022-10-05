@@ -1,9 +1,7 @@
 window.addEventListener('keydown', (event) => {
     switch (event.code) {
         case 'Space':
-            if (player.vel.y == 0) {
-                console.log("Jump");
-                player.vel.y = -20; };
+            player.jump()
             break
         case actions.moveRight.key:
             actions.moveRight.pressed = true;

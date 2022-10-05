@@ -12,7 +12,7 @@ function createColliders(parsed_collisions) {
             if (symbol != 0) {
                 // push a new collision into collisionblocks array
                 colliders.push(new CollisionBlock({
-                    position: {
+                    pos: {
                         x: x*64,
                         y: y*64,
                     }

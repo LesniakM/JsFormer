@@ -11,7 +11,7 @@ const collisionBlocks = createColliders(parsedCollisions)
 const backgroundLevel1 = new Sprite({postition: {x: 0, y:0},
                                     imageSrc: './images/background1.png'})
 
-const player = new Player()
+const player = new Player({collisionBlocks})
 
 const actions = {
     moveRight: {
