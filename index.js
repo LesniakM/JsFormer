@@ -4,6 +4,8 @@ const c = canvas.getContext('2d')
 canvas.width = 64 * 16;
 canvas.height = 64 * 9;
 
+const backgroundLevel1 = new Sprite({postition: {x: 0, y:0},
+                                    imageSrc: './images/background1.png'})
 
 const player = new Player()
 
@@ -21,8 +23,11 @@ const actions = {
 function animate() {
     window.requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
-    c.fillStyle = 'gray';
-    c.fillRect(0, 0, canvas.width, canvas.height);
+
+    c.fillStyle = 'red'
+    c.fillRect(0,0, canvas.width, canvas.height);
+
+    backgroundLevel1.draw();
 
     if (actions.moveRight.pressed) player.accelerateRight();
     else if (actions.moveLeft.pressed) player.accelerateLeft();
