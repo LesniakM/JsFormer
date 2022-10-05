@@ -2,7 +2,7 @@ class Player {
     constructor() {
         this.pos = {
             x: 100,
-            y: 400
+            y: 100
         };
         this.vel = {
             x: 0.0,
@@ -14,8 +14,8 @@ class Player {
         };
         
         this.speed = 10;
-        this.width = 100;
-        this.height = 100;
+        this.width = 64;
+        this.height = 64;
         
     }
 
