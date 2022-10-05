@@ -1,7 +1,6 @@
-class Player {
-    constructor({
-        collisionBlocks = [] 
-    }) {
+class Player extends Sprite {
+    constructor({collisionBlocks = [], imageSrc , frameCount}) {
+        super({imageSrc, frameCount});
         this.pos = {
             x: 100,
             y: 100
@@ -16,18 +15,11 @@ class Player {
         };
         
         this.speed = 10;
-        this.width = 64;
-        this.height = 64;
         this.jumping = false;
         
         this.collisionBlocks = collisionBlocks
-        console.log(this.collisionBlocks)
     }
 
-    draw() {
-        c.fillStyle = 'green';
-        c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-    };
 
     accelerateRight() {
         if (this.vel.x + this.acc.x < this.speed) {
@@ -66,11 +58,11 @@ class Player {
                 this.pos.y <= collisionBlock.pos.y + collisionBlock.height)
                 {
                 if (this.vel.x < 0) {
-                    this.pos.x = collisionBlock.pos.x + collisionBlock.width + 0.01;
+                    this.pos.x = collisionBlock.pos.x + collisionBlock.width + 0.001;
                     this.vel.x = 0;
                     break}  
                 if (this.vel.x > 0) {
-                    this.pos.x = collisionBlock.pos.x - collisionBlock.width - 0.01
+                    this.pos.x = collisionBlock.pos.x - collisionBlock.width - 0.001
                     this.vel.x = 0;
                     break}
             }
@@ -87,12 +79,12 @@ class Player {
                 this.pos.y <= collisionBlock.pos.y + collisionBlock.height)
                 {
                 if (this.vel.y < -1) {
-                    this.pos.y = collisionBlock.pos.y + collisionBlock.height + 0.01;
+                    this.pos.y = collisionBlock.pos.y + this.height + 0.001;
                     this.vel.y = 0;
                     this.jumping = false;
                     break}  
                 if (this.vel.y > 0) {
-                    this.pos.y = collisionBlock.pos.y - collisionBlock.height - 0.01;
+                    this.pos.y = collisionBlock.pos.y - this.height - 0.001;
                     this.vel.y = 0;
                     this.jumping = false;
                     break}
@@ -109,6 +101,11 @@ class Player {
             player.vel.y = 0;
             this.jumping = false;
         };
+    }
+
+    drawCollisionBox() {
+        c.fillStyle = 'rgba(0, 0, 255, 0.25)';
+        c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
     }
 
     update() {

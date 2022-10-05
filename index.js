@@ -8,10 +8,14 @@ canvas.height = 64 * 9;
 const parsedCollisions = parseListToArray(collisionsLevel1)
 const collisionBlocks = createColliders(parsedCollisions)
 
-const backgroundLevel1 = new Sprite({postition: {x: 0, y:0},
+const backgroundLevel1 = new Sprite({pos: {x: 0, y:0},
                                     imageSrc: './images/background1.png'})
 
-const player = new Player({collisionBlocks})
+const player = new Player({
+    pos: {x: 100, y: 0},
+    collisionBlocks,
+    imageSrc: './images/player/idle.png',
+    frameCount: 6})
 
 const actions = {
     moveRight: {
@@ -41,6 +45,7 @@ function animate() {
 
     player.update();
     player.draw();
+    player.drawCollisionBox();
 }
 
 animate()
