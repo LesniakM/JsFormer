@@ -12,11 +12,14 @@ class Player extends Sprite {
         this.speed = 5;
         this.jumping = false;
         this.collisionBlocks = collisionBlocks
+        this.stepTicks = 0;
+        this.stepIndex = 0;
     }
 
 
     accelerateRight() {
         this.switchSprite('runRight');
+        if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
         if (this.vel.x + this.acc.x < this.speed) {
             if (this.vel.y === 0) this.vel.x += this.acc.x;
             else this.vel.x += this.acc.x / 5;  // Less x controll mid-air
@@ -24,6 +27,7 @@ class Player extends Sprite {
 
     accelerateLeft() {
         this.switchSprite('runLeft');
+        if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
         if (this.vel.x - this.acc.x > -this.speed) {
             if (this.vel.y === 0) this.vel.x -= this.acc.x;
             else this.vel.x -= this.acc.x / 5;  // Less x controll mid-air
@@ -54,6 +58,24 @@ class Player extends Sprite {
         if (this.vel.x >= 0) this.switchSprite('idleRight');
         if (this.vel.x < 0) this.switchSprite('idleLeft');
     };
+
+    playFootsteps() {
+        this.stepTicks++;
+        if (this.stepTicks % 6 == 0)
+            if (this.stepIndex === 0) {
+                sounds.step1.play();
+                this.stepIndex++;}
+            else if (this.stepIndex === 1){
+                sounds.step2.play();
+                this.stepIndex++;}
+            else if (this.stepIndex === 2){
+                sounds.step3.play();
+                this.stepIndex++;}
+            else {
+                sounds.step4.play();
+                this.stepIndex = 0;}
+            
+    }
 
     checkHorizontalCollisions() {
         for (let i = 0; i < this.collisionBlocks.length; i++) {
