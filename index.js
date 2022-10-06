@@ -14,7 +14,7 @@ const backgroundLevel1 = new Sprite({pos: {x: 0, y:0},
 const sounds = new Sounds();
 
 const player = new Player({
-    pos: {x: 100, y: 100},
+    pos: {x: 110, y: 140},
     collisionBlocks,
     imageSrc: './images/player/idleRight.png',
     frameCount: 6,

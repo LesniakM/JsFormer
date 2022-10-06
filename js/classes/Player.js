@@ -2,11 +2,11 @@ class Player extends Sprite {
     constructor({pos, collisionBlocks = [], imageSrc , frameCount, animations}) {
         super({pos, imageSrc, frameCount, animations});
         this.vel = {
-            x: 0.0,
-            y: -10
+            x: 0,
+            y: 0
         };
         this.acc = {
-            x: 1.2,
+            x: 1,
             y: 1
         };
         this.speed = 5;

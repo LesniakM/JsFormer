@@ -14,5 +14,7 @@ class Sounds{
         this.step3.volume = 0.20;
         this.step4 = new Audio('./data/wavs/StepGrass4.wav');
         this.step4.volume = 0.20;
+        this.bgmusic = new Audio('./data/wavs/itch-io_not-jam-music-pack_KleptoLindaMountain.wav');
+        this.step4.volume = 0.10;
     }
 }
