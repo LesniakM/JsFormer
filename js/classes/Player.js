@@ -44,11 +44,13 @@ class Player extends Sprite {
         if (!this.jumping && this.vel.y < 5) {
             this.vel.y = -16;
             this.jumping = true;
+            sounds.jump.play();
         }
     };
 
     endJump() {
         this.jumping = false;
+        sounds.stomp.play();
         if (this.vel.x >= 0) this.switchSprite('idleRight');
         if (this.vel.x < 0) this.switchSprite('idleLeft');
     };
@@ -129,11 +131,15 @@ class Player extends Sprite {
             this.currentFrame = 0;};
     }
 
+    teleportFromWater() {
+        sounds.splash.play();
+        this.pos.x = 500;
+        this.pos.y = 200;
+    }
+
     update() {
-        if (this.pos.y > 470){
-            this.pos.x = 500;
-            this.pos.y = 200;
-        }
+        if (this.pos.y > 470) this.teleportFromWater();
+
         this.pos.x = Math.round(this.pos.x + this.vel.x); // Rounding to whole pixel prevets pixel-art diffusion.
 
         this.hitbox = {
