@@ -2,21 +2,24 @@ class Player extends Sprite {
     constructor({pos, collisionBlocks = [], imageSrc , frameCount, animations}) {
         super({pos, imageSrc, frameCount, animations});
         this.vel = {
-            x: 0.0,
-            y: -10
+            x: 0,
+            y: 0
         };
         this.acc = {
-            x: 1.2,
+            x: 1,
             y: 1
         };
         this.speed = 5;
         this.jumping = false;
         this.collisionBlocks = collisionBlocks
+        this.stepTicks = 0;
+        this.stepIndex = 0;
     }
 
 
     accelerateRight() {
         this.switchSprite('runRight');
+        if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
         if (this.vel.x + this.acc.x < this.speed) {
             if (this.vel.y === 0) this.vel.x += this.acc.x;
             else this.vel.x += this.acc.x / 5;  // Less x controll mid-air
@@ -24,6 +27,7 @@ class Player extends Sprite {
 
     accelerateLeft() {
         this.switchSprite('runLeft');
+        if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
         if (this.vel.x - this.acc.x > -this.speed) {
             if (this.vel.y === 0) this.vel.x -= this.acc.x;
             else this.vel.x -= this.acc.x / 5;  // Less x controll mid-air
@@ -54,6 +58,24 @@ class Player extends Sprite {
         if (this.vel.x >= 0) this.switchSprite('idleRight');
         if (this.vel.x < 0) this.switchSprite('idleLeft');
     };
+
+    playFootsteps() {
+        this.stepTicks++;
+        if (this.stepTicks % 6 == 0)
+            if (this.stepIndex === 0) {
+                sounds.step1.play();
+                this.stepIndex++;}
+            else if (this.stepIndex === 1){
+                sounds.step2.play();
+                this.stepIndex++;}
+            else if (this.stepIndex === 2){
+                sounds.step3.play();
+                this.stepIndex++;}
+            else {
+                sounds.step4.play();
+                this.stepIndex = 0;}
+            
+    }
 
     checkHorizontalCollisions() {
         for (let i = 0; i < this.collisionBlocks.length; i++) {
@@ -91,13 +113,13 @@ class Player extends Sprite {
                     const hb_offset = this.hitbox.pos.y - this.pos.y;
                     this.pos.y = collisionBlock.pos.y + collisionBlock.height - hb_offset + 0.01;
                     this.vel.y = 0;
-                    if (this.jumping) this.endJump();
+                    // if (this.jumping) this.endJump();
                     break}  
                 if (this.vel.y > 0) {
                     const hb_offset = this.hitbox.pos.y - this.pos.y + this.hitbox.height;
+                    if (this.jumping || this.vel.y > 10) this.endJump();
                     this.pos.y = collisionBlock.pos.y - hb_offset - 0.01;
                     this.vel.y = 0;
-                    if (this.jumping) this.endJump();
                     break}
             }
         }
@@ -107,11 +129,6 @@ class Player extends Sprite {
         if (this.pos.y + this.height < canvas.height){
             this.vel.y += this.acc.y;
         }
-        else {
-            this.pos.y = canvas.height - this.height;
-            this.vel.y = 0;
-            if (this.jumping) this.endJump();
-        };
     }
 
     drawSpriteBox() {

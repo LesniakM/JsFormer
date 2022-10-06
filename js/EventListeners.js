@@ -1,4 +1,5 @@
 window.addEventListener('keydown', (event) => {
+    sounds.bgmusic.play();
     switch (event.code) {
         case 'Space':
             player.jump()
