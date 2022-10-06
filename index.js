@@ -15,7 +15,25 @@ const player = new Player({
     pos: {x: 100, y: 0},
     collisionBlocks,
     imageSrc: './images/player/idle.png',
-    frameCount: 6})
+    frameCount: 6,
+    animations: {
+        idleRight: {
+            frameCount: 6,
+            imageSrc: 'src',
+            animationDelay: 8},
+        idleLeft: {
+            frameCount: 6,
+            imageSrc: 'src',
+            animationDelay: 8},
+        runRight: {
+            frameCount: 6,
+            imageSrc: 'src',
+            animationDelay: 8},
+        runLeft: {
+            frameCount: 6,
+            imageSrc: 'src',
+            animationDelay: 8},
+    }})
 
 const actions = {
     moveRight: {
@@ -45,7 +63,8 @@ function animate() {
 
     player.update();
     player.draw();
-    // player.drawCollisionBox();
+    //player.drawSpriteBox();
+    //player.drawHitBox();
 }
 
 animate()

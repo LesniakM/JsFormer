@@ -16,7 +16,6 @@ class Player extends Sprite {
         
         this.speed = 10;
         this.jumping = false;
-        
         this.collisionBlocks = collisionBlocks
     }
 
@@ -45,6 +44,7 @@ class Player extends Sprite {
     jump() {
         if (!this.jumping) {
             this.vel.y = -20;
+            this.jumping = true;
         }
     }
 
@@ -52,17 +52,19 @@ class Player extends Sprite {
         for (let i = 0; i < this.collisionBlocks.length; i++) {
             const collisionBlock = this.collisionBlocks[i]
             
-            if (this.pos.x <= collisionBlock.pos.x + collisionBlock.width && 
-                this.pos.x + this.width >= collisionBlock.pos.x &&
-                this.pos.y + this.height >= collisionBlock.pos.y &&
-                this.pos.y <= collisionBlock.pos.y + collisionBlock.height)
+            if (this.hitbox.pos.x <= collisionBlock.pos.x + collisionBlock.width && 
+                this.hitbox.pos.x + this.hitbox.width >= collisionBlock.pos.x &&
+                this.hitbox.pos.y + this.hitbox.height >= collisionBlock.pos.y &&
+                this.hitbox.pos.y <= collisionBlock.pos.y + collisionBlock.height)
                 {
+                const hb_offset_left = this.hitbox.pos.x - this.pos.x;
                 if (this.vel.x < 0) {
-                    this.pos.x = collisionBlock.pos.x + collisionBlock.width + 0.001;
+                    this.pos.x = collisionBlock.pos.x - hb_offset_left + collisionBlock.width + 1;
                     this.vel.x = 0;
                     break}  
                 if (this.vel.x > 0) {
-                    this.pos.x = collisionBlock.pos.x - collisionBlock.width - 0.001
+                    const hb_offset_right = this.width - hb_offset_left - this.hitbox.width
+                    this.pos.x = collisionBlock.pos.x + hb_offset_right - collisionBlock.width - 1;
                     this.vel.x = 0;
                     break}
             }
@@ -73,18 +75,19 @@ class Player extends Sprite {
         for (let i = 0; i < this.collisionBlocks.length; i++) {
             const collisionBlock = this.collisionBlocks[i]
             
-            if (this.pos.x <= collisionBlock.pos.x + collisionBlock.width && 
-                this.pos.x + this.width >= collisionBlock.pos.x &&
-                this.pos.y + this.height >= collisionBlock.pos.y &&
-                this.pos.y <= collisionBlock.pos.y + collisionBlock.height)
+            if (this.hitbox.pos.x <= collisionBlock.pos.x + collisionBlock.width && 
+                this.hitbox.pos.x + this.hitbox.width >= collisionBlock.pos.x &&
+                this.hitbox.pos.y + this.hitbox.height >= collisionBlock.pos.y &&
+                this.hitbox.pos.y <= collisionBlock.pos.y + collisionBlock.height)
                 {
+                const hb_offset = this.hitbox.pos.y - this.pos.y + this.hitbox.height;
                 if (this.vel.y < -1) {
-                    this.pos.y = collisionBlock.pos.y + this.height + 0.001;
+                    this.pos.y = collisionBlock.pos.y + hb_offset + 0.01;
                     this.vel.y = 0;
                     this.jumping = false;
                     break}  
                 if (this.vel.y > 0) {
-                    this.pos.y = collisionBlock.pos.y - this.height - 0.001;
+                    this.pos.y = collisionBlock.pos.y - hb_offset - 0.01;
                     this.vel.y = 0;
                     this.jumping = false;
                     break}
@@ -103,18 +106,37 @@ class Player extends Sprite {
         };
     }
 
-    drawCollisionBox() {
+    drawSpriteBox() {
         c.fillStyle = 'rgba(0, 0, 255, 0.25)';
         c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
     }
+    drawHitBox() {
+        c.fillStyle = 'rgba(255, 0, 0, 0.33)';
+        c.fillRect(this.hitbox.pos.x, this.hitbox.pos.y, this.hitbox.width, this.hitbox.height);
+    }
 
     update() {
-        this.pos.x += this.vel.x;
-        this.checkHorizontalCollisions()
+        this.pos.x = Math.round(this.pos.x + this.vel.x); // Rounding to whole pixel prevets pixel-art diffusion.
+
+        this.hitbox = {
+            pos: {
+                x: this.pos.x + this.width/4,
+                y: this.pos.y + this.height/4},
+            width: 30,
+            height: 40};
+
+        this.checkHorizontalCollisions();
 
         this.pos.y += this.vel.y;
-        this.applyGravity()
+        this.applyGravity();
+
+        this.hitbox = {
+            pos: {
+                x: this.pos.x + this.width/4,
+                y: this.pos.y + this.height/4},
+            width: 30,
+            height: 40};
         
-        this.checkVerticalCollisions()
+        this.checkVerticalCollisions();
     }
 }
