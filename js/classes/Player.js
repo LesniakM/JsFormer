@@ -91,13 +91,13 @@ class Player extends Sprite {
                     const hb_offset = this.hitbox.pos.y - this.pos.y;
                     this.pos.y = collisionBlock.pos.y + collisionBlock.height - hb_offset + 0.01;
                     this.vel.y = 0;
-                    if (this.jumping) this.endJump();
+                    // if (this.jumping) this.endJump();
                     break}  
                 if (this.vel.y > 0) {
                     const hb_offset = this.hitbox.pos.y - this.pos.y + this.hitbox.height;
+                    if (this.jumping || this.vel.y > 10) this.endJump();
                     this.pos.y = collisionBlock.pos.y - hb_offset - 0.01;
                     this.vel.y = 0;
-                    if (this.jumping) this.endJump();
                     break}
             }
         }
@@ -107,11 +107,6 @@ class Player extends Sprite {
         if (this.pos.y + this.height < canvas.height){
             this.vel.y += this.acc.y;
         }
-        else {
-            this.pos.y = canvas.height - this.height;
-            this.vel.y = 0;
-            if (this.jumping) this.endJump();
-        };
     }
 
     drawSpriteBox() {
