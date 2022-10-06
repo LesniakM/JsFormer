@@ -17,22 +17,31 @@ const player = new Player({
     imageSrc: './images/player/idle.png',
     frameCount: 6,
     animations: {
+        path: "./images/player/",
         idleRight: {
             frameCount: 6,
-            imageSrc: 'src',
-            animationDelay: 8},
+            animationDelay: 8,
+            loop: true},
         idleLeft: {
             frameCount: 6,
-            imageSrc: 'src',
-            animationDelay: 8},
+            animationDelay: 8,
+            loop: true},
         runRight: {
             frameCount: 6,
-            imageSrc: 'src',
-            animationDelay: 8},
+            animationDelay: 8,
+            loop: true},
         runLeft: {
             frameCount: 6,
-            imageSrc: 'src',
-            animationDelay: 8},
+            animationDelay: 8,
+            loop: true},
+        jumpRight: {
+            frameCount: 1,
+            animationDelay: 8,
+            loop: false},
+        jumpLeft: {
+            frameCount: 1,
+            animationDelay: 8,
+            loop: false},
     }})
 
 const actions = {

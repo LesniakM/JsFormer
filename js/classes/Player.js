@@ -1,6 +1,6 @@
 class Player extends Sprite {
-    constructor({collisionBlocks = [], imageSrc , frameCount}) {
-        super({imageSrc, frameCount});
+    constructor({collisionBlocks = [], imageSrc , frameCount, animations}) {
+        super({imageSrc, frameCount, animations});
         this.pos = {
             x: 100,
             y: 100
@@ -10,29 +10,33 @@ class Player extends Sprite {
             y: -10
         };
         this.acc = {
-            x: 1.5,
+            x: 1.2,
             y: 1
         };
         
-        this.speed = 10;
+        this.speed = 5;
         this.jumping = false;
         this.collisionBlocks = collisionBlocks
     }
 
 
     accelerateRight() {
+        this.switchSprite('runRight');
         if (this.vel.x + this.acc.x < this.speed) {
             if (this.vel.y === 0) this.vel.x += this.acc.x;
             else this.vel.x += this.acc.x / 5;  // Less x controll mid-air
         } else {this.vel.x = this.speed}};
 
     accelerateLeft() {
+        this.switchSprite('runLeft');
         if (this.vel.x - this.acc.x > -this.speed) {
             if (this.vel.y === 0) this.vel.x -= this.acc.x;
             else this.vel.x -= this.acc.x / 5;  // Less x controll mid-air
         } else {this.vel.x = -this.speed}};
 
     deccelerate() {
+        if (this.image.currentSrc.includes("runRight")) this.switchSprite('idleRight');
+        if (this.image.currentSrc.includes("runLeft")) this.switchSprite('idleLeft');
         if (this.vel.x > this.acc.x) {
             if (this.vel.y === 0) this.vel.x -= this.acc.x;
             else this.vel.x -= this.acc.x / 8;  // Less x controll mid-air
@@ -43,10 +47,16 @@ class Player extends Sprite {
 
     jump() {
         if (!this.jumping) {
-            this.vel.y = -20;
+            this.vel.y = -18;
             this.jumping = true;
         }
-    }
+    };
+
+    endJump() {
+        this.jumping = false;
+        if (this.vel.x >= 0) this.switchSprite('idleRight');
+        if (this.vel.x < 0) this.switchSprite('idleLeft');
+    };
 
     checkHorizontalCollisions() {
         for (let i = 0; i < this.collisionBlocks.length; i++) {
@@ -84,12 +94,12 @@ class Player extends Sprite {
                 if (this.vel.y < -1) {
                     this.pos.y = collisionBlock.pos.y + hb_offset + 0.01;
                     this.vel.y = 0;
-                    this.jumping = false;
+                    if (this.jumping) this.endJump();
                     break}  
                 if (this.vel.y > 0) {
                     this.pos.y = collisionBlock.pos.y - hb_offset - 0.01;
                     this.vel.y = 0;
-                    this.jumping = false;
+                    if (this.jumping) this.endJump();
                     break}
             }
         }
@@ -102,7 +112,7 @@ class Player extends Sprite {
         else {
             player.pos.y = canvas.height - player.height;
             player.vel.y = 0;
-            this.jumping = false;
+            if (this.jumping) this.endJump();
         };
     }
 
@@ -113,6 +123,14 @@ class Player extends Sprite {
     drawHitBox() {
         c.fillStyle = 'rgba(255, 0, 0, 0.33)';
         c.fillRect(this.hitbox.pos.x, this.hitbox.pos.y, this.hitbox.width, this.hitbox.height);
+    }
+
+    switchSprite(name) {
+        if (!this.image.currentSrc.includes(name)){
+            this.image = this.animations[name].image;
+            this.frameCount = this.animations[name].frameCount;
+            this.tickDivider = this.animations[name].animationDelay;
+            this.currentFrame = 0;};
     }
 
     update() {
@@ -138,5 +156,10 @@ class Player extends Sprite {
             height: 40};
         
         this.checkVerticalCollisions();
+
+        if (this.jumping) {
+            if (this.vel.x >= 0) this.switchSprite('jumpRight');
+            if (this.vel.x < 0) this.switchSprite('jumpLeft');
+        };
     }
 }

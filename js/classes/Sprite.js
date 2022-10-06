@@ -1,11 +1,12 @@
 class Sprite {
-    constructor ({pos, imageSrc, frameCount = 1}) {
+    constructor ({pos, imageSrc, frameCount = 1, animations}) {
         this.pos = pos;
         this.image = new Image();
         this.frameCount = frameCount;
         this.currentFrame = 0;
         this.tickCounter = 0;
         this.tickDivider = 8;
+        this.animations = animations;
         // Base values before loading ends.
         this.height = 32;
         this.width = 32;
@@ -16,6 +17,15 @@ class Sprite {
             this.width = this.image.width / this.frameCount;
             this.height = this.image.height;}
         this.image.src = imageSrc;
+
+        if (this.animations) {
+            for (let key in this.animations) {
+                if (key == "path") continue;
+                const image = new Image()
+                image.src = (this.animations.path + key + ".png")
+                this.animations[key].image= image
+            }
+        };
     }
         
     draw() {
