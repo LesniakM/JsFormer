@@ -46,8 +46,8 @@ class Player extends Sprite {
         } else {this.vel.x = 0}};
 
     jump() {
-        if (!this.jumping) {
-            this.vel.y = -18;
+        if (!this.jumping && this.vel.y < 5) {
+            this.vel.y = -16;
             this.jumping = true;
         }
     };
@@ -73,8 +73,8 @@ class Player extends Sprite {
                     this.vel.x = 0;
                     break}  
                 if (this.vel.x > 0) {
-                    const hb_offset_right = this.width - hb_offset_left - this.hitbox.width
-                    this.pos.x = collisionBlock.pos.x + hb_offset_right - collisionBlock.width - 1;
+                    const hb_offset_right = hb_offset_left + this.hitbox.width
+                    this.pos.x = collisionBlock.pos.x - hb_offset_right - 1;
                     this.vel.x = 0;
                     break}
             }
@@ -90,13 +90,14 @@ class Player extends Sprite {
                 this.hitbox.pos.y + this.hitbox.height >= collisionBlock.pos.y &&
                 this.hitbox.pos.y <= collisionBlock.pos.y + collisionBlock.height)
                 {
-                const hb_offset = this.hitbox.pos.y - this.pos.y + this.hitbox.height;
                 if (this.vel.y < -1) {
-                    this.pos.y = collisionBlock.pos.y + hb_offset + 0.01;
+                    const hb_offset = this.hitbox.pos.y - this.pos.y;
+                    this.pos.y = collisionBlock.pos.y + collisionBlock.height - hb_offset + 0.01;
                     this.vel.y = 0;
                     if (this.jumping) this.endJump();
                     break}  
                 if (this.vel.y > 0) {
+                    const hb_offset = this.hitbox.pos.y - this.pos.y + this.hitbox.height;
                     this.pos.y = collisionBlock.pos.y - hb_offset - 0.01;
                     this.vel.y = 0;
                     if (this.jumping) this.endJump();
@@ -138,10 +139,10 @@ class Player extends Sprite {
 
         this.hitbox = {
             pos: {
-                x: this.pos.x + this.width/4,
-                y: this.pos.y + this.height/4},
-            width: 30,
-            height: 40};
+                x: this.pos.x + (this.width-26)/2,
+                y: this.pos.y + (this.height-38)/2},
+            width: 26,
+            height: 38};
 
         this.checkHorizontalCollisions();
 
@@ -150,10 +151,10 @@ class Player extends Sprite {
 
         this.hitbox = {
             pos: {
-                x: this.pos.x + this.width/4,
-                y: this.pos.y + this.height/4},
-            width: 30,
-            height: 40};
+                x: this.pos.x + (this.width-26)/2,
+                y: this.pos.y + (this.height-38)/2},
+            width: 26,
+            height: 38};
         
         this.checkVerticalCollisions();
 

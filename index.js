@@ -14,7 +14,7 @@ const backgroundLevel1 = new Sprite({pos: {x: 0, y:0},
 const player = new Player({
     pos: {x: 100, y: 0},
     collisionBlocks,
-    imageSrc: './images/player/idle.png',
+    imageSrc: './images/player/idleRight.png',
     frameCount: 6,
     animations: {
         path: "./images/player/",
@@ -63,17 +63,17 @@ function animate() {
     c.fillRect(0,0, canvas.width, canvas.height);
 
     backgroundLevel1.draw();
-    collisionBlocks.forEach(collisionBlock => {
-        collisionBlock.draw()});
-
+    
     if (actions.moveRight.pressed) player.accelerateRight();
     else if (actions.moveLeft.pressed) player.accelerateLeft();
     else player.deccelerate();
 
     player.update();
     player.draw();
-    //player.drawSpriteBox();
-    //player.drawHitBox();
+    // player.drawSpriteBox();
+    // player.drawHitBox();
+    // collisionBlocks.forEach(collisionBlock => {
+    //     collisionBlock.draw()});
 }
 
 animate()
