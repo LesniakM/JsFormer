@@ -1,10 +1,6 @@
 class Player extends Sprite {
-    constructor({collisionBlocks = [], imageSrc , frameCount, animations}) {
-        super({imageSrc, frameCount, animations});
-        this.pos = {
-            x: 100,
-            y: 100
-        };
+    constructor({pos, collisionBlocks = [], imageSrc , frameCount, animations}) {
+        super({pos, imageSrc, frameCount, animations});
         this.vel = {
             x: 0.0,
             y: -10
@@ -13,7 +9,6 @@ class Player extends Sprite {
             x: 1.2,
             y: 1
         };
-        
         this.speed = 5;
         this.jumping = false;
         this.collisionBlocks = collisionBlocks
@@ -107,12 +102,12 @@ class Player extends Sprite {
     }
 
     applyGravity() {
-        if (player.pos.y + player.height < canvas.height){
-            player.vel.y += player.acc.y;
+        if (this.pos.y + this.height < canvas.height){
+            this.vel.y += this.acc.y;
         }
         else {
-            player.pos.y = canvas.height - player.height;
-            player.vel.y = 0;
+            this.pos.y = canvas.height - this.height;
+            this.vel.y = 0;
             if (this.jumping) this.endJump();
         };
     }
@@ -135,6 +130,10 @@ class Player extends Sprite {
     }
 
     update() {
+        if (this.pos.y > 470){
+            this.pos.x = 500;
+            this.pos.y = 200;
+        }
         this.pos.x = Math.round(this.pos.x + this.vel.x); // Rounding to whole pixel prevets pixel-art diffusion.
 
         this.hitbox = {

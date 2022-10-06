@@ -12,7 +12,7 @@ const backgroundLevel1 = new Sprite({pos: {x: 0, y:0},
                                     imageSrc: './images/background1.png'})
 
 const player = new Player({
-    pos: {x: 100, y: 0},
+    pos: {x: 100, y: 100},
     collisionBlocks,
     imageSrc: './images/player/idleRight.png',
     frameCount: 6,
@@ -42,7 +42,7 @@ const player = new Player({
             frameCount: 1,
             animationDelay: 8,
             loop: false},
-    }})
+    }});
 
 const actions = {
     moveRight: {
