@@ -3,23 +3,37 @@
     <style>
         body {
             color: darkgrey;
-            text-align: center;
+            font-family: verdana;
             background: rgb(33, 33, 33);
+        }
+        h1 {
+            text-align: center;
+            font-size: 20px;
+            }
+        p {
+            text-align: left;
+            font-size: 14px;
         }
     </style>
 </head>
 
 <body>
-    <p><br><br></p>
-    <p>Press [A] to go left, [D] to right, [SPACE] to jump.</p>
+    <p><br></p>
+    <h1>Press [A] to go left, [D] to right, [SPACE] to jump.<br><br>
     <canvas></canvas>
+    </h1>
+    <p>Debug section:</p>
+    <p>Press &lt;F2&gt; to show collision and sprite boxes.</p>
+    <p>Press &lt;F4&gt; to spawn slime.</p>
 
     <script src="js/utils.js"></script>
     <script src="data/collisions.js"></script>
     <script src="data/audio.js"></script>
     <script src="js/classes/CollisionBlock.js"></script>
     <script src="js/classes/Sprite.js"></script>
+    <script src="js/classes/Entity.js"></script>
     <script src="js/classes/Player.js"></script>
+    <script src="js/classes/Slime.js"></script>
     <script src="js/EventListeners.js"></script>
     <script src="index.js"></script>
 </body>

@@ -1,3 +1,15 @@
+const actions = {
+    moveRight: {
+        key: 'KeyD',
+        pressed: false,
+    },
+    moveLeft: {
+        key: 'KeyA',
+        pressed: false,
+    },
+};
+
+
 window.addEventListener('keydown', (event) => {
     sounds.bgmusic.play();
     switch (event.code) {
@@ -9,6 +21,12 @@ window.addEventListener('keydown', (event) => {
             break
         case actions.moveLeft.key:
             actions.moveLeft.pressed = true;
+            break
+        case "F2":
+            box_visibility = !box_visibility;
+            break
+        case "F4":
+            spawnEnemy();
             break
         default:
             console.log("Unknown key pressed")

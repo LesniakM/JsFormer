@@ -1,3 +1,7 @@
+let box_visibility = false;
+let slimeCount = 0;
+
+
 function parseListToArray(collisions_list) {
     const rows = [];
     for (let i = 0; i < collisions_list.length; i += 32) {
@@ -21,4 +25,34 @@ function createColliders(parsed_collisions) {
         })
     });
     return colliders
+}
+
+function spawnEnemy(x = 200, y = 100, type = "Slime") {
+    if (type === "Slime") {
+        entities.push(new Slime({
+            pos: {x: x, y: y},
+            collisionBlocks,
+            imageSrc: './images/slime/idleRight.png',
+            frameCount: 4,
+            animations: {
+                path: "./images/slime/",
+                idleRight: {
+                    frameCount: 4,
+                    animationDelay: 10,
+                    loop: true},
+                idleLeft: {
+                    frameCount: 4,
+                    animationDelay: 10,
+                    loop: true},
+                jumpRight: {
+                    frameCount: 1,
+                    animationDelay: 8,
+                    loop: false},
+                jumpLeft: {
+                    frameCount: 1,
+                    animationDelay: 8,
+                    loop: false},
+            }}));
+    }
+    console.log(++slimeCount);
 }

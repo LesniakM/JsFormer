@@ -1,32 +1,18 @@
-class Player extends Entity {
+class Slime extends Entity {
     constructor({pos, collisionBlocks = [], imageSrc , frameCount, animations}) {
         super({pos, collisionBlocks, imageSrc, frameCount, animations});
-        this.speed = 5;
+        this.speed = 3;
         this.jumping = false;
-        this.stepTicks = 0;
-        this.stepIndex = 0;
-        this.hitbox = {width: 20,
-                       height: 38};
-        
-        this.sounds = new PlayerSounds();
-    };
-
-
-    accelerateRight() {
-        this.switchSprite('runRight');
-        if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
-        if (this.vel.x + this.acc.x < this.speed) {
-            if (this.vel.y === 0) this.vel.x += this.acc.x;
-            else this.vel.x += this.acc.x / 5;  // Less x controll mid-air
-        } else {this.vel.x = this.speed}};
-
-    accelerateLeft() {
-        this.switchSprite('runLeft');
-        if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
-        if (this.vel.x - this.acc.x > -this.speed) {
-            if (this.vel.y === 0) this.vel.x -= this.acc.x;
-            else this.vel.x -= this.acc.x / 5;  // Less x controll mid-air
-        } else {this.vel.x = -this.speed}};
+        this.vel = {
+            x: 1,
+            y: 0.8
+        }
+        this.hitbox = {width: 26,
+                       height: 22};
+        this.jumpTicks = 1;
+        this.sounds = new SlimeSounds();
+        this.typeCollOffset.horizontalRight = -4;
+    }
 
     deccelerate() {
         if (this.image.currentSrc.includes("runRight")) this.switchSprite('idleRight');
@@ -41,7 +27,9 @@ class Player extends Entity {
 
     jump() {
         if (!this.jumping && this.vel.y < 5) {
-            this.vel.y = -16;
+            this.vel.y = -12 - Math.random();
+            if (player.pos.x > this.pos.x) this.vel.x = 8 + Math.random();
+            else this.vel.x = -8 - Math.random();
             this.jumping = true;
             this.sounds.jump.play();
         }
@@ -55,33 +43,19 @@ class Player extends Entity {
         if (this.vel.x < 0) this.switchSprite('idleLeft');
     };
 
-    playFootsteps() {
-        this.stepTicks++;
-        if (this.stepTicks % 6 == 0)
-            if (this.stepIndex === 0) {
-                this.sounds.step1.play();
-                this.stepIndex++;}
-            else if (this.stepIndex === 1){
-                this.sounds.step2.play();
-                this.stepIndex++;}
-            else if (this.stepIndex === 2){
-                this.sounds.step3.play();
-                this.stepIndex++;}
-            else {
-                this.sounds.step4.play();
-                this.stepIndex = 0;}
-    };
-
-    teleportFromWater() {
+    kill() {
+        this.alive = false;
         this.sounds.splash.play();
-        this.pos.x = 500;
-        this.pos.y = 200;
-    };
+        this.pos.x = Math.random() * canvas.width;
+        this.pos.y = 0;
+    }
 
     update() {
-        if (this.pos.y > 470) this.teleportFromWater();
+        if (this.pos.y > 480) this.kill();
+        if (this.jumpTicks % 100 == 0) this.jump();
 
         this.pos.x = Math.round(this.pos.x + this.vel.x); // Rounding to whole pixel prevets pixel-art diffusion.
+        this.deccelerate();
 
         this.hitbox.pos = {x: this.pos.x + (this.width-this.hitbox.width)/2,
                            y: this.pos.y + (this.height-this.hitbox.height)/2};
@@ -97,8 +71,12 @@ class Player extends Entity {
         this.checkVerticalCollisions();
 
         if (this.jumping) {
+            if (Math.abs(this.vel.x) < 1){
+                if (player.pos.x > this.pos.x) this.vel.x = 1;
+                else this.vel.x = -1;}
             if (this.vel.x >= 0) this.switchSprite('jumpRight');
             if (this.vel.x < 0) this.switchSprite('jumpLeft');
-        };
+        }
+        else {this.jumpTicks++;}
     }
 }
