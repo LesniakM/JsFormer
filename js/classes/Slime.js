@@ -27,11 +27,11 @@ class Slime extends Entity {
 
     jump() {
         if (!this.jumping && this.vel.y < 5) {
-            this.vel.y = -12;
-            if (player.pos.x > this.pos.x) this.vel.x = 8;
-            else this.vel.x = -8;
+            this.vel.y = -12 - Math.random();
+            if (player.pos.x > this.pos.x) this.vel.x = 8 + Math.random();
+            else this.vel.x = -8 - Math.random();
             this.jumping = true;
-            sounds.jump.play();
+            this.sounds.jump.play();
         }
     };
 
@@ -46,8 +46,8 @@ class Slime extends Entity {
     kill() {
         this.alive = false;
         this.sounds.splash.play();
-        this.pos.x = 500;
-        this.pos.y = 200;
+        this.pos.x = Math.random() * canvas.width;
+        this.pos.y = 0;
     }
 
     update() {

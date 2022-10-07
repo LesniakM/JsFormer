@@ -4,6 +4,7 @@ const c = canvas.getContext('2d')
 canvas.width = 64 * 16;
 canvas.height = 64 * 9;
 
+let lastTimeFPS = new Date();
 
 const parsedCollisions = parseListToArray(collisionsLevel1)
 const collisionBlocks = createColliders(parsedCollisions)
@@ -46,50 +47,13 @@ const player = new Player({
             loop: false},
     }});
 
-const slime = new Slime({
-    pos: {x: 180, y: 100},
-    collisionBlocks,
-    imageSrc: './images/slime/idleRight.png',
-    frameCount: 4,
-    animations: {
-        path: "./images/slime/",
-        idleRight: {
-            frameCount: 4,
-            animationDelay: 10,
-            loop: true},
-        idleLeft: {
-            frameCount: 4,
-            animationDelay: 10,
-            loop: true},
-        jumpRight: {
-            frameCount: 1,
-            animationDelay: 8,
-            loop: false},
-        jumpLeft: {
-            frameCount: 1,
-            animationDelay: 8,
-            loop: false},
-    }});
-
 let entities = [player];
-entities.push(slime);
-
-const actions = {
-    moveRight: {
-        key: 'KeyD',
-        pressed: false,
-    },
-    moveLeft: {
-        key: 'KeyA',
-        pressed: false,
-    },
-};
 
 function animate() {
     window.requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
 
-    c.fillStyle = 'red'
+    c.fillStyle = 'red';
     c.fillRect(0,0, canvas.width, canvas.height);
 
     backgroundLevel1.draw();
@@ -98,16 +62,25 @@ function animate() {
     else if (actions.moveLeft.pressed) player.accelerateLeft();
     else player.deccelerate();
 
+    c.font = "30px Arial";
+    c.fillStyle = 'black';
+    const slimeStr = "Slime amount: " + slimeCount
+    c.fillText(slimeStr, 10, 30)
+
+    const thisTimeFPS = new Date();
+    const fps = 1000 / (thisTimeFPS - lastTimeFPS);
+    lastTimeFPS = thisTimeFPS;
+    const fpsStr = "FPS: " + Math.round(fps)
+    c.fillText(fpsStr, 500, 30)
+
     entities.forEach(entity => {
         entity.update();
         entity.draw();
-        entity.drawSpriteBox();
-        entity.drawHitBox();
+        if (box_visibility) 
+            {entity.drawSpriteBox();
+            entity.drawHitBox();}
     });
     
-    
-    // collisionBlocks.forEach(collisionBlock => {
-    //     collisionBlock.draw()});
 }
 
 animate()
