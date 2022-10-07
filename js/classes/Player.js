@@ -54,6 +54,7 @@ class Player extends Sprite {
 
     endJump() {
         this.jumping = false;
+        sounds.stomp.volume = Math.min(this.vel.y/50, 0.75);
         sounds.stomp.play();
         if (this.vel.x >= 0) this.switchSprite('idleRight');
         if (this.vel.x < 0) this.switchSprite('idleLeft');
