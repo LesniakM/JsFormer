@@ -46,7 +46,25 @@ const player = new Player({
             loop: false},
     }});
 
+const slime = new Slime({
+    pos: {x: 180, y: 100},
+    collisionBlocks,
+    imageSrc: './images/slime/idleRight.png',
+    frameCount: 4,
+    animations: {
+        path: "./images/slime/",
+        idleRight: {
+            frameCount: 4,
+            animationDelay: 10,
+            loop: true},
+        idleLeft: {
+            frameCount: 4,
+            animationDelay: 10,
+            loop: true},
+    }});
+
 let entities = [player];
+entities.push(slime);
 
 const actions = {
     moveRight: {
@@ -75,8 +93,8 @@ function animate() {
     entities.forEach(entity => {
         entity.update();
         entity.draw();
-        entity.drawSpriteBox();
-        entity.drawHitBox();
+        //entity.drawSpriteBox();
+        //entity.drawHitBox();
     });
     
     

@@ -1,30 +1,13 @@
-class Player extends Entity {
+class Slime extends Entity {
     constructor({pos, collisionBlocks = [], imageSrc , frameCount, animations}) {
         super({pos, collisionBlocks, imageSrc, frameCount, animations});
-        this.speed = 5;
+        this.speed = 3;
         this.jumping = false;
         this.stepTicks = 0;
         this.stepIndex = 0;
-        this.hitbox = {width: 26,
-                       height: 38};
-    };
-
-
-    accelerateRight() {
-        this.switchSprite('runRight');
-        if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
-        if (this.vel.x + this.acc.x < this.speed) {
-            if (this.vel.y === 0) this.vel.x += this.acc.x;
-            else this.vel.x += this.acc.x / 5;  // Less x controll mid-air
-        } else {this.vel.x = this.speed}};
-
-    accelerateLeft() {
-        this.switchSprite('runLeft');
-        if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
-        if (this.vel.x - this.acc.x > -this.speed) {
-            if (this.vel.y === 0) this.vel.x -= this.acc.x;
-            else this.vel.x -= this.acc.x / 5;  // Less x controll mid-air
-        } else {this.vel.x = -this.speed}};
+        this.hitbox = {width: 28,
+                       height: 22};
+    }
 
     deccelerate() {
         if (this.image.currentSrc.includes("runRight")) this.switchSprite('idleRight');
@@ -53,32 +36,14 @@ class Player extends Entity {
         if (this.vel.x < 0) this.switchSprite('idleLeft');
     };
 
-    playFootsteps() {
-        this.stepTicks++;
-        if (this.stepTicks % 6 == 0)
-            if (this.stepIndex === 0) {
-                sounds.step1.play();
-                this.stepIndex++;}
-            else if (this.stepIndex === 1){
-                sounds.step2.play();
-                this.stepIndex++;}
-            else if (this.stepIndex === 2){
-                sounds.step3.play();
-                this.stepIndex++;}
-            else {
-                sounds.step4.play();
-                this.stepIndex = 0;}
-    };
-
     teleportFromWater() {
         sounds.splash.play();
         this.pos.x = 500;
         this.pos.y = 200;
-    };
+    }
 
     update() {
-        if (this.pos.y > 470) this.teleportFromWater();
-
+        if (this.pos.y > 480) this.alive = false;
         this.pos.x = Math.round(this.pos.x + this.vel.x); // Rounding to whole pixel prevets pixel-art diffusion.
 
         this.hitbox.pos = {x: this.pos.x + (this.width-this.hitbox.width)/2,

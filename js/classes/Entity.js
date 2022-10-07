@@ -86,33 +86,5 @@ class Entity extends Sprite {
         }
     }
 
-
-
-    update() {
-        if (this.pos.y > 480) this.alive = false;
-
-        this.pos.x = Math.round(this.pos.x + this.vel.x); // Rounding to whole pixel prevets pixel-art diffusion.
-
-        this.hitbox = {
-            pos: {
-                x: this.pos.x + (this.width-26)/2,
-                y: this.pos.y + (this.height-38)/2},
-            width: 26,
-            height: 38};
-
-        this.checkHorizontalCollisions();
-
-        this.pos.y += this.vel.y;
-        this.applyGravity();
-
-        this.hitbox = {
-            pos: {
-                x: this.pos.x + (this.width-26)/2,
-                y: this.pos.y + (this.height-38)/2},
-            width: 26,
-            height: 38};
-        
-        this.checkVerticalCollisions();
-    }
-
+    update() {console.log("No update logic for this Entity.")}
 }
