@@ -46,6 +46,8 @@ const player = new Player({
             loop: false},
     }});
 
+let entities = [player];
+
 const actions = {
     moveRight: {
         key: 'KeyD',
@@ -70,10 +72,14 @@ function animate() {
     else if (actions.moveLeft.pressed) player.accelerateLeft();
     else player.deccelerate();
 
-    player.update();
-    player.draw();
-    // player.drawSpriteBox();
-    // player.drawHitBox();
+    entities.forEach(entity => {
+        entity.update();
+        entity.draw();
+        entity.drawSpriteBox();
+        entity.drawHitBox();
+    });
+    
+    
     // collisionBlocks.forEach(collisionBlock => {
     //     collisionBlock.draw()});
 }
