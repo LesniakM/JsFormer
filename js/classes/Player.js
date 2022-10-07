@@ -5,8 +5,10 @@ class Player extends Entity {
         this.jumping = false;
         this.stepTicks = 0;
         this.stepIndex = 0;
-        this.hitbox = {width: 26,
+        this.hitbox = {width: 20,
                        height: 38};
+        
+        this.sounds = new PlayerSounds();
     };
 
 
@@ -41,14 +43,14 @@ class Player extends Entity {
         if (!this.jumping && this.vel.y < 5) {
             this.vel.y = -16;
             this.jumping = true;
-            sounds.jump.play();
+            this.sounds.jump.play();
         }
     };
 
     endJump() {
         this.jumping = false;
-        sounds.stomp.volume = Math.min(this.vel.y/50, 0.75);
-        sounds.stomp.play();
+        this.sounds.stomp.volume = Math.min(this.vel.y/50, 0.75);
+        this.sounds.stomp.play();
         if (this.vel.x >= 0) this.switchSprite('idleRight');
         if (this.vel.x < 0) this.switchSprite('idleLeft');
     };
@@ -57,21 +59,21 @@ class Player extends Entity {
         this.stepTicks++;
         if (this.stepTicks % 6 == 0)
             if (this.stepIndex === 0) {
-                sounds.step1.play();
+                this.sounds.step1.play();
                 this.stepIndex++;}
             else if (this.stepIndex === 1){
-                sounds.step2.play();
+                this.sounds.step2.play();
                 this.stepIndex++;}
             else if (this.stepIndex === 2){
-                sounds.step3.play();
+                this.sounds.step3.play();
                 this.stepIndex++;}
             else {
-                sounds.step4.play();
+                this.sounds.step4.play();
                 this.stepIndex = 0;}
     };
 
     teleportFromWater() {
-        sounds.splash.play();
+        this.sounds.splash.play();
         this.pos.x = 500;
         this.pos.y = 200;
     };

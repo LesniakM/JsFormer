@@ -9,6 +9,11 @@ class Entity extends Sprite {
             x: 1,
             y: 1
         };
+        this.typeCollOffset = {
+            verticalTop: 0.1,
+            verticalBottom: -0.1,
+            horizontalRight: -1,
+            horizontalLeft: 1}
         this.speed = 5;
         this.jumping = false;
         this.collisionBlocks = collisionBlocks;
@@ -49,12 +54,12 @@ class Entity extends Sprite {
                 {
                 const hb_offset_left = this.hitbox.pos.x - this.pos.x;
                 if (this.vel.x < 0) {
-                    this.pos.x = collisionBlock.pos.x - hb_offset_left + collisionBlock.width + 1;
+                    this.pos.x = collisionBlock.pos.x - hb_offset_left + collisionBlock.width + this.typeCollOffset.horizontalLeft;
                     this.vel.x = 0;
                     break}  
                 if (this.vel.x > 0) {
-                    const hb_offset_right = hb_offset_left + this.hitbox.width
-                    this.pos.x = collisionBlock.pos.x - hb_offset_right - 1;
+                    const hb_offset_right = (this.hitbox.pos.x - this.pos.x);
+                    this.pos.x = collisionBlock.pos.x - this.hitbox.width - hb_offset_right + this.typeCollOffset.horizontalRight;
                     this.vel.x = 0;
                     break}
             }
@@ -70,16 +75,15 @@ class Entity extends Sprite {
                 this.hitbox.pos.y + this.hitbox.height >= collisionBlock.pos.y &&
                 this.hitbox.pos.y <= collisionBlock.pos.y + collisionBlock.height)
                 {
-                if (this.vel.y < -1) {
+                if (this.vel.y < 0) {
                     const hb_offset = this.hitbox.pos.y - this.pos.y;
-                    this.pos.y = collisionBlock.pos.y + collisionBlock.height - hb_offset + 0.01;
+                    this.pos.y = collisionBlock.pos.y + collisionBlock.height - hb_offset + this.typeCollOffset.verticalTop;
                     this.vel.y = 0;
-                    // if (this.jumping) this.endJump();
                     break}  
                 if (this.vel.y > 0) {
                     const hb_offset = this.hitbox.pos.y - this.pos.y + this.hitbox.height;
                     if (this.jumping || this.vel.y > 10) this.endJump();
-                    this.pos.y = collisionBlock.pos.y - hb_offset - 0.01;
+                    this.pos.y = collisionBlock.pos.y - hb_offset + this.typeCollOffset.verticalBottom;
                     this.vel.y = 0;
                     break}
             }

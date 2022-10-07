@@ -11,7 +11,7 @@ const collisionBlocks = createColliders(parsedCollisions)
 const backgroundLevel1 = new Sprite({pos: {x: 0, y:0},
                                     imageSrc: './images/background1.png'})
 
-const sounds = new Sounds();
+const sounds = new WorldSounds();
 
 const player = new Player({
     pos: {x: 110, y: 140},
@@ -61,6 +61,14 @@ const slime = new Slime({
             frameCount: 4,
             animationDelay: 10,
             loop: true},
+        jumpRight: {
+            frameCount: 1,
+            animationDelay: 8,
+            loop: false},
+        jumpLeft: {
+            frameCount: 1,
+            animationDelay: 8,
+            loop: false},
     }});
 
 let entities = [player];
@@ -93,8 +101,8 @@ function animate() {
     entities.forEach(entity => {
         entity.update();
         entity.draw();
-        //entity.drawSpriteBox();
-        //entity.drawHitBox();
+        entity.drawSpriteBox();
+        entity.drawHitBox();
     });
     
     
