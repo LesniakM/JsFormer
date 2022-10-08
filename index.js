@@ -49,6 +49,21 @@ const player = new Player({
 
 let entities = [player];
 
+function showFPS() {
+    const thisTimeFPS = new Date();
+    const fps = 1000 / (thisTimeFPS - lastTimeFPS);
+    lastTimeFPS = thisTimeFPS;
+    const fpsStr = "FPS: " + Math.round(fps);
+    c.fillText(fpsStr, 500, 30);
+}
+
+function showEnemyAmount() {
+    c.font = "30px Arial";
+    c.fillStyle = 'black';
+    const slimeStr = "Enemy counter: " + entities.length -1;
+    c.fillText(slimeStr, 10, 30);
+}
+
 function animate() {
     window.requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
@@ -62,25 +77,20 @@ function animate() {
     else if (actions.moveLeft.pressed) player.accelerateLeft();
     else player.deccelerate();
 
-    c.font = "30px Arial";
-    c.fillStyle = 'black';
-    const slimeStr = "Slime amount: " + slimeCount
-    c.fillText(slimeStr, 10, 30)
+    showEnemyAmount();
+    showFPS();
 
-    const thisTimeFPS = new Date();
-    const fps = 1000 / (thisTimeFPS - lastTimeFPS);
-    lastTimeFPS = thisTimeFPS;
-    const fpsStr = "FPS: " + Math.round(fps)
-    c.fillText(fpsStr, 500, 30)
-
-    entities.forEach(entity => {
-        entity.update();
-        entity.draw();
-        if (box_visibility) 
-            {entity.drawSpriteBox();
-            entity.drawHitBox();}
-    });
-    
+    for (let i = 0; i < entities.length; i++) {
+        if (entities[i].alive == true) {
+            entities[i].update();
+            entities[i].draw();
+            if (box_visibility) {
+                entities[i].drawSpriteBox();
+                entities[i].drawHitBox();}}
+        else {
+            delete entities[i];
+            entities.splice(i, 1);
+        }}
 }
 
 animate()

@@ -45,16 +45,16 @@ class Slime extends Entity {
 
     kill() {
         this.alive = false;
-        this.sounds.splash.play();
-        this.pos.x = Math.random() * canvas.width;
-        this.pos.y = 0;
+        //this.sounds.splash.play();
+        //this.pos.x = Math.random() * canvas.width;
+        //this.pos.y = 0;
     }
 
     update() {
         if (this.pos.y > 480) this.kill();
         if (this.jumpTicks % 100 == 0) this.jump();
 
-        this.pos.x = Math.round(this.pos.x + this.vel.x); // Rounding to whole pixel prevets pixel-art diffusion.
+        this.pos.x = Math.round(this.pos.x + this.vel.x); // Rounding to whole pixel prevents pixel-art diffusion.
         this.deccelerate();
 
         this.hitbox.pos = {x: this.pos.x + (this.width-this.hitbox.width)/2,

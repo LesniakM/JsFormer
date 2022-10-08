@@ -1,5 +1,4 @@
 let box_visibility = false;
-let slimeCount = 0;
 
 
 function parseListToArray(collisions_list) {
@@ -54,5 +53,4 @@ function spawnEnemy(x = 200, y = 100, type = "Slime") {
                     loop: false},
             }}));
     }
-    console.log(++slimeCount);
 }
