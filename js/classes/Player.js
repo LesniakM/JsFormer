@@ -1,13 +1,44 @@
 class Player extends Entity {
-    constructor({pos, collisionBlocks = [], imageSrc , frameCount, animations}) {
-        super({pos, collisionBlocks, imageSrc, frameCount, animations});
+    /**
+     * @param {number} pos_x Player's left x coordinate
+     * @param {number} pos_y Player's top y coordinate
+     */
+    constructor(pos_x, pos_y) {
+        super({pos: {x: pos_x, y: pos_y}, 
+               imageSrc: './images/player/idleRight.png', 
+               frameCount: 6, 
+               animations: {
+                            path: "./images/player/",
+                            idleRight: {
+                                frameCount: 6,
+                                animationDelay: 8,
+                                loop: true},
+                            idleLeft: {
+                                frameCount: 6,
+                                animationDelay: 8,
+                                loop: true},
+                            runRight: {
+                                frameCount: 6,
+                                animationDelay: 8,
+                                loop: true},
+                            runLeft: {
+                                frameCount: 6,
+                                animationDelay: 8,
+                                loop: true},
+                            jumpRight: {
+                                frameCount: 1,
+                                animationDelay: 8,
+                                loop: false},
+                            jumpLeft: {
+                                frameCount: 1,
+                                animationDelay: 8,
+                                loop: false}}});
         this.speed = 5;
         this.jumping = false;
         this.stepTicks = 0;
         this.stepIndex = 0;
         this.hitbox = {width: 20,
                        height: 38};
-        
         this.sounds = new PlayerSounds();
     };
 
