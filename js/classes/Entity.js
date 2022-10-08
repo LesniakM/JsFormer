@@ -1,5 +1,5 @@
 class Entity extends Sprite {
-    constructor({pos, collisionBlocks = [], imageSrc , frameCount, animations}) {
+    constructor({pos, imageSrc = "", frameCount = 1, animations = {}}) {
         super({pos, imageSrc, frameCount, animations});
         this.vel = {
             x: 0,
@@ -33,14 +33,6 @@ class Entity extends Sprite {
     drawHitBox() {
         c.fillStyle = 'rgba(255, 0, 0, 0.33)';
         c.fillRect(this.hitbox.pos.x, this.hitbox.pos.y, this.hitbox.width, this.hitbox.height);
-    }
-
-    switchSprite(name) {
-        if (!this.image.currentSrc.includes(name)){
-            this.image = this.animations[name].image;
-            this.frameCount = this.animations[name].frameCount;
-            this.tickDivider = this.animations[name].animationDelay;
-            this.currentFrame = 0;};
     }
 
     checkHorizontalCollisions() {

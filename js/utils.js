@@ -28,29 +28,6 @@ function createColliders(parsed_collisions) {
 
 function spawnEnemy(x = 200, y = 100, type = "Slime") {
     if (type === "Slime") {
-        entities.push(new Slime({
-            pos: {x: x, y: y},
-            collisionBlocks,
-            imageSrc: './images/slime/idleRight.png',
-            frameCount: 4,
-            animations: {
-                path: "./images/slime/",
-                idleRight: {
-                    frameCount: 4,
-                    animationDelay: 10,
-                    loop: true},
-                idleLeft: {
-                    frameCount: 4,
-                    animationDelay: 10,
-                    loop: true},
-                jumpRight: {
-                    frameCount: 1,
-                    animationDelay: 8,
-                    loop: false},
-                jumpLeft: {
-                    frameCount: 1,
-                    animationDelay: 8,
-                    loop: false},
-            }}));
+        entities.push(new Slime(x, y));
     }
 }

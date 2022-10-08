@@ -14,38 +14,7 @@ const backgroundLevel1 = new Sprite({pos: {x: 0, y:0},
 
 const sounds = new WorldSounds();
 
-const player = new Player({
-    pos: {x: 110, y: 140},
-    collisionBlocks,
-    imageSrc: './images/player/idleRight.png',
-    frameCount: 6,
-    animations: {
-        path: "./images/player/",
-        idleRight: {
-            frameCount: 6,
-            animationDelay: 8,
-            loop: true},
-        idleLeft: {
-            frameCount: 6,
-            animationDelay: 8,
-            loop: true},
-        runRight: {
-            frameCount: 6,
-            animationDelay: 8,
-            loop: true},
-        runLeft: {
-            frameCount: 6,
-            animationDelay: 8,
-            loop: true},
-        jumpRight: {
-            frameCount: 1,
-            animationDelay: 8,
-            loop: false},
-        jumpLeft: {
-            frameCount: 1,
-            animationDelay: 8,
-            loop: false},
-    }});
+const player = new Player(110, 140);
 
 let entities = [player];
 
@@ -54,32 +23,17 @@ function showFPS() {
     const fps = 1000 / (thisTimeFPS - lastTimeFPS);
     lastTimeFPS = thisTimeFPS;
     const fpsStr = "FPS: " + Math.round(fps);
-    c.fillText(fpsStr, 500, 30);
+    c.fillText(fpsStr, 900, 30);
 }
 
 function showEnemyAmount() {
     c.font = "30px Arial";
     c.fillStyle = 'black';
-    const slimeStr = "Enemy counter: " + entities.length -1;
+    const slimeStr = "Enemy counter: " + (entities.length - 1);
     c.fillText(slimeStr, 10, 30);
 }
 
-function animate() {
-    window.requestAnimationFrame(animate);
-    c.clearRect(0, 0, canvas.width, canvas.height);
-
-    c.fillStyle = 'red';
-    c.fillRect(0,0, canvas.width, canvas.height);
-
-    backgroundLevel1.draw();
-    
-    if (actions.moveRight.pressed) player.accelerateRight();
-    else if (actions.moveLeft.pressed) player.accelerateLeft();
-    else player.deccelerate();
-
-    showEnemyAmount();
-    showFPS();
-
+function updateEntities() {
     for (let i = 0; i < entities.length; i++) {
         if (entities[i].alive == true) {
             entities[i].update();
@@ -90,7 +44,21 @@ function animate() {
         else {
             delete entities[i];
             entities.splice(i, 1);
-        }}
+    }}}
+
+function gameLoop() {
+    window.requestAnimationFrame(gameLoop);
+    c.clearRect(0, 0, canvas.width, canvas.height);
+
+    backgroundLevel1.draw();
+    
+    if (actions.moveRight.pressed) player.accelerateRight();
+    else if (actions.moveLeft.pressed) player.accelerateLeft();
+    else player.deccelerate();
+
+    updateEntities();
+    showEnemyAmount();
+    showFPS();
 }
 
-animate()
+gameLoop()

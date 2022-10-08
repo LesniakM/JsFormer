@@ -26,7 +26,7 @@ window.addEventListener('keydown', (event) => {
             box_visibility = !box_visibility;
             break
         case "F4":
-            spawnEnemy();
+            spawnEnemy(player.pos.x + 10, player.pos.y - 20);
             break
         default:
             console.log("Unknown key pressed")
