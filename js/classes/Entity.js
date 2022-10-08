@@ -18,6 +18,27 @@ class Entity extends Sprite {
         this.jumping = false;
         this.collisionBlocks = collisionBlocks;
         this.alive = true;
+        this.attributes = {
+            maxHP: 20,
+            HP: 20,
+            maxMP: 0,
+            MP: 0,
+            attack: 10,
+            defense: 0,
+        }
+    }
+
+    reduceHP(damage) {
+        this.attributes.HP -= damage;
+        if (this.attributes.HP <= 0) {
+            this.alive = false;
+            this.attributes.HP = 0;}
+    }
+
+    reduceMP(cost) {
+        this.attributes.MP -= cost;
+        if (this.attributes.MP <= 0) {
+            this.attributes.MP = 0;}
     }
 
     applyGravity() {

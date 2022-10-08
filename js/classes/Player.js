@@ -33,13 +33,21 @@ class Player extends Entity {
                                 frameCount: 1,
                                 animationDelay: 8,
                                 loop: false}}});
-        this.speed = 5;
         this.jumping = false;
         this.stepTicks = 0;
         this.stepIndex = 0;
         this.hitbox = {width: 20,
                        height: 38};
         this.sounds = new PlayerSounds();
+        this.speed = 5;
+        this.attributes = {
+            maxHP: 100,
+            HP: 100,
+            maxMP: 10,
+            MP: 10,
+            attack: 10,
+            defense: 0,
+        }
     };
 
 
@@ -72,6 +80,7 @@ class Player extends Entity {
 
     jump() {
         if (!this.jumping && this.vel.y < 5) {
+            this.reduceMP(1);
             this.vel.y = -16;
             this.jumping = true;
             this.sounds.jump.play();
@@ -80,6 +89,7 @@ class Player extends Entity {
 
     endJump() {
         this.jumping = false;
+        if (this.vel.y > 20) this.reduceHP(this.vel.y / 2);
         this.sounds.stomp.volume = Math.min(this.vel.y/50, 0.75);
         this.sounds.stomp.play();
         if (this.vel.x >= 0) this.switchSprite('idleRight');

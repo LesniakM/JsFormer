@@ -13,7 +13,7 @@ Full readme coming soon!
 
 Credits:
 
--Main character sprite [edited]: https://game-endeavor.itch.io/mystic-woods
+-Main character sprite [modified]: https://game-endeavor.itch.io/mystic-woods
 
 -Slime sprite [resized]: https://game-endeavor.itch.io/mystic-woods
 
@@ -22,3 +22,5 @@ Credits:
 -Map tiles: https://essssam.itch.io/rocky-roads
 
 -Sound effects: https://simon13666.itch.io/sound-starter-pack
+
+-HP/mana/stamina bar [modified]: https://ppeldo.itch.io/2d-pixel-art-game-spellmagic-fx

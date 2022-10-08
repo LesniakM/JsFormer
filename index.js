@@ -32,6 +32,8 @@ function gameLoop() {
 
     if (box_visibility) showEnemyAmount();
     if (box_visibility) showFPS();
+
+    drawHpBar(5, 5, (player.attributes.HP/player.attributes.maxHP*100), (player.attributes.MP/player.attributes.maxMP*100))
 }
 
 
