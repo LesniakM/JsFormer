@@ -1,14 +1,53 @@
 class Player extends Entity {
-    constructor({pos, collisionBlocks = [], imageSrc , frameCount, animations}) {
-        super({pos, collisionBlocks, imageSrc, frameCount, animations});
-        this.speed = 5;
+    /**
+     * @param {number} pos_x Player's left x coordinate
+     * @param {number} pos_y Player's top y coordinate
+     */
+    constructor(pos_x, pos_y) {
+        super({pos: {x: pos_x, y: pos_y}, 
+               imageSrc: './images/player/idleRight.png', 
+               frameCount: 6, 
+               animations: {
+                            path: "./images/player/",
+                            idleRight: {
+                                frameCount: 6,
+                                animationDelay: 8,
+                                loop: true},
+                            idleLeft: {
+                                frameCount: 6,
+                                animationDelay: 8,
+                                loop: true},
+                            runRight: {
+                                frameCount: 6,
+                                animationDelay: 8,
+                                loop: true},
+                            runLeft: {
+                                frameCount: 6,
+                                animationDelay: 8,
+                                loop: true},
+                            jumpRight: {
+                                frameCount: 1,
+                                animationDelay: 8,
+                                loop: false},
+                            jumpLeft: {
+                                frameCount: 1,
+                                animationDelay: 8,
+                                loop: false}}});
         this.jumping = false;
         this.stepTicks = 0;
         this.stepIndex = 0;
         this.hitbox = {width: 20,
                        height: 38};
-        
         this.sounds = new PlayerSounds();
+        this.speed = 5;
+        this.stats = {
+            maxHP: 100,
+            HP: 100,
+            maxMP: 10,
+            MP: 10,
+            attack: 10,
+            defense: 0,
+        }
     };
 
 
@@ -41,6 +80,8 @@ class Player extends Entity {
 
     jump() {
         if (!this.jumping && this.vel.y < 5) {
+            this.reduceMP(1);
+            particles.push(new JumpParticle(this.hitbox.pos.x-5, this.hitbox.pos.y+6))
             this.vel.y = -16;
             this.jumping = true;
             this.sounds.jump.play();
@@ -49,6 +90,7 @@ class Player extends Entity {
 
     endJump() {
         this.jumping = false;
+        if (this.vel.y > 20) this.reduceHP(this.vel.y / 2);
         this.sounds.stomp.volume = Math.min(this.vel.y/50, 0.75);
         this.sounds.stomp.play();
         if (this.vel.x >= 0) this.switchSprite('idleRight');

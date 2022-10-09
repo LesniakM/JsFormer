@@ -1,5 +1,5 @@
 class Sprite {
-    constructor ({pos, imageSrc, frameCount = 1, animations}) {
+    constructor ({pos, imageSrc = "", frameCount = 1, animations = {}}) {
         this.pos = pos;
         this.image = new Image();
         this.frameCount = frameCount;
@@ -12,11 +12,12 @@ class Sprite {
         this.width = 32;
         this.loaded = false;
 
+        this.image.src = imageSrc;
         this.image.onload = () => {
             this.loaded = true;
             this.width = this.image.width / this.frameCount;
             this.height = this.image.height;}
-        this.image.src = imageSrc;
+        
 
         if (this.animations) {
             for (let key in this.animations) {
@@ -49,6 +50,14 @@ class Sprite {
         }
 
         this.updateFrameCount()
+    }
+
+    switchSprite(name) {
+        if (!this.image.currentSrc.includes(name)){
+            this.image = this.animations[name].image;
+            this.frameCount = this.animations[name].frameCount;
+            this.tickDivider = this.animations[name].animationDelay;
+            this.currentFrame = 0;};
     }
 
     updateFrameCount() {

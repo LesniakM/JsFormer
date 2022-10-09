@@ -1,5 +1,7 @@
-let box_visibility = false;
-let slimeCount = 0;
+let debug_mode = false;
+let lastTimeFPS = new Date();
+const barImage = new Image()
+barImage.src = './images/hpBar.png'
 
 
 function parseListToArray(collisions_list) {
@@ -29,30 +31,50 @@ function createColliders(parsed_collisions) {
 
 function spawnEnemy(x = 200, y = 100, type = "Slime") {
     if (type === "Slime") {
-        entities.push(new Slime({
-            pos: {x: x, y: y},
-            collisionBlocks,
-            imageSrc: './images/slime/idleRight.png',
-            frameCount: 4,
-            animations: {
-                path: "./images/slime/",
-                idleRight: {
-                    frameCount: 4,
-                    animationDelay: 10,
-                    loop: true},
-                idleLeft: {
-                    frameCount: 4,
-                    animationDelay: 10,
-                    loop: true},
-                jumpRight: {
-                    frameCount: 1,
-                    animationDelay: 8,
-                    loop: false},
-                jumpLeft: {
-                    frameCount: 1,
-                    animationDelay: 8,
-                    loop: false},
-            }}));
+        entities.push(new Slime(x, y));
     }
-    console.log(++slimeCount);
+}
+
+function showFPS() {
+    const thisTimeFPS = new Date();
+    const fps = 1000 / (thisTimeFPS - lastTimeFPS);
+    lastTimeFPS = thisTimeFPS;
+    const fpsStr = "FPS: " + Math.round(fps);
+    c.fillText(fpsStr, 900, 30);
+}
+
+function showEnemyAmount() {
+    c.font = "30px Arial";
+    c.fillStyle = 'black';
+    const enemyStr = "Enemy counter: " + (entities.length - 1);
+    c.fillText(enemyStr, 180, 30);
+}
+
+function showParticleAmount() {
+    c.font = "30px Arial";
+    c.fillStyle = 'black';
+    const particleStr = "Particles: " + (particles.length);
+    c.fillText(particleStr, 180, 60);
+}
+
+/**
+* @param {number} pos_x Bar's left x coordinate
+* @param {number} pos_y Bar's top y coordinate
+* @param {number} pos_x Actual HP %, value from 0 to 100
+* @param {number} pos_y Actual MP %, value from 0 to 100
+*/
+function drawHpBar(pos_x, pos_y, hp, mp) {
+    let bl_x = pos_x+14, tl_x = pos_x+25, top_y = pos_y+2, bot_y = pos_y + 15;
+    c.fillStyle = "#224422"; // HP dark bacground
+    c.beginPath(); c.lineTo(bl_x, bot_y); c.lineTo(bl_x+152, bot_y); c.lineTo(tl_x+152, top_y); c.lineTo(tl_x, top_y); c.fill();
+    c.fillStyle = "#47D866"; // HP red bar
+    c.beginPath(); c.lineTo(bl_x, bot_y); c.lineTo(bl_x+hp*1.52, bot_y); c.lineTo(tl_x+hp*1.52, top_y); c.lineTo(tl_x, top_y); c.fill();
+
+    bl_x = pos_x, tl_x = pos_x+10, top_y = pos_y+17, bot_y = pos_y + 27;
+    c.fillStyle = "#222244"; // MP dark bacground
+    c.beginPath(); c.lineTo(bl_x, bot_y); c.lineTo(bl_x+153, bot_y); c.lineTo(tl_x+153, top_y); c.lineTo(tl_x, top_y); c.fill();
+    c.fillStyle = "#4B84D8"; // MP red bar
+    c.beginPath(); c.lineTo(bl_x, bot_y); c.lineTo(bl_x+mp*1.53, bot_y); c.lineTo(tl_x+mp*1.53, top_y); c.lineTo(tl_x, top_y); c.fill();
+
+    c.drawImage(barImage, pos_x, pos_y)
 }
