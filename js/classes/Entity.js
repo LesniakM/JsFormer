@@ -18,7 +18,7 @@ class Entity extends Sprite {
         this.jumping = false;
         this.collisionBlocks = collisionBlocks;
         this.alive = true;
-        this.attributes = {
+        this.stats = {
             maxHP: 20,
             HP: 20,
             maxMP: 0,
@@ -29,16 +29,18 @@ class Entity extends Sprite {
     }
 
     reduceHP(damage) {
-        this.attributes.HP -= damage;
-        if (this.attributes.HP <= 0) {
+        if (debug_mode) console.log(this.constructor.name, "took", damage, "dmg.")
+        this.stats.HP -= damage;
+        if (this.stats.HP <= 0) {
             this.alive = false;
-            this.attributes.HP = 0;}
+            this.stats.HP = 0;}
     }
 
     reduceMP(cost) {
-        this.attributes.MP -= cost;
-        if (this.attributes.MP <= 0) {
-            this.attributes.MP = 0;}
+        if (debug_mode) console.log(this.constructor.name, "used", cost, "mp.")
+        this.stats.MP -= cost;
+        if (this.stats.MP <= 0) {
+            this.stats.MP = 0;}
     }
 
     applyGravity() {

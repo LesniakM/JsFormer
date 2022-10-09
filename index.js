@@ -9,7 +9,7 @@ function updateEntities() {
         if (entities[i].alive == true) {
             entities[i].update();
             entities[i].draw();
-            if (box_visibility) {
+            if (debug_mode) {
                 entities[i].drawSpriteBox();
                 entities[i].drawHitBox();}}
         else {
@@ -30,10 +30,10 @@ function gameLoop() {
 
     updateEntities();
 
-    if (box_visibility) showEnemyAmount();
-    if (box_visibility) showFPS();
+    if (debug_mode) showEnemyAmount();
+    if (debug_mode) showFPS();
 
-    drawHpBar(5, 5, (player.attributes.HP/player.attributes.maxHP*100), (player.attributes.MP/player.attributes.maxMP*100))
+    drawHpBar(5, 5, (player.stats.HP/player.stats.maxHP*100), (player.stats.MP/player.stats.maxMP*100))
 }
 
 

@@ -23,7 +23,7 @@ window.addEventListener('keydown', (event) => {
             actions.moveLeft.pressed = true;
             break
         case "F2":
-            box_visibility = !box_visibility;
+            debug_mode = !debug_mode;
             break
         case "F4":
             spawnEnemy(player.pos.x + 10, player.pos.y - 20);

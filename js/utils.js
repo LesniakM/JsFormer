@@ -1,4 +1,4 @@
-let box_visibility = false;
+let debug_mode = false;
 let lastTimeFPS = new Date();
 const barImage = new Image()
 barImage.src = './images/hpBar.png'

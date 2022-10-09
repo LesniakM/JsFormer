@@ -40,7 +40,7 @@ class Player extends Entity {
                        height: 38};
         this.sounds = new PlayerSounds();
         this.speed = 5;
-        this.attributes = {
+        this.stats = {
             maxHP: 100,
             HP: 100,
             maxMP: 10,
