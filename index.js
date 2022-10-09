@@ -18,6 +18,18 @@ function updateEntities() {
     }
 }
 
+function updateParticles() {
+    for (let i = 0; i < particles.length; i++) {
+        if (particles[i].alive == true) {
+            particles[i].draw();
+            if (debug_mode) {
+                particles[i].drawSpriteBox();}}
+        else {
+            delete particles[i];
+            particles.splice(i, 1);}
+    }
+}
+
 function gameLoop() {
     window.requestAnimationFrame(gameLoop);
     c.clearRect(0, 0, canvas.width, canvas.height);
@@ -29,8 +41,10 @@ function gameLoop() {
     else player.deccelerate();
 
     updateEntities();
+    updateParticles();
 
     if (debug_mode) showEnemyAmount();
+    if (debug_mode) showParticleAmount();
     if (debug_mode) showFPS();
 
     drawHpBar(5, 5, (player.stats.HP/player.stats.maxHP*100), (player.stats.MP/player.stats.maxMP*100))
@@ -47,5 +61,6 @@ const sounds = new WorldSounds();
 
 const player = new Player(110, 140);
 let entities = [player];
+let particles = [];
 
 gameLoop()

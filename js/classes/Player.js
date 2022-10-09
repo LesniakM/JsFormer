@@ -81,6 +81,7 @@ class Player extends Entity {
     jump() {
         if (!this.jumping && this.vel.y < 5) {
             this.reduceMP(1);
+            particles.push(new JumpParticle(this.hitbox.pos.x-5, this.hitbox.pos.y+6))
             this.vel.y = -16;
             this.jumping = true;
             this.sounds.jump.play();

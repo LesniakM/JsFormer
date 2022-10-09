@@ -46,8 +46,15 @@ function showFPS() {
 function showEnemyAmount() {
     c.font = "30px Arial";
     c.fillStyle = 'black';
-    const slimeStr = "Enemy counter: " + (entities.length - 1);
-    c.fillText(slimeStr, 130, 30);
+    const enemyStr = "Enemy counter: " + (entities.length - 1);
+    c.fillText(enemyStr, 180, 30);
+}
+
+function showParticleAmount() {
+    c.font = "30px Arial";
+    c.fillStyle = 'black';
+    const particleStr = "Particles: " + (particles.length);
+    c.fillText(particleStr, 180, 60);
 }
 
 /**
