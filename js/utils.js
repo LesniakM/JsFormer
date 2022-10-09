@@ -57,15 +57,17 @@ function showEnemyAmount() {
 * @param {number} pos_y Actual MP %, value from 0 to 100
 */
 function drawHpBar(pos_x, pos_y, hp, mp) {
+    let bl_x = pos_x+14, tl_x = pos_x+25, top_y = pos_y+2, bot_y = pos_y + 15;
     c.fillStyle = "#224422"; // HP dark bacground
-    c.beginPath(); c.lineTo(pos_x+9, pos_y+10); c.lineTo(pos_x+110, pos_y+10); c.lineTo(pos_x+118, pos_y+1); c.lineTo(pos_x+17, pos_y+1); c.fill();
+    c.beginPath(); c.lineTo(bl_x, bot_y); c.lineTo(bl_x+152, bot_y); c.lineTo(tl_x+152, top_y); c.lineTo(tl_x, top_y); c.fill();
     c.fillStyle = "#47D866"; // HP red bar
-    c.beginPath(); c.lineTo(pos_x+9, pos_y+10); c.lineTo(pos_x+10+hp, pos_y+10); c.lineTo(pos_x+18+hp, pos_y+1); c.lineTo(pos_x+17, pos_y+1); c.fill();
+    c.beginPath(); c.lineTo(bl_x, bot_y); c.lineTo(bl_x+hp*1.52, bot_y); c.lineTo(tl_x+hp*1.52, top_y); c.lineTo(tl_x, top_y); c.fill();
 
+    bl_x = pos_x, tl_x = pos_x+10, top_y = pos_y+17, bot_y = pos_y + 27;
     c.fillStyle = "#222244"; // MP dark bacground
-    c.beginPath(); c.lineTo(pos_x+3, pos_y+16); c.lineTo(pos_x+104, pos_y+16); c.lineTo(pos_x+109, pos_y+11); c.lineTo(pos_x+7, pos_y+11); c.fill();
+    c.beginPath(); c.lineTo(bl_x, bot_y); c.lineTo(bl_x+153, bot_y); c.lineTo(tl_x+153, top_y); c.lineTo(tl_x, top_y); c.fill();
     c.fillStyle = "#4B84D8"; // MP red bar
-    c.beginPath(); c.lineTo(pos_x+3, pos_y+16); c.lineTo(pos_x+4+mp, pos_y+16); c.lineTo(pos_x+9+mp, pos_y+11); c.lineTo(pos_x+7, pos_y+11); c.fill();
+    c.beginPath(); c.lineTo(bl_x, bot_y); c.lineTo(bl_x+mp*1.53, bot_y); c.lineTo(tl_x+mp*1.53, top_y); c.lineTo(tl_x, top_y); c.fill();
 
     c.drawImage(barImage, pos_x, pos_y)
 }
