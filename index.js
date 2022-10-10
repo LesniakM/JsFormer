@@ -30,9 +30,24 @@ function updateParticles() {
     }
 }
 
+function updateClouds() {
+    for (let i = 0; i < clouds.length; i++) {
+        if (clouds[i].pos.x < -100) clouds[i].pos.x = canvas.width;
+        clouds[i].pos.x -= clouds[i].speed;
+        clouds[i].draw();
+        if (debug_mode) {
+            clouds[i].drawSpriteBox();}
+    }
+}
+
 function gameLoop() {
     window.requestAnimationFrame(gameLoop);
     c.clearRect(0, 0, canvas.width, canvas.height);
+
+    c.fillStyle = '#64BEC8'
+    c.fillRect(0,0, canvas.width, canvas.height);
+
+    updateClouds();
 
     backgroundLevel1.draw();
     
@@ -62,5 +77,6 @@ const sounds = new WorldSounds();
 const player = new Player(110, 140);
 let entities = [player];
 let particles = [];
+let clouds = [new CloudParticle(150, 100), new CloudParticle(600, 200), new CloudParticle(250, 300), new CloudParticle(400, 50), new CloudParticle(950, 80), new CloudParticle(920, 300)];
 
 gameLoop()

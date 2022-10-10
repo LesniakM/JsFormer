@@ -41,3 +41,36 @@ class JumpParticle extends VisualParticle {
                ticksPerFrame: 2});
     }
 }
+
+class CloudParticle extends VisualParticle {
+    constructor(pos_x, pos_y) {
+        super({pos_x, pos_y, 
+               imageSrc: './images/cloud1.png', 
+               frameCount: 1, 
+               loops: -1, 
+               ticksPerFrame: 1});
+        this.sources = [['./images/cloud1.png', 0.5],
+                        ['./images/cloud2.png', 0.45],
+                        ['./images/cloud3.png', 0.4],
+                        ['./images/cloud4.png', 0.3],
+                        ['./images/cloud5.png', 0.3],
+                        ['./images/cloud6.png', 0.25]];
+        this.speed = 0.5;
+        this.selectRandSprite();
+    }
+
+    draw() {
+        if (this.loaded) {
+            c.drawImage(this.image, 
+                        this.pos.x, 
+                        this.pos.y);
+        }
+    }
+
+    selectRandSprite() {
+        let rnd_int = Math.round(Math.random()*5);
+        console.log("Assigned cloud type:", rnd_int);
+        this.image.src = this.sources[rnd_int][0];
+        this.speed = this.sources[rnd_int][1];
+    }
+}
