@@ -28,4 +28,6 @@ Credits:
 
 -Sound effects: https://simon13666.itch.io/sound-starter-pack
 
--HP/mana/stamina bar [modified]: https://ppeldo.itch.io/2d-pixel-art-game-spellmagic-fx
+-HP/mana/stamina bar sprite [modified]: https://ppeldo.itch.io/2d-pixel-art-game-spellmagic-fx
+
+-Clouds sprites: https://latenightcoffe.itch.io/2d-pixel-art-semi-realistic-clouds

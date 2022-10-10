@@ -69,7 +69,6 @@ class CloudParticle extends VisualParticle {
 
     selectRandSprite() {
         let rnd_int = Math.round(Math.random()*5);
-        console.log("Assigned cloud type:", rnd_int);
         this.image.src = this.sources[rnd_int][0];
         this.speed = this.sources[rnd_int][1];
     }
