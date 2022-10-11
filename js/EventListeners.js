@@ -28,6 +28,9 @@ window.addEventListener('keydown', (event) => {
         case "F4":
             spawnEnemy(player.pos.x + 10, player.pos.y - 20);
             break
+        case "KeyF":
+            player.shoot()
+            break
         default:
             console.log("Unknown key pressed")
             console.log(event.code)

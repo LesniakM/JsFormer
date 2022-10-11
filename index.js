@@ -58,6 +58,8 @@ function gameLoop() {
     updateEntities();
     updateParticles();
 
+    player.currentWeapon.draw();
+
     if (debug_mode) showEnemyAmount();
     if (debug_mode) showParticleAmount();
     if (debug_mode) showFPS();

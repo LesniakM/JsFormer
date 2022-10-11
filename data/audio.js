@@ -21,6 +21,8 @@ class PlayerSounds{
         this.step3.volume = 0.20;
         this.step4 = new Audio('./data/wavs/StepGrass4.wav');
         this.step4.volume = 0.20;
+        this.shot = new Audio('./data/wavs/Gunshot5.wav');
+        this.shot.volume = 0.30;
     }
 }
 
