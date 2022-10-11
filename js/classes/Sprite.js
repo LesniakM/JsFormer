@@ -1,4 +1,33 @@
 class Sprite {
+    constructor ({pos, imageSrc = ""}) {
+        this.pos = pos;
+        this.image = new Image();
+        // Base values before loading ends.
+        this.height = 32;
+        this.width = 32;
+        this.loaded = false;
+
+        this.image.src = imageSrc;
+        this.image.onload = () => {
+            this.loaded = true;
+            this.width = this.image.width;
+            this.height = this.image.height;}
+
+    }
+        
+    draw() {
+        if (this.loaded) {
+            c.drawImage(this.image, 
+                        this.pos.x, 
+                        this.pos.y,
+                        this.width,
+                        this.height);
+        }
+    } 
+}
+
+
+class AnimatedSprite {
     constructor ({pos, imageSrc = "", frameCount = 1, animations = {}}) {
         this.pos = pos;
         this.image = new Image();

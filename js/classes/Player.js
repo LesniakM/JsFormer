@@ -105,8 +105,12 @@ class Player extends Entity {
         if (this.shooting || !this.alive) return
         this.shooting = true;
         this.sounds.shot.play()
-        if (player.image.currentSrc.includes("Right")) this.vel.x -= this.currentWeapon.knockback;
-        else this.vel.x += this.currentWeapon.knockback;
+        if (player.image.currentSrc.includes("Right")) {
+            this.vel.x -= this.currentWeapon.knockback;
+            particles.push(new BulletParticle(this.hitbox.pos.x + this.hitbox.width/2, this.hitbox.pos.y + this.hitbox.height/2 - 5))}
+        else {
+            this.vel.x += this.currentWeapon.knockback;
+            particles.push(new BulletParticle(this.hitbox.pos.x + this.hitbox.width/2, this.hitbox.pos.y + this.hitbox.height/2 - 5, true))}
         this.vel.y -= this.currentWeapon.knockback;
         setTimeout(() => {this.endShoot();}, this.currentWeapon.shootIterval);
     }

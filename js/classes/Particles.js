@@ -1,4 +1,4 @@
-class VisualParticle extends Sprite {
+class AnimatedParticle extends AnimatedSprite {
     /**
      * @param {number} pos_x Particle left pos.
      * @param {number} pos_y Particle top  pos.
@@ -32,7 +32,24 @@ class VisualParticle extends Sprite {
     }
 }
 
-class JumpParticle extends VisualParticle {
+class StaticParticle extends Sprite {
+    /**
+     * @param {number} pos_x Particle left pos.
+     * @param {number} pos_y Particle top  pos.
+     * @param {string} imageSrc Path to image.
+     */
+    constructor({pos_x, pos_y, imageSrc}) {
+        super({pos: {x: pos_x, y: pos_y}, imageSrc});
+        this.alive = true;
+    }
+
+    drawSpriteBox() {
+        c.fillStyle = 'rgba(0, 255, 0, 0.25)';
+        c.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+    }
+}
+
+class JumpParticle extends AnimatedParticle {
     constructor(pos_x, pos_y) {
         super({pos_x, pos_y, 
                imageSrc: './images/jumpDust.png', 
@@ -42,13 +59,10 @@ class JumpParticle extends VisualParticle {
     }
 }
 
-class CloudParticle extends VisualParticle {
+class CloudParticle extends StaticParticle {
     constructor(pos_x, pos_y) {
-        super({pos_x, pos_y, 
-               imageSrc: './images/cloud1.png', 
-               frameCount: 1, 
-               loops: -1, 
-               ticksPerFrame: 1});
+        super({pos_x, pos_y, imageSrc: './images/cloud1.png', });
+
         this.sources = [['./images/cloud1.png', 0.5],
                         ['./images/cloud2.png', 0.45],
                         ['./images/cloud3.png', 0.4],
@@ -59,17 +73,41 @@ class CloudParticle extends VisualParticle {
         this.selectRandSprite();
     }
 
-    draw() {
-        if (this.loaded) {
-            c.drawImage(this.image, 
-                        this.pos.x, 
-                        this.pos.y);
-        }
-    }
-
     selectRandSprite() {
         let rnd_int = Math.round(Math.random()*5);
         this.image.src = this.sources[rnd_int][0];
         this.speed = this.sources[rnd_int][1];
+    }
+}
+
+class BulletParticle extends StaticParticle {
+    constructor(pos_x, pos_y, mirror = false) {
+        super({pos_x, pos_y, imageSrc: './images/big_bullet.png', });
+        this.mirror = mirror;
+        if (this.mirror) this.vel_x = -15;
+        else this.vel_x = 15;
+    }
+
+    draw() {
+        if (this.loaded) {
+            const cropbox = {
+                pos: {
+                    x: 0,
+                    y: this.height / 2 * this.mirror,
+                },
+                width: this.width,
+                height: this.height / 2}
+            c.drawImage(this.image, 
+                        cropbox.pos.x, 
+                        cropbox.pos.y, 
+                        cropbox.width, 
+                        cropbox.height, 
+                        this.pos.x, 
+                        this.pos.y,
+                        this.width,
+                        this.height / 2);
+        }
+        this.pos.x += this.vel_x;
+        if (this.pos.x > canvas.width || this.pos.x < -20) this.alive = false;
     }
 }

@@ -32,7 +32,9 @@ function updateParticles() {
 
 function updateClouds() {
     for (let i = 0; i < clouds.length; i++) {
-        if (clouds[i].pos.x < -100) clouds[i].pos.x = canvas.width;
+        if (clouds[i].pos.x < -100) {
+            clouds[i].pos.x = canvas.width;
+            clouds[i].selectRandSprite();}
         clouds[i].pos.x -= clouds[i].speed;
         clouds[i].draw();
         if (debug_mode) {
