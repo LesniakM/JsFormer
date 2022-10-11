@@ -15,6 +15,12 @@ Full readme coming soon!
 
 ![image](https://user-images.githubusercontent.com/53059208/194771072-37823ed5-c022-405b-bf93-9bf44d3585f1.png)
 
+10.10.2022 Update: Moving clouds in the backgroud.
+
+11.10.2022 Update: Added weapon (Revolver only soo far) and bullet particles. 
+
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/53059208/195166200-439e0fd3-a48b-4c73-9fd0-fcce0ffdb6ed.gif)
+
 
 Credits:
 
@@ -28,4 +34,8 @@ Credits:
 
 -Sound effects: https://simon13666.itch.io/sound-starter-pack
 
--HP/mana/stamina bar [modified]: https://ppeldo.itch.io/2d-pixel-art-game-spellmagic-fx
+-HP/mana/stamina bar sprite [modified]: https://ppeldo.itch.io/2d-pixel-art-game-spellmagic-fx
+
+-Clouds sprites: https://latenightcoffe.itch.io/2d-pixel-art-semi-realistic-clouds
+
+-Guns sprites: https://munstudios.itch.io/2d-pixel-guns-pack

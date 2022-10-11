@@ -33,7 +33,11 @@ class Player extends Entity {
                                 frameCount: 1,
                                 animationDelay: 8,
                                 loop: false}}});
+
         this.jumping = false;
+        this.shooting = false;
+        this.shootTimer = 0;
+        this.currentWeapon = new Revolver();
         this.stepTicks = 0;
         this.stepIndex = 0;
         this.hitbox = {width: 20,
@@ -97,6 +101,24 @@ class Player extends Entity {
         if (this.vel.x < 0) this.switchSprite('idleLeft');
     };
 
+    shoot() {
+        if (this.shooting || !this.alive) return
+        this.shooting = true;
+        this.sounds.shot.play()
+        if (player.image.currentSrc.includes("Right")) {
+            this.vel.x -= this.currentWeapon.knockback;
+            particles.push(new BulletParticle(this.hitbox.pos.x + this.hitbox.width/2, this.hitbox.pos.y + this.hitbox.height/2 - 5))}
+        else {
+            this.vel.x += this.currentWeapon.knockback;
+            particles.push(new BulletParticle(this.hitbox.pos.x + this.hitbox.width/2, this.hitbox.pos.y + this.hitbox.height/2 - 5, true))}
+        this.vel.y -= this.currentWeapon.knockback;
+        setTimeout(() => {this.endShoot();}, this.currentWeapon.shootIterval);
+    }
+
+    endShoot() {
+        this.shooting = false;
+    }
+
     playFootsteps() {
         this.stepTicks++;
         if (this.stepTicks % 6 == 0)
@@ -116,8 +138,10 @@ class Player extends Entity {
 
     teleportFromWater() {
         this.sounds.splash.play();
+        this.reduceHP(25);
         this.pos.x = 500;
         this.pos.y = 200;
+        this.vel.y = 0;
     };
 
     update() {

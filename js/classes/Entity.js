@@ -1,4 +1,4 @@
-class Entity extends Sprite {
+class Entity extends AnimatedSprite {
     constructor({pos, imageSrc = "", frameCount = 1, animations = {}}) {
         super({pos, imageSrc, frameCount, animations});
         this.vel = {
