@@ -1,6 +1,6 @@
 # [Click here to play!](https://lesniakm.github.io/JsFormer/)
 
-Control: <Space> - jump, <A> - left, <D> - right, <F> - shot.
+Control: Space - jump, A - left, D - right, F - shot.
 
 Full readme coming soon!
 
