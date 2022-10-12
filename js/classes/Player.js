@@ -36,8 +36,11 @@ class Player extends Entity {
 
         this.jumping = false;
         this.shooting = false;
+        this.reloading = false;
         this.shootTimer = 0;
-        this.currentWeapon = new Revolver();
+        this.weapons = [new Revolver(), new AK47()]
+        this.weaponIndex = 0;
+        this.currentWeapon = this.weapons[this.weaponIndex]
         this.stepTicks = 0;
         this.stepIndex = 0;
         this.hitbox = {width: 20,
@@ -88,6 +91,7 @@ class Player extends Entity {
             particles.push(new JumpParticle(this.hitbox.pos.x-5, this.hitbox.pos.y+6))
             this.vel.y = -16;
             this.jumping = true;
+            this.playSound(this.sounds.jump);
             this.sounds.jump.play();
         }
     };
@@ -102,21 +106,42 @@ class Player extends Entity {
     };
 
     shoot() {
-        if (this.shooting || !this.alive) return
+        if (this.shooting || !this.alive || this.reloading) return
         this.shooting = true;
-        this.sounds.shot.play()
+        this.currentWeapon.sounds.playShot();
         if (player.image.currentSrc.includes("Right")) {
             this.vel.x -= this.currentWeapon.knockback;
-            particles.push(new BulletParticle(this.hitbox.pos.x + this.hitbox.width/2, this.hitbox.pos.y + this.hitbox.height/2 - 5))}
+            this.currentWeapon.shoot("Right")}
         else {
             this.vel.x += this.currentWeapon.knockback;
-            particles.push(new BulletParticle(this.hitbox.pos.x + this.hitbox.width/2, this.hitbox.pos.y + this.hitbox.height/2 - 5, true))}
-        this.vel.y -= this.currentWeapon.knockback;
+            this.currentWeapon.shoot("Left")}
+        this.vel.y -= this.currentWeapon.knockback/2;
         setTimeout(() => {this.endShoot();}, this.currentWeapon.shootIterval);
     }
 
     endShoot() {
         this.shooting = false;
+    }
+
+    reload() {
+        if (this.reloading) return;
+        this.reloading = true;
+        this.currentWeapon.sounds.playReload1();
+        setTimeout(() => {this.endReload();}, this.currentWeapon.reloadTime);
+    }
+
+    endReload() {
+        this.currentWeapon.currentAmmo = this.currentWeapon.magSize;
+        this.currentWeapon.sounds.playReload2();
+        this.reloading = false;
+    }
+
+    changeWeapon() {
+        if (this.reloading) return;
+        this.playSound(this.sounds.switch);
+        this.weaponIndex++;
+        if (this.weaponIndex >= this.weapons.length) this.weaponIndex = 0;
+        this.currentWeapon = this.weapons[this.weaponIndex];
     }
 
     playFootsteps() {
