@@ -110,4 +110,9 @@ class BulletParticle extends StaticParticle {
         this.pos.x += this.vel_x;
         if (this.pos.x > canvas.width || this.pos.x < -20) this.alive = false;
     }
+
+    drawSpriteBox() {
+        c.fillStyle = 'rgba(0, 255, 0, 0.25)';
+        c.fillRect(this.pos.x, this.pos.y, this.width, this.height / 2);
+    }
 }

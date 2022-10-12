@@ -15,11 +15,11 @@ class Sprite {
 
     }
         
-    draw() {
+    draw(pos_x = this.pos.x, pos_y = this.pos.y) {
         if (this.loaded) {
             c.drawImage(this.image, 
-                        this.pos.x, 
-                        this.pos.y,
+                        pos_x, 
+                        pos_y,
                         this.width,
                         this.height);
         }

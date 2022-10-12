@@ -78,3 +78,8 @@ function drawHpBar(pos_x, pos_y, hp, mp) {
 
     c.drawImage(barImage, pos_x, pos_y)
 }
+
+function drawGuiWeapon(weapon) {
+    weapon.drawForGUI(200, 25);
+    player.drawAmmo(310, 5);
+}

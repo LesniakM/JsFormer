@@ -105,5 +105,15 @@ class Entity extends AnimatedSprite {
         }
     }
 
+    /**
+   * Used to play overlaping sound effects.
+   * @param  {HTMLAudioElement} sound Audio object.
+   */
+    playSound(sound) {
+        sound.pause();
+        sound.currentTime = 0;
+        sound.play();
+    }
+
     update() {console.log("No update logic for this Entity.")}
 }

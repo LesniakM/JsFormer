@@ -7,6 +7,10 @@ const actions = {
         key: 'KeyA',
         pressed: false,
     },
+    shoot: {
+        key: 'KeyF',
+        pressed: false,
+    },
 };
 
 
@@ -28,8 +32,14 @@ window.addEventListener('keydown', (event) => {
         case "F4":
             spawnEnemy(player.pos.x + 10, player.pos.y - 20);
             break
-        case "KeyF":
-            player.shoot()
+        case "KeyR":
+            player.reload();
+            break
+        case "KeyQ":
+            player.changeWeapon();
+            break
+        case actions.shoot.key:
+            actions.shoot.pressed = true;
             break
         default:
             console.log("Unknown key pressed")
@@ -43,5 +53,8 @@ window.addEventListener('keyup', (event) => {
             break
         case actions.moveLeft.key:
             actions.moveLeft.pressed = false;
+            break
+        case actions.shoot.key:
+            actions.shoot.pressed = false;
             break
 }});

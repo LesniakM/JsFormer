@@ -57,6 +57,8 @@ function gameLoop() {
     else if (actions.moveLeft.pressed) player.accelerateLeft();
     else player.deccelerate();
 
+    if (actions.shoot.pressed) player.shoot();
+
     updateEntities();
     updateParticles();
 
@@ -66,7 +68,8 @@ function gameLoop() {
     if (debug_mode) showParticleAmount();
     if (debug_mode) showFPS();
 
-    drawHpBar(5, 5, (player.stats.HP/player.stats.maxHP*100), (player.stats.MP/player.stats.maxMP*100))
+    drawHpBar(5, 5, (player.stats.HP/player.stats.maxHP*100), (player.stats.MP/player.stats.maxMP*100));
+    drawGuiWeapon(player.currentWeapon);
 }
 
 
