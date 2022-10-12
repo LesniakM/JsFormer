@@ -23,6 +23,10 @@ Full readme coming soon!
 
 ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/53059208/195166200-439e0fd3-a48b-4c73-9fd0-fcce0ffdb6ed.gif)
 
+12.10.2022 Update: Added AK47, many sounds, reload and ammo display.
+
+![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/53059208/195445611-fdbe3b36-3d74-45db-a61f-01413fdb2050.gif)
+
 
 Credits:
 
