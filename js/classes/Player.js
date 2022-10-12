@@ -33,7 +33,7 @@ class Player extends Entity {
                                 frameCount: 1,
                                 animationDelay: 8,
                                 loop: false}}});
-
+        this.ammoIndicators = [new Sprite({pos: {x: -100, y: -100}, imageSrc: "./images/ammo.png"}), new Sprite({pos: {x: -100, y: -100}, imageSrc: "./images/ammo_empty.png"})]
         this.jumping = false;
         this.shooting = false;
         this.reloading = false;
@@ -87,7 +87,6 @@ class Player extends Entity {
 
     jump() {
         if (!this.jumping && this.vel.y < 5) {
-            this.reduceMP(1);
             particles.push(new JumpParticle(this.hitbox.pos.x-5, this.hitbox.pos.y+6))
             this.vel.y = -16;
             this.jumping = true;
@@ -107,6 +106,9 @@ class Player extends Entity {
 
     shoot() {
         if (this.shooting || !this.alive || this.reloading) return
+        if (this.currentWeapon.currentAmmo <= 0) {
+            this.currentWeapon.sounds.playEmpty();
+            return }
         this.shooting = true;
         this.currentWeapon.sounds.playShot();
         if (player.image.currentSrc.includes("Right")) {
@@ -142,6 +144,14 @@ class Player extends Entity {
         this.weaponIndex++;
         if (this.weaponIndex >= this.weapons.length) this.weaponIndex = 0;
         this.currentWeapon = this.weapons[this.weaponIndex];
+    }
+
+    drawAmmo(pos_x, pos_y) {
+        let space = 10 + 60 / this.currentWeapon.magSize;
+        for (let i = 0; i < this.currentWeapon.magSize; i++) {
+            if (i < this.currentWeapon.currentAmmo) this.ammoIndicators[0].draw(pos_x + space*i, pos_y);
+            else this.ammoIndicators[1].draw(pos_x + space*i, pos_y);
+        }
     }
 
     playFootsteps() {

@@ -39,6 +39,11 @@ class SlimeSounds{
 
 
 class WeaponSounds{
+    constructor() {
+        this.empty = new Audio('./data/wavs/weapons/Click6.wav');
+        this.empty.volume = 0.3;
+    }
+
     playShot() {
         this.shot.pause();
         this.shot.currentTime = 0;
@@ -50,10 +55,15 @@ class WeaponSounds{
         this.reload1.currentTime = 0;
         this.reload1.play();
     }
+
     playReload2() {
         this.reload2.pause();
         this.reload2.currentTime = 0;
         this.reload2.play();
+    }
+
+    playEmpty() {
+        this.empty.play();
     }
 }
 

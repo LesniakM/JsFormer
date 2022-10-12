@@ -80,5 +80,6 @@ function drawHpBar(pos_x, pos_y, hp, mp) {
 }
 
 function drawGuiWeapon(weapon) {
-    weapon.drawForGUI(200, 20);
+    weapon.drawForGUI(200, 25);
+    player.drawAmmo(310, 5);
 }
