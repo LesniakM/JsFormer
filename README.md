@@ -1,6 +1,6 @@
 # [Click here to play!](https://lesniakm.github.io/JsFormer/)
 
-Control: Space - jump, A - left, D - right, F - shot.
+Control: Space - jump, A - left, D - right, F - shot, Q - change weapon, R - reload.
 
 Full readme coming soon!
 
@@ -29,6 +29,7 @@ Full readme coming soon!
 
 13.10.2022 Update 1.0.0: Added end screen with stats, damage to slimes, collisions to bullets, many sounds, red and green slimes. Tuned many parameters.
 
+1.0.0 Gameplay video: https://www.youtube.com/watch?v=Hs1RgEZS1rg
 
 Credits:
 
