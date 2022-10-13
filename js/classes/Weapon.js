@@ -106,9 +106,9 @@ class Weapon {
 
     shoot(direction) {
         this.currentAmmo--;
-        if (direction == "Right") particles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index][0], 
+        if (direction == "Right") collidableParticles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index][0], 
                                                                     this.pos.y + this.height/2 + this.bulletPosOffsets[this.index][1]));
-        if (direction == "Left") particles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index+4][0], 
+        if (direction == "Left") collidableParticles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index+4][0], 
                                                                    this.pos.y + this.height/2 + this.bulletPosOffsets[this.index+4][1], true));
     }
 }

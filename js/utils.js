@@ -47,14 +47,16 @@ function showEnemyAmount() {
     c.font = "30px Arial";
     c.fillStyle = 'black';
     const enemyStr = "Enemy counter: " + (entities.length - 1);
-    c.fillText(enemyStr, 180, 30);
+    c.fillText(enemyStr, 10, 60);
 }
 
 function showParticleAmount() {
     c.font = "30px Arial";
     c.fillStyle = 'black';
-    const particleStr = "Particles: " + (particles.length);
-    c.fillText(particleStr, 180, 60);
+    let particleStr = "Particles: " + (particles.length);
+    c.fillText(particleStr, 10, 90);
+    particleStr = "Collidable particles: " + (collidableParticles.length);
+    c.fillText(particleStr, 10, 120);
 }
 
 /**

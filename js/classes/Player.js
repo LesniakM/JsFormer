@@ -45,6 +45,7 @@ class Player extends Entity {
         this.stepIndex = 0;
         this.hitbox = {width: 20,
                        height: 38};
+        this.direction = "right";
         this.sounds = new PlayerSounds();
         this.speed = 5;
         this.stats = {
@@ -59,7 +60,9 @@ class Player extends Entity {
 
 
     accelerateRight() {
-        this.switchSprite('runRight');
+        if (!this.jumping) this.switchSprite('runRight');
+        if (this.jumping) this.switchSprite('jumpRight');
+        this.direction = "right";
         if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
         if (this.vel.x + this.acc.x < this.speed) {
             if (this.vel.y === 0) this.vel.x += this.acc.x;
@@ -67,7 +70,9 @@ class Player extends Entity {
         } else {this.vel.x = this.speed}};
 
     accelerateLeft() {
-        this.switchSprite('runLeft');
+        if (!this.jumping) this.switchSprite('runLeft');
+        if (this.jumping) this.switchSprite('jumpLeft');
+        this.direction = 'left';
         if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
         if (this.vel.x - this.acc.x > -this.speed) {
             if (this.vel.y === 0) this.vel.x -= this.acc.x;
@@ -75,8 +80,8 @@ class Player extends Entity {
         } else {this.vel.x = -this.speed}};
 
     deccelerate() {
-        if (this.image.currentSrc.includes("runRight")) this.switchSprite('idleRight');
-        if (this.image.currentSrc.includes("runLeft")) this.switchSprite('idleLeft');
+        if (this.direction == "right" && !this.jumping) this.switchSprite('idleRight');
+        if (this.direction == "left" && !this.jumping) this.switchSprite('idleLeft');
         if (this.vel.x > this.acc.x) {
             if (this.vel.y === 0) this.vel.x -= this.acc.x;
             else this.vel.x -= this.acc.x / 8;  // Less x controll mid-air
@@ -87,6 +92,8 @@ class Player extends Entity {
 
     jump() {
         if (!this.jumping && this.vel.y < 5) {
+            if (this.direction == "right") this.switchSprite('jumpRight');
+            if (this.direction == "left") this.switchSprite('jumpLeft');
             particles.push(new JumpParticle(this.hitbox.pos.x-5, this.hitbox.pos.y+6))
             this.vel.y = -16;
             this.jumping = true;
@@ -100,8 +107,8 @@ class Player extends Entity {
         if (this.vel.y > 20) this.reduceHP(this.vel.y / 2);
         this.sounds.stomp.volume = Math.min(this.vel.y/50, 0.75);
         this.sounds.stomp.play();
-        if (this.vel.x >= 0) this.switchSprite('idleRight');
-        if (this.vel.x < 0) this.switchSprite('idleLeft');
+        if (this.direction == "right") this.switchSprite('idleRight');
+        if (this.direction == "left") this.switchSprite('idleLeft');
     };
 
     shoot() {
@@ -187,6 +194,8 @@ class Player extends Entity {
         this.hitbox.pos = {x: this.pos.x + (this.width-this.hitbox.width)/2,
                            y: this.pos.y + (this.height-this.hitbox.height)/2};
 
+        if (actions.shoot.pressed) this.shoot();
+
         this.checkHorizontalCollisions();
 
         this.pos.y += this.vel.y;
@@ -196,10 +205,5 @@ class Player extends Entity {
                            y: this.pos.y + (this.height-this.hitbox.height)/2};
         
         this.checkVerticalCollisions();
-
-        if (this.jumping) {
-            if (this.vel.x >= 0) this.switchSprite('jumpRight');
-            if (this.vel.x < 0) this.switchSprite('jumpLeft');
-        };
     }
 }
