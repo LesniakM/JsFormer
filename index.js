@@ -32,9 +32,6 @@ function gameLoop() {
 
     drawHpBar(5, 5, (player.stats.HP/player.stats.maxHP*100), (player.stats.MP/player.stats.maxMP*100));
     drawGuiWeapon(player.currentWeapon);
-
-    const randomizer = Math.random() * 1000;
-    if (randomizer < 5 && player.alive) spawnEnemy(canvas.width*Math.random(), 0);
 }
 
 function endScreen() {
@@ -60,6 +57,11 @@ function endScreen() {
     c.fillText(text, 160, canvas.height/2 + 220);
 }
 
+function spawner() {
+    if (spawnTime > 100) spawnTime -= 10;
+    spawnEnemy(canvas.width*Math.random(), 0);
+    if (player.alive) setTimeout(() => {spawner();}, spawnTime);
+}
 
 const parsedCollisions = parseListToArray(collisionsLevel1)
 const collisionBlocks = createColliders(parsedCollisions)
@@ -74,5 +76,8 @@ const entities = [player];
 const particles = [];
 const collidableParticles = [];
 const clouds = [new CloudParticle(150, 100), new CloudParticle(600, 200), new CloudParticle(250, 300), new CloudParticle(400, 50), new CloudParticle(950, 80), new CloudParticle(920, 300)];
+
+let spawnTime = 2000;
+setTimeout(() => {spawner();}, 500);
 
 gameLoop()

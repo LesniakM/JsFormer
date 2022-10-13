@@ -31,6 +31,7 @@ class Entity extends AnimatedSprite {
     reduceHP(damage) {
         if (debug_mode) console.log(this.constructor.name, "took", damage, "dmg.")
         this.stats.HP -= damage;
+        this.sounds.playDamage();
         if (this.stats.HP <= 0) {
             this.alive = false;
             this.stats.HP = 0;}
