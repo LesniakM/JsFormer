@@ -133,7 +133,7 @@ class Player extends Entity {
     }
 
     reload() {
-        if (this.reloading) return;
+        if (this.reloading || this.shooting) return;
         this.reloading = true;
         this.currentWeapon.sounds.playReload1();
         setTimeout(() => {this.endReload();}, this.currentWeapon.reloadTime);

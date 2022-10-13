@@ -6,8 +6,11 @@ class Weapon {
                   reloadTime = 700,
                   shootIterval = 400,
                   knockback = 2,
+                  audioObject,
                   bulletPosOffsets,
-                  audioObject}) {
+                  bulletSpeed,
+                  bulletKnockback,
+                  bulletDamage}) {
         this.image = new Image();
         this.pos = pos;
         this.image.src = imageSrc;
@@ -17,8 +20,11 @@ class Weapon {
         this.reloadTime = reloadTime;
         this.shootIterval = shootIterval;
         this.knockback = knockback;
-        this.bulletPosOffsets = bulletPosOffsets;
         this.sounds = audioObject;
+        this.bulletPosOffsets = bulletPosOffsets;
+        this.bulletSpeed = bulletSpeed;
+        this.bulletKnockback = bulletKnockback;
+        this.bulletDamage = bulletDamage;
 
         this.height = 32;
         this.width = 32;
@@ -107,9 +113,11 @@ class Weapon {
     shoot(direction) {
         this.currentAmmo--;
         if (direction == "Right") collidableParticles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index][0], 
-                                                                    this.pos.y + this.height/2 + this.bulletPosOffsets[this.index][1]));
+                                                                    this.pos.y + this.height/2 + this.bulletPosOffsets[this.index][1], false,
+                                                                    this.bulletSpeed, this.bulletKnockback, this.bulletDamage));
         if (direction == "Left") collidableParticles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index+4][0], 
-                                                                   this.pos.y + this.height/2 + this.bulletPosOffsets[this.index+4][1], true));
+                                                                   this.pos.y + this.height/2 + this.bulletPosOffsets[this.index+4][1], true,
+                                                                   this.bulletSpeed, this.bulletKnockback, this.bulletDamage));
     }
 }
 
@@ -123,8 +131,11 @@ class Revolver extends Weapon {
                reloadTime: 700,
                shootIterval: 500,
                knockback: 4,
+               audioObject: new RevolverSounds(),
                bulletPosOffsets: [[0,0],[-20,-12],[0,0],[0,0],[0,0],[0,-12],[0,0],[0,0]],
-               audioObject: new RevolverSounds()});
+               bulletSpeed: 14,
+               bulletKnockback: 5,
+               bulletDamage: 30});
     }
 }
 
@@ -138,7 +149,10 @@ class AK47 extends Weapon {
                reloadTime: 1000,
                shootIterval: 90,
                knockback: 2,
+               audioObject: new AKSounds(),
                bulletPosOffsets: [[0,0],[-10,-14],[0,0],[0,0],[0,0],[10,-14],[0,0],[0,0]],
-               audioObject: new AKSounds()});
+               bulletSpeed: 18,
+               bulletKnockback: 3,
+               bulletDamage: 20});
     }
 }

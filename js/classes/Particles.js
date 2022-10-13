@@ -81,11 +81,13 @@ class CloudParticle extends StaticParticle {
 }
 
 class BulletParticle extends StaticParticle {
-    constructor(pos_x, pos_y, mirror = false) {
+    constructor(pos_x, pos_y, mirror = false, speed, knockback, damage) {
         super({pos_x, pos_y, imageSrc: './images/big_bullet.png', });
         this.mirror = mirror;
-        if (this.mirror) this.vel_x = -15;
-        else this.vel_x = 15;
+        if (this.mirror) this.vel_x = -speed;
+        else this.vel_x = speed;
+        this.knockback = knockback
+        this.damage = damage
     }
 
     draw() {
