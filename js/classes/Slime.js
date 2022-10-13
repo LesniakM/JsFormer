@@ -139,8 +139,8 @@ class GreenSlime extends Slime {
                         animationDelay: 8,
                         loop: false}},});
         this.stats = {
-            maxHP: 20,
-            HP: 20,
+            maxHP: 10,
+            HP: 10,
             attack: 10}
     }
 }

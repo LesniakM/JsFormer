@@ -168,6 +168,6 @@ class AK47 extends Weapon {
                bulletPosOffsets: [[0,0],[-10,-14],[0,0],[0,0],[0,0],[10,-14],[0,0],[0,0]],
                bulletSpeed: 20,
                bulletKnockback: 4,
-               bulletDamage: 14});
+               bulletDamage: 15});
     }
 }
