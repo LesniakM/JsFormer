@@ -59,6 +59,8 @@ class Player extends Entity {
             shots: 0,
             reloads: 0
         }
+        this.invibilityFrames = 40;
+        this.invibilityCounter = 0;
     };
 
 
@@ -209,6 +211,30 @@ class Player extends Entity {
         this.vel.y = 0;
     };
 
+    enemyCollision() {
+        for (let i = 1; i < entities.length; i++) {
+            const entity = entities[i]
+            
+            if (this.hitbox.pos.x <= entity.hitbox.pos.x + entity.hitbox.width && 
+                this.hitbox.pos.x + this.hitbox.width >= entity.hitbox.pos.x &&
+                this.hitbox.pos.y + this.hitbox.height/2 >= entity.hitbox.pos.y &&
+                this.hitbox.pos.y <= entity.hitbox.pos.y + entity.hitbox.height &&
+                this.invibilityCounter === 0){
+                    
+                    const enemyAttack = entity.stats.attack;
+                    this.invibilityCounter = this.invibilityFrames;
+                    this.reduceHP(enemyAttack);
+                    const playerCenter = this.hitbox.pos.x + this.hitbox.width/2;
+                    const entityCenter = entity.hitbox.pos.x + entity.hitbox.width/2;
+                    
+                    if (playerCenter > entityCenter) this.vel.x += enemyAttack / 4;
+                    else this.vel.x -= enemyAttack / 3;
+                    this.vel.y -= enemyAttack / 3;
+                break
+            }
+        }
+    }
+
     update() {
         if (this.pos.y > 470) this.teleportFromWater();
 
@@ -228,5 +254,7 @@ class Player extends Entity {
                            y: this.pos.y + (this.height-this.hitbox.height)/2};
         
         this.checkVerticalCollisions();
+
+        if (this.invibilityCounter != 0) this.invibilityCounter--;
     }
 }
