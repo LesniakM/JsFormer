@@ -57,9 +57,9 @@ class Slime extends Entity {
 
     jump() {
         if (!this.jumping && this.vel.y < 5) {
-            this.vel.y = -12 - Math.random();
+            this.vel.y = -8 - this.speed - Math.random();
             if (player.pos.x > this.pos.x) this.vel.x = 8 + Math.random();
-            else this.vel.x = -8 - Math.random();
+            else this.vel.x = -5 - this.speed - Math.random();
             this.jumping = true;
             this.sounds.jump.play();
             this.jumpTicks++;

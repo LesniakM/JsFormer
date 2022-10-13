@@ -169,7 +169,7 @@ class BulletParticle extends StaticParticle {
                     if (this.mirror) particles.push(new BulletSplashParticle(collisionBlock.pos.x + collisionBlock.width + diffuse - 8, this.pos.y-4 + diffuse, true));
                     else particles.push(new BulletSplashParticle(collisionBlock.pos.x + diffuse - 8, this.pos.y-4 + diffuse, true));
                 }
-                
+                break
             }
         }
 
@@ -204,6 +204,7 @@ class BulletParticle extends StaticParticle {
                         entity.vel.x += this.knockback;
                         entity.vel.y -= this.knockback;}
                 }
+                break
             }
         }
     }
