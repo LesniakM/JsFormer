@@ -148,7 +148,7 @@ class Revolver extends Weapon {
                audioObject: new RevolverSounds(),
                bulletPosOffsets: [[0,0],[-20,-12],[0,0],[0,0],[0,0],[0,-12],[0,0],[0,0]],
                bulletSpeed: 14,
-               bulletKnockback: 5,
+               bulletKnockback: 6,
                bulletDamage: 30,
                keepsShells: true});
     }
@@ -167,7 +167,7 @@ class AK47 extends Weapon {
                audioObject: new AKSounds(),
                bulletPosOffsets: [[0,0],[-10,-14],[0,0],[0,0],[0,0],[10,-14],[0,0],[0,0]],
                bulletSpeed: 20,
-               bulletKnockback: 3,
-               bulletDamage: 20});
+               bulletKnockback: 4,
+               bulletDamage: 14});
     }
 }

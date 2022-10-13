@@ -172,5 +172,39 @@ class BulletParticle extends StaticParticle {
                 
             }
         }
+
+        for (let i = 1; i < entities.length; i++) {
+            const entity = entities[i]
+            
+            if (this.pos.x <= entity.hitbox.pos.x + entity.hitbox.width && 
+                this.pos.x + this.width >= entity.hitbox.pos.x &&
+                this.pos.y + this.height/2 >= entity.hitbox.pos.y &&
+                this.pos.y <= entity.hitbox.pos.y + entity.hitbox.height)
+                {
+                this.alive = false;
+                entity.reduceHP(this.damage);
+                let diffuse = 2 - Math.random()*4;
+                if (this.damage >= 25) {
+                    if (this.mirror) {
+                        particles.push(new BulletSplashParticle(entity.hitbox.pos.x + entity.hitbox.width + diffuse - 16, this.pos.y-8 + diffuse));
+                        entity.vel.x -= this.knockback;
+                        entity.vel.y -= this.knockback;}
+                    else {
+                        particles.push(new BulletSplashParticle(entity.hitbox.pos.x + diffuse - 16, this.pos.y-8 + diffuse));
+                        entity.vel.x += this.knockback;
+                        entity.vel.y -= this.knockback;}
+                }
+                else {
+                    if (this.mirror) {
+                        particles.push(new BulletSplashParticle(entity.hitbox.pos.x + entity.hitbox.width + diffuse - 8, this.pos.y-4 + diffuse, true));
+                        entity.vel.x -= this.knockback;
+                        entity.vel.y -= this.knockback;}
+                    else {
+                        particles.push(new BulletSplashParticle(entity.hitbox.pos.x + diffuse - 8, this.pos.y-4 + diffuse, true));
+                        entity.vel.x += this.knockback;
+                        entity.vel.y -= this.knockback;}
+                }
+            }
+        }
     }
 }

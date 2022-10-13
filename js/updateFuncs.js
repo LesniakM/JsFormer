@@ -7,6 +7,7 @@ function updateEntities() {
                 entities[i].drawSpriteBox();
                 entities[i].drawHitBox();}}
         else {
+            player.stats.killed++;
             delete entities[i];
             entities.splice(i, 1);}
     }

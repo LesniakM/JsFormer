@@ -108,7 +108,7 @@ class Player extends Entity {
 
     endJump() {
         this.jumping = false;
-        if (this.vel.y > 20) this.reduceHP(this.vel.y / 2);
+        if (this.vel.y > 21) this.reduceHP(this.vel.y);
         this.sounds.stomp.volume = Math.min(this.vel.y/50, 0.75);
         this.sounds.stomp.play();
         if (this.direction == "right") this.switchSprite('idleRight');

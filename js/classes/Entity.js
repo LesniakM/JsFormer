@@ -19,8 +19,8 @@ class Entity extends AnimatedSprite {
         this.collisionBlocks = collisionBlocks;
         this.alive = true;
         this.stats = {
-            maxHP: 20,
-            HP: 20,
+            maxHP: 30,
+            HP: 30,
             maxMP: 0,
             MP: 0,
             attack: 10,
