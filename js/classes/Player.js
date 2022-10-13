@@ -63,6 +63,10 @@ class Player extends Entity {
         this.invibilityCounter = 0;
     };
 
+    restoreHP(amount) {
+        this.stats.HP += amount;
+        if (this.stats.HP > this.stats.maxHP) this.stats.HP = this.stats.maxHP;
+    }
 
     accelerateRight() {
         if (!this.jumping) this.switchSprite('runRight');

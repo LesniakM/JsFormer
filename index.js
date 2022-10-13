@@ -78,7 +78,7 @@ const particles = [];
 const collidableParticles = [];
 const clouds = [new CloudParticle(150, 100), new CloudParticle(600, 200), new CloudParticle(250, 300), new CloudParticle(400, 50), new CloudParticle(950, 80), new CloudParticle(920, 300)];
 
-let spawnTime = 2500;
-setTimeout(() => {spawner();}, 500);
+let spawnTime = 3000;
+setTimeout(() => {spawner();}, 1000);
 
 gameLoop()

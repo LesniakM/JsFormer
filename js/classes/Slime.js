@@ -215,4 +215,14 @@ class RedSlime extends Slime {
             HP: 50,
             attack: 20}
     }
+
+    reduceHP(damage) {
+        if (debug_mode) console.log(this.constructor.name, "took", damage, "dmg.")
+        this.stats.HP -= damage;
+        this.sounds.playDamage();
+        if (this.stats.HP <= 0) {
+            this.alive = false;
+            player.restoreHP(10);
+            this.stats.HP = 0;}
+    }
 }
