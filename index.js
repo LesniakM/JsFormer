@@ -21,6 +21,7 @@ function gameLoop() {
     else player.deccelerate();
 
     updateEntities();
+    player.enemyCollision();
     updateParticles();
     updateCollidableParticles();
 
