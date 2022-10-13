@@ -31,7 +31,10 @@ function createColliders(parsed_collisions) {
 
 function spawnEnemy(x = 200, y = 100, type = "Slime") {
     if (type === "Slime") {
-        entities.push(new Slime(x, y));
+        const rand = Math.random()
+        if (rand < 0.5) entities.push(new GreenSlime(x, y));
+        else if (rand < 0.8) entities.push(new BlueSlime(x, y));
+        else entities.push(new RedSlime(x, y));
     }
 }
 
@@ -46,15 +49,17 @@ function showFPS() {
 function showEnemyAmount() {
     c.font = "30px Arial";
     c.fillStyle = 'black';
-    const enemyStr = "Enemy counter: " + (entities.length - 1);
-    c.fillText(enemyStr, 180, 30);
+    const enemyStr = "Enemies: " + (entities.length - 1);
+    c.fillText(enemyStr, 10, 60);
 }
 
 function showParticleAmount() {
     c.font = "30px Arial";
     c.fillStyle = 'black';
-    const particleStr = "Particles: " + (particles.length);
-    c.fillText(particleStr, 180, 60);
+    let particleStr = "Particles: " + (particles.length);
+    c.fillText(particleStr, 10, 90);
+    particleStr = "Collidable particles: " + (collidableParticles.length);
+    c.fillText(particleStr, 10, 120);
 }
 
 /**

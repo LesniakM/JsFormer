@@ -27,6 +27,8 @@ Full readme coming soon!
 
 ![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/53059208/195445611-fdbe3b36-3d74-45db-a61f-01413fdb2050.gif)
 
+13.10.2022 Update 1.0.0: Added end screen with stats, damage to slimes, collisions to bullets, many sounds, red and green slimes. Tuned many parameters.
+
 
 Credits:
 

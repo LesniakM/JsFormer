@@ -10,8 +10,8 @@ class Entity extends AnimatedSprite {
             y: 1
         };
         this.typeCollOffset = {
-            verticalTop: 0.1,
-            verticalBottom: -0.1,
+            verticalTop: -0.1,
+            verticalBottom: 2,
             horizontalRight: -1,
             horizontalLeft: 1}
         this.speed = 5;
@@ -19,8 +19,8 @@ class Entity extends AnimatedSprite {
         this.collisionBlocks = collisionBlocks;
         this.alive = true;
         this.stats = {
-            maxHP: 20,
-            HP: 20,
+            maxHP: 30,
+            HP: 30,
             maxMP: 0,
             MP: 0,
             attack: 10,
@@ -31,6 +31,7 @@ class Entity extends AnimatedSprite {
     reduceHP(damage) {
         if (debug_mode) console.log(this.constructor.name, "took", damage, "dmg.")
         this.stats.HP -= damage;
+        this.sounds.playDamage();
         if (this.stats.HP <= 0) {
             this.alive = false;
             this.stats.HP = 0;}
@@ -92,13 +93,13 @@ class Entity extends AnimatedSprite {
                 {
                 if (this.vel.y < 0) {
                     const hb_offset = this.hitbox.pos.y - this.pos.y;
-                    this.pos.y = collisionBlock.pos.y + collisionBlock.height - hb_offset + this.typeCollOffset.verticalTop;
+                    this.pos.y = collisionBlock.pos.y + collisionBlock.height - hb_offset + this.typeCollOffset.verticalBottom;
                     this.vel.y = 0;
                     break}  
                 if (this.vel.y > 0) {
                     const hb_offset = this.hitbox.pos.y - this.pos.y + this.hitbox.height;
                     if (this.jumping || this.vel.y > 10) this.endJump();
-                    this.pos.y = collisionBlock.pos.y - hb_offset + this.typeCollOffset.verticalBottom;
+                    this.pos.y = collisionBlock.pos.y - hb_offset + this.typeCollOffset.verticalTop;
                     this.vel.y = 0;
                     break}
             }
@@ -107,7 +108,7 @@ class Entity extends AnimatedSprite {
 
     /**
    * Used to play overlaping sound effects.
-   * @param  {HTMLAudioElement} sound Audio object.
+   * @param  {HTMLAudioElement} sound Audio
    */
     playSound(sound) {
         sound.pause();

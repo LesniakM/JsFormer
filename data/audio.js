@@ -23,17 +23,51 @@ class PlayerSounds{
         this.step4.volume = 0.20;
         this.switch = new Audio('./data/wavs/weapons/Click2.wav');
         this.switch.volume = 0.25;
+        this.damage1 = new Audio('./data/wavs/Male5.wav');
+        this.damage1.volume = 0.33;
+        this.damage2 = new Audio('./data/wavs/Male6.wav');
+        this.damage2.volume = 0.33;
+        this.damage3 = new Audio('./data/wavs/Male7.wav');
+        this.damage3.volume = 0.33;
+    }
+
+    playDamage() {
+        const rand = Math.random()
+        let sound;
+        if (rand < 0.33) sound = this.damage1;
+        else if (rand < 0.67) sound = this.damage2;
+        else sound = this.damage3;
+        sound.pause();
+        sound.currentTime = 0;
+        sound.play();
     }
 }
 
 class SlimeSounds{
     constructor (){
-        this.jump = new Audio('./data/wavs/Jump.wav');
+        this.jump = new Audio('./data/wavs/Squishy2.wav');
         this.jump.volume = 0.2;
         this.splash = new Audio('./data/wavs/BigSplash.wav');
         this.splash.volume = 0.2;
-        this.stomp = new Audio('./data/wavs/Stomp.wav');
+        this.stomp = new Audio('./data/wavs/Squishy5.wav');
         this.stomp.volume = 0.2;
+        this.damage1 = new Audio('./data/wavs/Squishy3.wav');
+        this.damage1.volume = 0.33;
+        this.damage2 = new Audio('./data/wavs/Squishy6.wav');
+        this.damage2.volume = 0.33;
+        this.damage3 = new Audio('./data/wavs/Squishy2.wav');
+        this.damage3.volume = 0.33;
+    }
+
+    playDamage() {
+        const rand = Math.random()
+        let sound;
+        if (rand < 0.33) sound = this.damage1;
+        else if (rand < 0.67) sound = this.damage2;
+        else sound = this.damage3;
+        sound.pause();
+        sound.currentTime = 0;
+        sound.play();
     }
 }
 
@@ -71,11 +105,11 @@ class AKSounds extends WeaponSounds{
     constructor (){
         super()
         this.shot = new Audio('./data/wavs/weapons/Gunshot6.wav');
-        this.shot.volume = 0.3;
+        this.shot.volume = 0.27;
         this.reload1 = new Audio('./data/wavs/weapons/GunMagazine1.wav');
-        this.reload1.volume = 0.25;
+        this.reload1.volume = 0.35;
         this.reload2 = new Audio('./data/wavs/weapons/GunMagazine2.wav');
-        this.reload2.volume = 0.25;
+        this.reload2.volume = 0.35;
     }
 }
 
@@ -85,8 +119,8 @@ class RevolverSounds extends WeaponSounds{
         this.shot = new Audio('./data/wavs/weapons/Gunshot5.wav');
         this.shot.volume = 0.35;
         this.reload1 = new Audio('./data/wavs/weapons/GunBarrelRoll1.wav');
-        this.reload1.volume = 0.25;
+        this.reload1.volume = 0.35;
         this.reload2 = new Audio('./data/wavs/weapons/GunBarrel1.wav');
-        this.reload2.volume = 0.25;
+        this.reload2.volume = 0.35;
     }
 }

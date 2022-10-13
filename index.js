@@ -4,46 +4,9 @@ canvas.width = 64 * 16;
 canvas.height = 64 * 9;
 
 
-function updateEntities() {
-    for (let i = 0; i < entities.length; i++) {
-        if (entities[i].alive == true) {
-            entities[i].update();
-            entities[i].draw();
-            if (debug_mode) {
-                entities[i].drawSpriteBox();
-                entities[i].drawHitBox();}}
-        else {
-            delete entities[i];
-            entities.splice(i, 1);}
-    }
-}
-
-function updateParticles() {
-    for (let i = 0; i < particles.length; i++) {
-        if (particles[i].alive == true) {
-            particles[i].draw();
-            if (debug_mode) {
-                particles[i].drawSpriteBox();}}
-        else {
-            delete particles[i];
-            particles.splice(i, 1);}
-    }
-}
-
-function updateClouds() {
-    for (let i = 0; i < clouds.length; i++) {
-        if (clouds[i].pos.x < -100) {
-            clouds[i].pos.x = canvas.width;
-            clouds[i].selectRandSprite();}
-        clouds[i].pos.x -= clouds[i].speed;
-        clouds[i].draw();
-        if (debug_mode) {
-            clouds[i].drawSpriteBox();}
-    }
-}
-
 function gameLoop() {
-    window.requestAnimationFrame(gameLoop);
+    if (player.alive) window.requestAnimationFrame(gameLoop);
+    else window.requestAnimationFrame(endScreen);
     c.clearRect(0, 0, canvas.width, canvas.height);
 
     c.fillStyle = '#64BEC8'
@@ -57,10 +20,10 @@ function gameLoop() {
     else if (actions.moveLeft.pressed) player.accelerateLeft();
     else player.deccelerate();
 
-    if (actions.shoot.pressed) player.shoot();
-
     updateEntities();
+    player.enemyCollision();
     updateParticles();
+    updateCollidableParticles();
 
     player.currentWeapon.draw();
 
@@ -72,6 +35,34 @@ function gameLoop() {
     drawGuiWeapon(player.currentWeapon);
 }
 
+function endScreen() {
+    c.fillStyle = '#222222AA'
+    c.fillRect(0,0, canvas.width, canvas.height);
+
+    c.font = "40px Verdana";
+    c.fillStyle = '#DDDDDD';
+    let text = "You died.";
+    c.fillText(text, canvas.width/2 - c.measureText(text).width/2, canvas.height/2 - 20);
+    c.font = "30px Verdana";
+    text = "<Press F5 to restart game>";
+    c.fillText(text, canvas.width/2 - c.measureText(text).width/2, canvas.height/2 + 20);
+
+    c.font = "25px Verdana";
+    text = "You killed " + player.stats.killed + " slimes.";
+    c.fillText(text, 160, canvas.height/2 + 100);
+    text = "You shot " + player.stats.shots + " times.";
+    c.fillText(text, 160, canvas.height/2 + 140);
+    text = "You jumped " + player.stats.jumps + " times.";
+    c.fillText(text, 160, canvas.height/2 + 180);
+    text = "You reloaded " + player.stats.reloads + " times.";
+    c.fillText(text, 160, canvas.height/2 + 220);
+}
+
+function spawner() {
+    if (spawnTime > 100) spawnTime -= 25;
+    spawnEnemy(canvas.width*Math.random(), 0);
+    if (player.alive) setTimeout(() => {spawner();}, spawnTime);
+}
 
 const parsedCollisions = parseListToArray(collisionsLevel1)
 const collisionBlocks = createColliders(parsedCollisions)
@@ -82,8 +73,12 @@ const backgroundLevel1 = new Sprite({pos: {x: 0, y:0},
 const sounds = new WorldSounds();
 
 const player = new Player(110, 140);
-let entities = [player];
-let particles = [];
-let clouds = [new CloudParticle(150, 100), new CloudParticle(600, 200), new CloudParticle(250, 300), new CloudParticle(400, 50), new CloudParticle(950, 80), new CloudParticle(920, 300)];
+const entities = [player];
+const particles = [];
+const collidableParticles = [];
+const clouds = [new CloudParticle(150, 100), new CloudParticle(600, 200), new CloudParticle(250, 300), new CloudParticle(400, 50), new CloudParticle(950, 80), new CloudParticle(920, 300)];
+
+let spawnTime = 3000;
+setTimeout(() => {spawner();}, 1000);
 
 gameLoop()

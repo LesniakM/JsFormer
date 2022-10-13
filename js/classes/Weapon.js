@@ -6,8 +6,12 @@ class Weapon {
                   reloadTime = 700,
                   shootIterval = 400,
                   knockback = 2,
+                  audioObject,
                   bulletPosOffsets,
-                  audioObject}) {
+                  bulletSpeed,
+                  bulletKnockback,
+                  bulletDamage,
+                  keepsShells = false}) {
         this.image = new Image();
         this.pos = pos;
         this.image.src = imageSrc;
@@ -17,8 +21,12 @@ class Weapon {
         this.reloadTime = reloadTime;
         this.shootIterval = shootIterval;
         this.knockback = knockback;
-        this.bulletPosOffsets = bulletPosOffsets;
         this.sounds = audioObject;
+        this.bulletPosOffsets = bulletPosOffsets;
+        this.bulletSpeed = bulletSpeed;
+        this.bulletKnockback = bulletKnockback;
+        this.bulletDamage = bulletDamage;
+        this.keepsShells = keepsShells;
 
         this.height = 32;
         this.width = 32;
@@ -106,10 +114,24 @@ class Weapon {
 
     shoot(direction) {
         this.currentAmmo--;
-        if (direction == "Right") particles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index][0], 
-                                                                    this.pos.y + this.height/2 + this.bulletPosOffsets[this.index][1]));
-        if (direction == "Left") particles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index+4][0], 
-                                                                   this.pos.y + this.height/2 + this.bulletPosOffsets[this.index+4][1], true));
+        if (direction == "right") {
+            collidableParticles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index][0], 
+                                                        this.pos.y + this.height/2 + this.bulletPosOffsets[this.index][1], false,
+                                                        this.bulletSpeed, this.bulletKnockback, this.bulletDamage));
+            if (!this.keepsShells) {
+                particles.push(new ShellParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index][0], 
+                                                 this.pos.y + this.height/2 + this.bulletPosOffsets[this.index][1], 
+                                                 -2))}
+        }
+        if (direction == "left") {
+            collidableParticles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index+4][0], 
+                                                        this.pos.y + this.height/2 + this.bulletPosOffsets[this.index+4][1], true,
+                                                        this.bulletSpeed, this.bulletKnockback, this.bulletDamage));
+            if (!this.keepsShells) {
+                particles.push(new ShellParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index+4][0], 
+                                                 this.pos.y + this.height/2 + this.bulletPosOffsets[this.index+4][1], 
+                                                 2, 6))}
+        }
     }
 }
 
@@ -123,8 +145,12 @@ class Revolver extends Weapon {
                reloadTime: 700,
                shootIterval: 500,
                knockback: 4,
+               audioObject: new RevolverSounds(),
                bulletPosOffsets: [[0,0],[-20,-12],[0,0],[0,0],[0,0],[0,-12],[0,0],[0,0]],
-               audioObject: new RevolverSounds()});
+               bulletSpeed: 14,
+               bulletKnockback: 6,
+               bulletDamage: 30,
+               keepsShells: true});
     }
 }
 
@@ -138,7 +164,10 @@ class AK47 extends Weapon {
                reloadTime: 1000,
                shootIterval: 90,
                knockback: 2,
+               audioObject: new AKSounds(),
                bulletPosOffsets: [[0,0],[-10,-14],[0,0],[0,0],[0,0],[10,-14],[0,0],[0,0]],
-               audioObject: new AKSounds()});
+               bulletSpeed: 20,
+               bulletKnockback: 4,
+               bulletDamage: 15});
     }
 }

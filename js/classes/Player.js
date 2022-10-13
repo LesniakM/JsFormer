@@ -45,6 +45,7 @@ class Player extends Entity {
         this.stepIndex = 0;
         this.hitbox = {width: 20,
                        height: 38};
+        this.direction = "right";
         this.sounds = new PlayerSounds();
         this.speed = 5;
         this.stats = {
@@ -53,13 +54,24 @@ class Player extends Entity {
             maxMP: 10,
             MP: 10,
             attack: 10,
-            defense: 0,
+            jumps: 0,
+            killed: 0,
+            shots: 0,
+            reloads: 0
         }
+        this.invibilityFrames = 40;
+        this.invibilityCounter = 0;
     };
 
+    restoreHP(amount) {
+        this.stats.HP += amount;
+        if (this.stats.HP > this.stats.maxHP) this.stats.HP = this.stats.maxHP;
+    }
 
     accelerateRight() {
-        this.switchSprite('runRight');
+        if (!this.jumping) this.switchSprite('runRight');
+        if (this.jumping) this.switchSprite('jumpRight');
+        this.direction = "right";
         if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
         if (this.vel.x + this.acc.x < this.speed) {
             if (this.vel.y === 0) this.vel.x += this.acc.x;
@@ -67,7 +79,9 @@ class Player extends Entity {
         } else {this.vel.x = this.speed}};
 
     accelerateLeft() {
-        this.switchSprite('runLeft');
+        if (!this.jumping) this.switchSprite('runLeft');
+        if (this.jumping) this.switchSprite('jumpLeft');
+        this.direction = 'left';
         if (this.vel.y === 0 && !this.jumping) this.playFootsteps();
         if (this.vel.x - this.acc.x > -this.speed) {
             if (this.vel.y === 0) this.vel.x -= this.acc.x;
@@ -75,8 +89,8 @@ class Player extends Entity {
         } else {this.vel.x = -this.speed}};
 
     deccelerate() {
-        if (this.image.currentSrc.includes("runRight")) this.switchSprite('idleRight');
-        if (this.image.currentSrc.includes("runLeft")) this.switchSprite('idleLeft');
+        if (this.direction == "right" && !this.jumping) this.switchSprite('idleRight');
+        if (this.direction == "left" && !this.jumping) this.switchSprite('idleLeft');
         if (this.vel.x > this.acc.x) {
             if (this.vel.y === 0) this.vel.x -= this.acc.x;
             else this.vel.x -= this.acc.x / 8;  // Less x controll mid-air
@@ -87,7 +101,10 @@ class Player extends Entity {
 
     jump() {
         if (!this.jumping && this.vel.y < 5) {
+            if (this.direction == "right") this.switchSprite('jumpRight');
+            if (this.direction == "left") this.switchSprite('jumpLeft');
             particles.push(new JumpParticle(this.hitbox.pos.x-5, this.hitbox.pos.y+6))
+            this.stats.jumps++;
             this.vel.y = -16;
             this.jumping = true;
             this.playSound(this.sounds.jump);
@@ -97,11 +114,11 @@ class Player extends Entity {
 
     endJump() {
         this.jumping = false;
-        if (this.vel.y > 20) this.reduceHP(this.vel.y / 2);
+        if (this.vel.y > 21) this.reduceHP(this.vel.y);
         this.sounds.stomp.volume = Math.min(this.vel.y/50, 0.75);
         this.sounds.stomp.play();
-        if (this.vel.x >= 0) this.switchSprite('idleRight');
-        if (this.vel.x < 0) this.switchSprite('idleLeft');
+        if (this.direction == "right") this.switchSprite('idleRight');
+        if (this.direction == "left") this.switchSprite('idleLeft');
     };
 
     shoot() {
@@ -110,13 +127,14 @@ class Player extends Entity {
             this.currentWeapon.sounds.playEmpty();
             return }
         this.shooting = true;
+        this.stats.shots++;
         this.currentWeapon.sounds.playShot();
-        if (player.image.currentSrc.includes("Right")) {
+        if (this.direction == "right") {
             this.vel.x -= this.currentWeapon.knockback;
-            this.currentWeapon.shoot("Right")}
+            this.currentWeapon.shoot("right")}
         else {
             this.vel.x += this.currentWeapon.knockback;
-            this.currentWeapon.shoot("Left")}
+            this.currentWeapon.shoot("left")}
         this.vel.y -= this.currentWeapon.knockback/2;
         setTimeout(() => {this.endShoot();}, this.currentWeapon.shootIterval);
     }
@@ -126,7 +144,25 @@ class Player extends Entity {
     }
 
     reload() {
-        if (this.reloading) return;
+        if (this.reloading || this.shooting) return;
+        this.stats.reloads++;
+        if (this.currentWeapon.keepsShells) {
+            if (this.direction == "right")  {
+                for (let i = 0; i < this.currentWeapon.magSize - this.currentWeapon.currentAmmo; i++) {
+                    particles.push(new ShellParticle(this.currentWeapon.pos.x + this.currentWeapon.width/2 + this.currentWeapon.bulletPosOffsets[this.currentWeapon.index][0], 
+                                                 this.currentWeapon.pos.y + this.currentWeapon.height/2 + this.currentWeapon.bulletPosOffsets[this.currentWeapon.index][1], 
+                                                 -2))
+                }
+            }
+            if (this.direction == "left")  {
+                for (let i = 0; i < this.currentWeapon.magSize - this.currentWeapon.currentAmmo; i++) {
+                    particles.push(new ShellParticle(this.currentWeapon.pos.x + this.currentWeapon.width/2 + this.currentWeapon.bulletPosOffsets[this.currentWeapon.index+4][0], 
+                                                 this.currentWeapon.pos.y + this.currentWeapon.height/2 + this.currentWeapon.bulletPosOffsets[this.currentWeapon.index+4][1], 
+                                                 2, 6))
+                }
+            }
+
+        }
         this.reloading = true;
         this.currentWeapon.sounds.playReload1();
         setTimeout(() => {this.endReload();}, this.currentWeapon.reloadTime);
@@ -179,6 +215,30 @@ class Player extends Entity {
         this.vel.y = 0;
     };
 
+    enemyCollision() {
+        for (let i = 1; i < entities.length; i++) {
+            const entity = entities[i]
+            
+            if (this.hitbox.pos.x <= entity.hitbox.pos.x + entity.hitbox.width && 
+                this.hitbox.pos.x + this.hitbox.width >= entity.hitbox.pos.x &&
+                this.hitbox.pos.y + this.hitbox.height/2 >= entity.hitbox.pos.y &&
+                this.hitbox.pos.y <= entity.hitbox.pos.y + entity.hitbox.height &&
+                this.invibilityCounter === 0){
+                    
+                    const enemyAttack = entity.stats.attack;
+                    this.invibilityCounter = this.invibilityFrames;
+                    this.reduceHP(enemyAttack);
+                    const playerCenter = this.hitbox.pos.x + this.hitbox.width/2;
+                    const entityCenter = entity.hitbox.pos.x + entity.hitbox.width/2;
+                    
+                    if (playerCenter > entityCenter) this.vel.x += enemyAttack / 4;
+                    else this.vel.x -= enemyAttack / 3;
+                    this.vel.y -= enemyAttack / 3;
+                break
+            }
+        }
+    }
+
     update() {
         if (this.pos.y > 470) this.teleportFromWater();
 
@@ -186,6 +246,8 @@ class Player extends Entity {
 
         this.hitbox.pos = {x: this.pos.x + (this.width-this.hitbox.width)/2,
                            y: this.pos.y + (this.height-this.hitbox.height)/2};
+
+        if (actions.shoot.pressed) this.shoot();
 
         this.checkHorizontalCollisions();
 
@@ -197,9 +259,6 @@ class Player extends Entity {
         
         this.checkVerticalCollisions();
 
-        if (this.jumping) {
-            if (this.vel.x >= 0) this.switchSprite('jumpRight');
-            if (this.vel.x < 0) this.switchSprite('jumpLeft');
-        };
+        if (this.invibilityCounter != 0) this.invibilityCounter--;
     }
 }
