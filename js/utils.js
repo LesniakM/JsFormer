@@ -31,7 +31,10 @@ function createColliders(parsed_collisions) {
 
 function spawnEnemy(x = 200, y = 100, type = "Slime") {
     if (type === "Slime") {
-        entities.push(new Slime(x, y));
+        const rand = Math.random()
+        if (rand < 0.5) entities.push(new GreenSlime(x, y));
+        else if (rand < 0.8) entities.push(new BlueSlime(x, y));
+        else entities.push(new RedSlime(x, y));
     }
 }
 
