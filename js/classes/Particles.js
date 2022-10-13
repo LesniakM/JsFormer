@@ -59,6 +59,38 @@ class JumpParticle extends AnimatedParticle {
     }
 }
 
+class BulletSplashParticle extends AnimatedParticle {
+    constructor(pos_x, pos_y, small = false) {
+        super({pos_x, pos_y, 
+               imageSrc: ((small == true) ? './images/bullet_splash_small.png' : './images/bullet_splash.png'), 
+               frameCount: 3, 
+               loops: 1, 
+               ticksPerFrame: 2});
+    }
+}
+
+class ShellParticle extends AnimatedParticle {
+    constructor(pos_x, pos_y, vel_x, startFrame = 2, vel_y = - 8, acc_y = 1, rotation = 5) {
+        super({pos_x, pos_y, 
+               imageSrc: './images/empty_shell.png', 
+               frameCount: 8, 
+               loops: -1, 
+               ticksPerFrame: rotation});
+        this.vel_x = vel_x - 1 + Math.random()*2;
+        this.vel_y = vel_y - 2 + Math.random()*3;
+        this.acc_y = acc_y;
+        this.currentFrame = startFrame;
+    }
+    move() {
+        if (this.pos.y > 600) {
+            this.alive = false;
+            return}
+        this.pos.x += this.vel_x;
+        this.vel_y += this.acc_y;
+        this.pos.y += this.vel_y;
+    }
+}
+
 class CloudParticle extends StaticParticle {
     constructor(pos_x, pos_y) {
         super({pos_x, pos_y, imageSrc: './images/cloud1.png', });
@@ -116,5 +148,29 @@ class BulletParticle extends StaticParticle {
     drawSpriteBox() {
         c.fillStyle = 'rgba(0, 255, 0, 0.25)';
         c.fillRect(this.pos.x, this.pos.y, this.width, this.height / 2);
+    }
+
+    checkHorizontalCollisions() {
+        for (let i = 0; i < collisionBlocks.length; i++) {
+            const collisionBlock = collisionBlocks[i]
+            
+            if (this.pos.x <= collisionBlock.pos.x + collisionBlock.width && 
+                this.pos.x + this.width >= collisionBlock.pos.x &&
+                this.pos.y + this.height/2 >= collisionBlock.pos.y &&
+                this.pos.y <= collisionBlock.pos.y + collisionBlock.height)
+                {
+                this.alive = false;
+                let diffuse = 2 - Math.random()*4;
+                if (this.damage >= 25) {
+                    if (this.mirror) particles.push(new BulletSplashParticle(collisionBlock.pos.x + collisionBlock.width + diffuse - 16, this.pos.y-8 + diffuse));
+                    else particles.push(new BulletSplashParticle(collisionBlock.pos.x + diffuse - 16, this.pos.y-8 + diffuse));
+                }
+                else {
+                    if (this.mirror) particles.push(new BulletSplashParticle(collisionBlock.pos.x + collisionBlock.width + diffuse - 8, this.pos.y-4 + diffuse, true));
+                    else particles.push(new BulletSplashParticle(collisionBlock.pos.x + diffuse - 8, this.pos.y-4 + diffuse, true));
+                }
+                
+            }
+        }
     }
 }

@@ -118,12 +118,12 @@ class Player extends Entity {
             return }
         this.shooting = true;
         this.currentWeapon.sounds.playShot();
-        if (player.image.currentSrc.includes("Right")) {
+        if (this.direction == "right") {
             this.vel.x -= this.currentWeapon.knockback;
-            this.currentWeapon.shoot("Right")}
+            this.currentWeapon.shoot("right")}
         else {
             this.vel.x += this.currentWeapon.knockback;
-            this.currentWeapon.shoot("Left")}
+            this.currentWeapon.shoot("left")}
         this.vel.y -= this.currentWeapon.knockback/2;
         setTimeout(() => {this.endShoot();}, this.currentWeapon.shootIterval);
     }
@@ -134,6 +134,23 @@ class Player extends Entity {
 
     reload() {
         if (this.reloading || this.shooting) return;
+        if (this.currentWeapon.keepsShells) {
+            if (this.direction == "right")  {
+                for (let i = 0; i < this.currentWeapon.magSize - this.currentWeapon.currentAmmo; i++) {
+                    particles.push(new ShellParticle(this.currentWeapon.pos.x + this.currentWeapon.width/2 + this.currentWeapon.bulletPosOffsets[this.currentWeapon.index][0], 
+                                                 this.currentWeapon.pos.y + this.currentWeapon.height/2 + this.currentWeapon.bulletPosOffsets[this.currentWeapon.index][1], 
+                                                 -2))
+                }
+            }
+            if (this.direction == "left")  {
+                for (let i = 0; i < this.currentWeapon.magSize - this.currentWeapon.currentAmmo; i++) {
+                    particles.push(new ShellParticle(this.currentWeapon.pos.x + this.currentWeapon.width/2 + this.currentWeapon.bulletPosOffsets[this.currentWeapon.index+4][0], 
+                                                 this.currentWeapon.pos.y + this.currentWeapon.height/2 + this.currentWeapon.bulletPosOffsets[this.currentWeapon.index+4][1], 
+                                                 2, 6))
+                }
+            }
+
+        }
         this.reloading = true;
         this.currentWeapon.sounds.playReload1();
         setTimeout(() => {this.endReload();}, this.currentWeapon.reloadTime);

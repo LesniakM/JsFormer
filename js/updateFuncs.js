@@ -15,6 +15,7 @@ function updateEntities() {
 function updateParticles() {
     for (let i = 0; i < particles.length; i++) {
         if (particles[i].alive == true) {
+            if (particles[i].constructor.name == "ShellParticle") particles[i].move()
             particles[i].draw();
             if (debug_mode) {
                 particles[i].drawSpriteBox();}}
@@ -28,6 +29,7 @@ function updateCollidableParticles() {
     for (let i = 0; i < collidableParticles.length; i++) {
         if (collidableParticles[i].alive == true) {
             collidableParticles[i].draw();
+            collidableParticles[i].checkHorizontalCollisions();
             if (debug_mode) {
                 collidableParticles[i].drawSpriteBox();}}
         if (collidableParticles[i].alive == false) {

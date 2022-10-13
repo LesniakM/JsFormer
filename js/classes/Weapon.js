@@ -10,7 +10,8 @@ class Weapon {
                   bulletPosOffsets,
                   bulletSpeed,
                   bulletKnockback,
-                  bulletDamage}) {
+                  bulletDamage,
+                  keepsShells = false}) {
         this.image = new Image();
         this.pos = pos;
         this.image.src = imageSrc;
@@ -25,6 +26,7 @@ class Weapon {
         this.bulletSpeed = bulletSpeed;
         this.bulletKnockback = bulletKnockback;
         this.bulletDamage = bulletDamage;
+        this.keepsShells = keepsShells;
 
         this.height = 32;
         this.width = 32;
@@ -112,12 +114,24 @@ class Weapon {
 
     shoot(direction) {
         this.currentAmmo--;
-        if (direction == "Right") collidableParticles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index][0], 
-                                                                    this.pos.y + this.height/2 + this.bulletPosOffsets[this.index][1], false,
-                                                                    this.bulletSpeed, this.bulletKnockback, this.bulletDamage));
-        if (direction == "Left") collidableParticles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index+4][0], 
-                                                                   this.pos.y + this.height/2 + this.bulletPosOffsets[this.index+4][1], true,
-                                                                   this.bulletSpeed, this.bulletKnockback, this.bulletDamage));
+        if (direction == "right") {
+            collidableParticles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index][0], 
+                                                        this.pos.y + this.height/2 + this.bulletPosOffsets[this.index][1], false,
+                                                        this.bulletSpeed, this.bulletKnockback, this.bulletDamage));
+            if (!this.keepsShells) {
+                particles.push(new ShellParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index][0], 
+                                                 this.pos.y + this.height/2 + this.bulletPosOffsets[this.index][1], 
+                                                 -2))}
+        }
+        if (direction == "left") {
+            collidableParticles.push(new BulletParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index+4][0], 
+                                                        this.pos.y + this.height/2 + this.bulletPosOffsets[this.index+4][1], true,
+                                                        this.bulletSpeed, this.bulletKnockback, this.bulletDamage));
+            if (!this.keepsShells) {
+                particles.push(new ShellParticle(this.pos.x + this.width/2 + this.bulletPosOffsets[this.index+4][0], 
+                                                 this.pos.y + this.height/2 + this.bulletPosOffsets[this.index+4][1], 
+                                                 2, 6))}
+        }
     }
 }
 
@@ -135,7 +149,8 @@ class Revolver extends Weapon {
                bulletPosOffsets: [[0,0],[-20,-12],[0,0],[0,0],[0,0],[0,-12],[0,0],[0,0]],
                bulletSpeed: 14,
                bulletKnockback: 5,
-               bulletDamage: 30});
+               bulletDamage: 30,
+               keepsShells: true});
     }
 }
 
@@ -151,7 +166,7 @@ class AK47 extends Weapon {
                knockback: 2,
                audioObject: new AKSounds(),
                bulletPosOffsets: [[0,0],[-10,-14],[0,0],[0,0],[0,0],[10,-14],[0,0],[0,0]],
-               bulletSpeed: 18,
+               bulletSpeed: 20,
                bulletKnockback: 3,
                bulletDamage: 20});
     }
