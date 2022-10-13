@@ -46,7 +46,7 @@ function showFPS() {
 function showEnemyAmount() {
     c.font = "30px Arial";
     c.fillStyle = 'black';
-    const enemyStr = "Enemy counter: " + (entities.length - 1);
+    const enemyStr = "Enemies: " + (entities.length - 1);
     c.fillText(enemyStr, 10, 60);
 }
 

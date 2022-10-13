@@ -15,7 +15,7 @@ function updateEntities() {
 function updateParticles() {
     for (let i = 0; i < particles.length; i++) {
         if (particles[i].alive == true) {
-            if (particles[i].constructor.name == "ShellParticle") particles[i].move()
+            if (particles[i].constructor.name == "ShellParticle") particles[i].move();
             particles[i].draw();
             if (debug_mode) {
                 particles[i].drawSpriteBox();}}
