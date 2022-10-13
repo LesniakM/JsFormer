@@ -58,7 +58,7 @@ function endScreen() {
 }
 
 function spawner() {
-    if (spawnTime > 100) spawnTime -= 10;
+    if (spawnTime > 100) spawnTime -= 25;
     spawnEnemy(canvas.width*Math.random(), 0);
     if (player.alive) setTimeout(() => {spawner();}, spawnTime);
 }
@@ -77,7 +77,7 @@ const particles = [];
 const collidableParticles = [];
 const clouds = [new CloudParticle(150, 100), new CloudParticle(600, 200), new CloudParticle(250, 300), new CloudParticle(400, 50), new CloudParticle(950, 80), new CloudParticle(920, 300)];
 
-let spawnTime = 2000;
+let spawnTime = 2500;
 setTimeout(() => {spawner();}, 500);
 
 gameLoop()
