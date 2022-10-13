@@ -54,7 +54,10 @@ class Player extends Entity {
             maxMP: 10,
             MP: 10,
             attack: 10,
-            defense: 0,
+            jumps: 0,
+            killed: 0,
+            shots: 0,
+            reloads: 0
         }
     };
 
@@ -95,6 +98,7 @@ class Player extends Entity {
             if (this.direction == "right") this.switchSprite('jumpRight');
             if (this.direction == "left") this.switchSprite('jumpLeft');
             particles.push(new JumpParticle(this.hitbox.pos.x-5, this.hitbox.pos.y+6))
+            this.stats.jumps++;
             this.vel.y = -16;
             this.jumping = true;
             this.playSound(this.sounds.jump);
@@ -117,6 +121,7 @@ class Player extends Entity {
             this.currentWeapon.sounds.playEmpty();
             return }
         this.shooting = true;
+        this.stats.shots++;
         this.currentWeapon.sounds.playShot();
         if (this.direction == "right") {
             this.vel.x -= this.currentWeapon.knockback;
@@ -134,6 +139,7 @@ class Player extends Entity {
 
     reload() {
         if (this.reloading || this.shooting) return;
+        this.stats.reloads++;
         if (this.currentWeapon.keepsShells) {
             if (this.direction == "right")  {
                 for (let i = 0; i < this.currentWeapon.magSize - this.currentWeapon.currentAmmo; i++) {

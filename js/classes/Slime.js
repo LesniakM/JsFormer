@@ -67,13 +67,14 @@ class Slime extends Entity {
         if (this.vel.x < 0) this.switchSprite('idleLeft');
     };
 
-    kill(drown=false) {
-        this.alive = false;
-        if (drown) this.sounds.splash.play();
+    teleportFromWater() {
+        this.pos.x = canvas.width * Math.random();
+        this.pos.y = 0;
+        this.sounds.splash.play()
     }
 
     update() {
-        if (this.pos.y > 480) this.kill(true);
+        if (this.pos.y > 480) this.teleportFromWater();
         if (this.jumpTicks % 100 == 0) this.jump();
 
         this.pos.x = Math.round(this.pos.x + this.vel.x); // Rounding to whole pixel prevents pixel-art diffusion.
