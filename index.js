@@ -137,6 +137,11 @@ window.addEventListener('keydown', (event) => {
     case 'KeyQ':
       player.changeWeapon();
       break;
+    case 'KeyB':
+      sounds.bgmusic.volume = 0.05;
+      sounds.Epicbgmusic.play();
+      player.changeWeaponSecret();
+      break;
     case actions.shoot.key:
       actions.shoot.pressed = true;
       break;

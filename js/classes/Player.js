@@ -1,7 +1,7 @@
 import { ShellParticle, JumpParticle } from './Particles.js';
 import Entity from './Entity.js';
 import { Sprite } from './Sprite.js';
-import { Revolver, AK47 } from './Weapon.js';
+import { Revolver, AK47, Karabinek } from './Weapon.js';
 import { PlayerSounds } from '../../data/audio.js';
 
 export default class Player extends Entity {
@@ -84,6 +84,7 @@ export default class Player extends Entity {
     };
     this.invibilityFrames = 40;
     this.invibilityCounter = 0;
+    this.secretActivated = false;
   }
 
   restoreHP(amount) {
@@ -217,8 +218,18 @@ export default class Player extends Entity {
     this.currentWeapon = this.weapons[this.weaponIndex];
   }
 
+  changeWeaponSecret() {
+    if (this.secretActivated) return;
+    this.weaponIndex = 0;
+    this.stats.maxHP = 200;
+    this.stats.HP = 200;
+    this.weapons = [new Karabinek(this.particles, this.collidableParticles, this)];
+    this.currentWeapon = this.weapons[0];
+    this.secretActivated = true;
+  }
+
   drawAmmo(posX, posY) {
-    const space = 10 + 60 / this.currentWeapon.magSize;
+    const space = (6 - this.currentWeapon.magSize / 100) + 120 / this.currentWeapon.magSize;
     for (let i = 0; i < this.currentWeapon.magSize; i += 1) {
       if (i < this.currentWeapon.currentAmmo) this.ammoIndicators[0].draw(posX + space * i, posY);
       else this.ammoIndicators[1].draw(posX + space * i, posY);

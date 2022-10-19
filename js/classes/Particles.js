@@ -132,7 +132,7 @@ export class CloudParticle extends StaticParticle {
 }
 
 export class BulletParticle extends StaticParticle {
-  constructor(posX, posY, mirror, speed, knockback, damage, particles, entities) {
+  constructor(posX, posY, mirror, speed, knockback, damage, particles, entities, speedY = 0) {
     super({ posX, posY, imagePath: './images/big_bullet.png' });
     this.mirror = mirror;
     if (this.mirror) this.vel_x = -speed;
@@ -142,6 +142,7 @@ export class BulletParticle extends StaticParticle {
     this.collisionBlocks = collisionBlocks;
     this.particles = particles;
     this.entities = entities;
+    this.speedY = speedY;
   }
 
   draw() {
@@ -167,6 +168,7 @@ export class BulletParticle extends StaticParticle {
       );
     }
     this.pos.x += this.vel_x;
+    this.pos.y += this.speedY;
     if (this.pos.x > canvasWidth || this.pos.x < -20) this.alive = false;
   }
 
