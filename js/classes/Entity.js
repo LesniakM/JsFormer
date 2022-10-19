@@ -6,12 +6,12 @@ export default class Entity extends AnimatedSprite {
   constructor({
     pos,
     playerRef,
-    imageSrc = '',
+    imagePath = '',
     frameCount = 1,
     animations = {},
   }) {
     super({
-      pos, imageSrc, frameCount, animations,
+      pos, imagePath, frameCount, animations,
     });
     this.vel = {
       x: 0,

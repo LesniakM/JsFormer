@@ -28,14 +28,14 @@ const actions = {
 
 const backgroundLevel1 = new Sprite({
   pos: { x: 0, y: 0 },
-  imageSrc: './images/background1.png',
+  imagePath: './images/background1.png',
 });
 
 const sounds = new WorldSounds();
 let debugMode = false;
 
-export const particles = [];
-export const collidableParticles = [];
+const particles = [];
+const collidableParticles = [];
 const entities = [];
 
 const player = new Player(110, 140, actions, particles, collidableParticles, entities);

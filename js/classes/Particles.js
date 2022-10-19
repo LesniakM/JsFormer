@@ -12,9 +12,9 @@ class AnimatedParticle extends AnimatedSprite {
      * @param {number} ticksPerFrame How long one frame should stay on screen.
      */
   constructor({
-    posX, posY, imageSrc, frameCount = 1, loops = 1, ticksPerFrame = 4,
+    posX, posY, imagePath, frameCount = 1, loops = 1, ticksPerFrame = 4,
   }) {
-    super({ pos: { x: posX, y: posY }, imageSrc, frameCount });
+    super({ pos: { x: posX, y: posY }, imagePath, frameCount });
     this.loops = loops;
     this.tickDivider = ticksPerFrame;
     this.alive = true;
@@ -45,8 +45,8 @@ class StaticParticle extends Sprite {
      * @param {number} posY Particle top  pos.
      * @param {string} imageSrc Path to image.
      */
-  constructor({ posX, posY, imageSrc }) {
-    super({ pos: { x: posX, y: posY }, imageSrc });
+  constructor({ posX, posY, imagePath }) {
+    super({ pos: { x: posX, y: posY }, imagePath });
     this.alive = true;
     this.context = context;
   }
@@ -62,7 +62,7 @@ export class JumpParticle extends AnimatedParticle {
     super({
       posX,
       posY,
-      imageSrc: './images/jumpDust.png',
+      imagePath: './images/jumpDust.png',
       frameCount: 3,
       loops: 1,
       ticksPerFrame: 2,
@@ -75,7 +75,7 @@ class BulletSplashParticle extends AnimatedParticle {
     super({
       posX,
       posY,
-      imageSrc: ((small === true) ? './images/bullet_splash_small.png' : './images/bullet_splash.png'),
+      imagePath: ((small === true) ? './images/bullet_splash_small.png' : './images/bullet_splash.png'),
       frameCount: 3,
       loops: 1,
       ticksPerFrame: 2,
@@ -88,7 +88,7 @@ export class ShellParticle extends AnimatedParticle {
     super({
       posX,
       posY,
-      imageSrc: './images/empty_shell.png',
+      imagePath: './images/empty_shell.png',
       frameCount: 8,
       loops: -1,
       ticksPerFrame: rotation,
@@ -112,7 +112,7 @@ export class ShellParticle extends AnimatedParticle {
 
 export class CloudParticle extends StaticParticle {
   constructor(posX, posY) {
-    super({ posX, posY, imageSrc: './images/cloud1.png' });
+    super({ posX, posY, imagePath: './images/cloud1.png' });
 
     this.sources = [['./images/cloud1.png', 0.5],
       ['./images/cloud2.png', 0.45],
@@ -133,7 +133,7 @@ export class CloudParticle extends StaticParticle {
 
 export class BulletParticle extends StaticParticle {
   constructor(posX, posY, mirror, speed, knockback, damage, particles, entities) {
-    super({ posX, posY, imageSrc: './images/big_bullet.png' });
+    super({ posX, posY, imagePath: './images/big_bullet.png' });
     this.mirror = mirror;
     if (this.mirror) this.vel_x = -speed;
     else this.vel_x = speed;
@@ -145,7 +145,7 @@ export class BulletParticle extends StaticParticle {
   }
 
   draw() {
-    if (this.loaded) {
+    if (this.height !== 0) {
       const cropbox = {
         pos: {
           x: 0,

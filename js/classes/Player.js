@@ -13,7 +13,7 @@ export default class Player extends Entity {
     super({
       pos: { x: posX, y: posY },
       playerRef: {},
-      imageSrc: './images/player/idleRight.png',
+      imagePath: './images/player/idleRight.png',
       frameCount: 6,
       animations: {
         path: './images/player/',
@@ -53,7 +53,7 @@ export default class Player extends Entity {
     this.particles = particles;
     this.collidableParticles = collidableParticles;
     this.entities = entities;
-    this.ammoIndicators = [new Sprite({ pos: { x: -100, y: -100 }, imageSrc: './images/ammo.png' }), new Sprite({ pos: { x: -100, y: -100 }, imageSrc: './images/ammo_empty.png' })];
+    this.ammoIndicators = [new Sprite({ pos: { x: -100, y: -100 }, imagePath: './images/ammo.png' }), new Sprite({ pos: { x: -100, y: -100 }, imagePath: './images/ammo_empty.png' })];
     this.jumping = false;
     this.shooting = false;
     this.reloading = false;

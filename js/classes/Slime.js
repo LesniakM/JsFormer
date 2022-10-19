@@ -11,7 +11,7 @@ class Slime extends Entity {
     posX,
     posY,
     playerRef,
-    imageSrc = './images/slimeGreen/idleRight.png',
+    imagePath = './images/slimeGreen/idleRight.png',
     frameCount = 4,
     animations = {
       path: './images/slimeGreen/',
@@ -42,7 +42,7 @@ class Slime extends Entity {
     super({
       pos: { x: posX, y: posY },
       playerRef,
-      imageSrc,
+      imagePath,
       frameCount,
       animations,
     });
@@ -143,7 +143,7 @@ export class GreenSlime extends Slime {
       posX,
       posY,
       playerRef,
-      imageSrc: './images/slimeGreen/idleRight.png',
+      imagePath: './images/slimeGreen/idleRight.png',
       animations: {
         path: './images/slimeGreen/',
         idleRight: {
@@ -186,7 +186,7 @@ export class BlueSlime extends Slime {
       posX,
       posY,
       playerRef,
-      imageSrc: './images/slimeBlue/idleRight.png',
+      imagePath: './images/slimeBlue/idleRight.png',
       animations: {
         path: './images/slimeBlue/',
         idleRight: {
@@ -231,7 +231,7 @@ export class RedSlime extends Slime {
       posX,
       posY,
       playerRef,
-      imageSrc: './images/slimeRed/idleRight.png',
+      imagePath: './images/slimeRed/idleRight.png',
       animations: {
         path: './images/slimeRed/',
         idleRight: {

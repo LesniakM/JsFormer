@@ -1,24 +1,19 @@
 import { context } from '../Canvas.js';
+import ImageContainer from './ImageContainer.js';
+
+const images = new ImageContainer();
 
 export class Sprite {
-  constructor({ pos, imageSrc = '' }) {
+  constructor({ pos, imagePath }) {
     this.pos = pos;
-    this.image = new Image();
-    // Base values before loading ends.
-    this.height = 32;
-    this.width = 32;
-    this.loaded = false;
+    this.image = images.getImage(imagePath);
+    this.width = this.image.width;
+    this.height = this.image.height;
     this.context = context;
-    this.image.src = imageSrc;
-    this.image.onload = () => {
-      this.loaded = true;
-      this.width = this.image.width;
-      this.height = this.image.height;
-    };
   }
 
   draw(posX = this.pos.x, posY = this.pos.y) {
-    if (this.loaded) {
+    if (this.height !== 0) {
       this.context.drawImage(
         this.image,
         posX,
@@ -26,47 +21,43 @@ export class Sprite {
         this.width,
         this.height,
       );
+    } else {
+      // If image wasn't fully loaded height is equal to 0.
+      // In that case try assign dimensions again.
+      this.width = this.image.width;
+      this.height = this.image.height;
     }
   }
 }
 
 export class AnimatedSprite {
   constructor({
-    pos, imageSrc = '', frameCount = 1, animations = {},
+    pos, imagePath = '', frameCount = 1, animations = {},
   }) {
     this.pos = pos;
-    this.image = new Image();
+    this.image = images.getImage(imagePath);
     this.frameCount = frameCount;
+    this.width = this.image.width / this.frameCount;
+    this.height = this.image.height;
+    this.context = context;
+
     this.currentFrame = 0;
     this.tickCounter = 0;
     this.tickDivider = 8;
     this.animations = animations;
-    // Base values before loading ends.
-    this.height = 32;
-    this.width = 32;
-    this.loaded = false;
-    this.context = context;
-    this.image.src = imageSrc;
-    this.image.onload = () => {
-      this.loaded = true;
-      this.width = this.image.width / this.frameCount;
-      this.height = this.image.height;
-    };
 
     if (this.animations) {
       // eslint-disable-next-line no-restricted-syntax
       for (const key in this.animations) {
         // eslint-disable-next-line no-continue
         if (key === 'path') continue;
-        const image = new Image();
-        image.src = (`${this.animations.path + key}.png`);
-        this.animations[key].image = image;
+        this.animations[key].image = images.getImage((`${this.animations.path + key}.png`));
       }
     }
   }
 
   draw() {
-    if (this.loaded) {
+    if (this.height !== 0) {
       const cropbox = {
         pos: {
           x: this.width * this.currentFrame,
@@ -86,8 +77,12 @@ export class AnimatedSprite {
         this.width,
         this.height,
       );
+    } else {
+      // If image wasn't fully loaded height is equal to 0.
+      // In that case try assign dimensions again.
+      this.width = this.image.width / this.frameCount;
+      this.height = this.image.height;
     }
-
     this.updateFrameCount();
   }
 
@@ -97,6 +92,8 @@ export class AnimatedSprite {
       this.frameCount = this.animations[name].frameCount;
       this.tickDivider = this.animations[name].animationDelay;
       this.currentFrame = 0;
+      this.width = this.image.width / this.frameCount;
+      this.height = this.image.height;
     }
   }
 
