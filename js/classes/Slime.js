@@ -1,4 +1,4 @@
-import { SlimeSounds } from '../../data/audio.js';
+import { SharedSlimePlayer } from '../../data/audio.js';
 import { canvasWidth } from '../Canvas.js';
 import Entity from './Entity.js';
 
@@ -58,7 +58,7 @@ class Slime extends Entity {
     };
     this.jumpTicks = 1;
     this.jumpDivier = jumpDelay;
-    this.sounds = new SlimeSounds();
+    this.sounds = SharedSlimePlayer;
   }
 
   deccelerate() {
@@ -79,15 +79,14 @@ class Slime extends Entity {
       if (this.player.pos.x > this.pos.x) this.vel.x = 8 + Math.random();
       else this.vel.x = -5 - this.speed - Math.random();
       this.jumping = true;
-      this.sounds.jump.play();
+      this.sounds.playJump();
       this.jumpTicks += 1;
     }
   }
 
   endJump() {
     this.jumping = false;
-    this.sounds.stomp.volume = Math.min(this.vel.y / 50, 0.75);
-    this.sounds.stomp.play();
+    this.sounds.playStomp();
     if (this.vel.x >= 0) this.switchSprite('idleRight');
     if (this.vel.x < 0) this.switchSprite('idleLeft');
   }
@@ -95,7 +94,7 @@ class Slime extends Entity {
   teleportFromWater() {
     this.pos.x = canvasWidth * Math.random();
     this.pos.y = 0;
-    this.sounds.splash.play();
+    this.sounds.playSplash();
   }
 
   update() {
