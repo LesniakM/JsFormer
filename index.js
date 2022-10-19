@@ -125,11 +125,11 @@ window.addEventListener('keydown', (event) => {
     case actions.moveLeft.key:
       actions.moveLeft.pressed = true;
       break;
-    case 'F2':
+    case 'KeyU':
       debugMode = !debugMode;
       break;
-    case 'F4':
-      spawnEnemy(entities, player.pos.x + 10, player.pos.y - 20);
+    case 'KeyP':
+      spawnEnemy(entities, player, 500, 0, 'Slime', 10);
       break;
     case 'KeyR':
       player.reload();
