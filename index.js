@@ -26,6 +26,8 @@ const actions = {
   },
 };
 
+let backgroundColor = '#64BEC8';
+let fogColor = '#00000000';
 const backgroundLevel1 = new Sprite({
   pos: { x: 0, y: 0 },
   imagePath: './images/background1.png',
@@ -84,7 +86,7 @@ function gameLoop() {
   else window.requestAnimationFrame(endScreen);
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-  context.fillStyle = '#64BEC8';
+  context.fillStyle = backgroundColor;
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   updateClouds({ clouds, debug: debugMode });
@@ -105,6 +107,9 @@ function gameLoop() {
   if (debugMode) showEnemyAmount(entities);
   if (debugMode) showParticleAmount(particles, collidableParticles);
   if (debugMode) showFPS();
+
+  context.fillStyle = fogColor;
+  context.fillRect(0, 0, canvas.width, canvas.height);
 
   drawHpBar(
     ((player.stats.HP / player.stats.maxHP) * 100),
@@ -138,6 +143,8 @@ window.addEventListener('keydown', (event) => {
       player.changeWeapon();
       break;
     case 'KeyB':
+      backgroundColor = '#405668';
+      fogColor = '#00000050';
       sounds.bgmusic.volume = 0.05;
       sounds.Epicbgmusic.play();
       player.changeWeaponSecret();
