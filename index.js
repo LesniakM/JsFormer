@@ -11,30 +11,15 @@ import {
 } from './js/updateFuncs.js';
 import { canvas, context } from './js/Canvas.js';
 
-const actions = {
-  moveRight: {
-    key: 'KeyD',
-    pressed: false,
-  },
-  moveLeft: {
-    key: 'KeyA',
-    pressed: false,
-  },
-  shoot: {
-    key: 'KeyF',
-    pressed: false,
-  },
-};
-
-let backgroundColor = '#64BEC8';
-let fogColor = '#00000000';
+const backgroundColor = '#64BEC8';
+const fogColor = '#00000000';
 const backgroundLevel1 = new Sprite({
   pos: { x: 0, y: 0 },
   imagePath: './images/background1.png',
 });
 
 const sounds = new WorldSounds();
-let debugMode = false;
+const debugMode = false;
 
 const particles = [];
 const collidableParticles = [];
@@ -82,6 +67,7 @@ function endScreen() {
 }
 
 function gameLoop() {
+  sounds.bgmusic.play();
   if (player.alive) window.requestAnimationFrame(gameLoop);
   else window.requestAnimationFrame(endScreen);
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -118,67 +104,6 @@ function gameLoop() {
   drawGuiWeapon(player.currentWeapon, player);
 }
 
-window.addEventListener('keydown', (event) => {
-  sounds.bgmusic.play();
-  switch (event.code) {
-    case 'Space':
-      player.jump();
-      break;
-    case actions.moveRight.key:
-      actions.moveRight.pressed = true;
-      break;
-    case actions.moveLeft.key:
-      actions.moveLeft.pressed = true;
-      break;
-    case 'KeyU':
-      debugMode = !debugMode;
-      break;
-    case 'KeyP':
-      spawnEnemy(entities, player, 500, 0, 'Slime', 10);
-      break;
-    case 'KeyR':
-      player.reload();
-      break;
-    case 'KeyQ':
-      player.changeWeapon();
-      break;
-    case 'KeyB':
-      backgroundColor = '#405668';
-      fogColor = '#00000050';
-      sounds.bgmusic.volume = 0.05;
-      sounds.Epicbgmusic.play();
-      player.changeWeaponSecret();
-      break;
-    case actions.shoot.key:
-      actions.shoot.pressed = true;
-      break;
-    default:
-      // eslint-disable-next-line no-console
-      console.log('Unknown key down');
-      // eslint-disable-next-line no-console
-      console.log(event.code);
-  }
-});
-
-window.addEventListener('keyup', (event) => {
-  switch (event.code) {
-    case actions.moveRight.key:
-      actions.moveRight.pressed = false;
-      break;
-    case actions.moveLeft.key:
-      actions.moveLeft.pressed = false;
-      break;
-    case actions.shoot.key:
-      actions.shoot.pressed = false;
-      break;
-    default:
-      // eslint-disable-next-line no-console
-      console.log('Unknown key up');
-      // eslint-disable-next-line no-console
-      console.log(event.code);
-  }
-});
-
 let spawnTime = 3000;
 function spawner() {
   if (spawnTime > 100) spawnTime -= 25;
@@ -188,4 +113,39 @@ function spawner() {
 
 setTimeout(() => { spawner(); }, 1000);
 
-gameLoop();
+function startScreen() {
+  context.fillStyle = '#131313';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  context.font = '40px Verdana';
+  context.fillStyle = '#DDDDDD';
+  const text = 'Loading...';
+  context.fillText(
+    text,
+    canvas.width / 2 - context.measureText(text).width / 2,
+    canvas.height / 2 - 20,
+  );
+  context.fillRect(canvas.width / 2 - 250, canvas.height / 2 + 20, 500, 60);
+  context.fillStyle = '#111111';
+  context.fillRect(canvas.width / 2 - 245, canvas.height / 2 + 25, 490, 50);
+}
+
+function loadingFinished() {
+  context.font = '30px Verdana';
+  context.fillStyle = '#DDDDDD';
+  const text = '<Press any key to start>';
+  context.fillText(
+    text,
+    canvas.width / 2 - context.measureText(text).width / 2,
+    canvas.height / 2 + 130,
+  );
+}
+
+function waitLoop() {
+  if (actions.any.pressed === true) gameLoop();
+  else window.requestAnimationFrame(waitLoop);
+}
+
+startScreen();
+loadingFinished();
+waitLoop();

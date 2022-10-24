@@ -18,3 +18,5 @@ rules:
   import/extensions:
   - error
   - js: ignorePackages
+globals:
+  actions: writable
