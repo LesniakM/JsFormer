@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { GreenSlime, BlueSlime, RedSlime } from './classes/Slime.js';
-import { context } from './Canvas.js';
+import { context, canvasHeight, canvasWidth } from './Canvas.js';
 
 let lastTimeFPS = new Date();
 const barImage = new Image();
@@ -71,4 +71,63 @@ export function drawHpBar(hp, mp, posX = 5, posY = 5) {
 export function drawGuiWeapon(weapon, player) {
   weapon.drawForGUI(200, 25);
   player.drawAmmo(310, 5);
+}
+
+export function startScreen() {
+  context.fillStyle = '#131313';
+  context.fillRect(0, 0, canvasWidth, canvasHeight);
+
+  context.font = '40px Verdana';
+  context.fillStyle = '#DDDDDD';
+  const text = 'Loading...';
+  context.fillText(
+    text,
+    canvasWidth / 2 - context.measureText(text).width / 2,
+    canvasHeight / 2 - 20,
+  );
+  context.fillRect(canvasWidth / 2 - 250, canvasHeight / 2 + 20, 500, 60);
+  context.fillStyle = '#111111';
+  context.fillRect(canvasWidth / 2 - 245, canvasHeight / 2 + 25, 490, 50);
+}
+
+export function loadingFinished() {
+  context.font = '30px Verdana';
+  context.fillStyle = '#DDDDDD';
+  const text = '<Press any key to start>';
+  context.fillText(
+    text,
+    canvasWidth / 2 - context.measureText(text).width / 2,
+    canvasHeight / 2 + 130,
+  );
+}
+
+export function endScreen(player) {
+  context.fillStyle = '#222222AA';
+  context.fillRect(0, 0, canvasWidth, canvasHeight);
+
+  context.font = '40px Verdana';
+  context.fillStyle = '#DDDDDD';
+  let text = 'You died.';
+  context.fillText(
+    text,
+    canvasWidth / 2 - context.measureText(text).width / 2,
+    canvasHeight / 2 - 20,
+  );
+  context.font = '30px Verdana';
+  text = '<Press F5 to restart game>';
+  context.fillText(
+    text,
+    canvasWidth / 2 - context.measureText(text).width / 2,
+    canvasHeight / 2 + 20,
+  );
+
+  context.font = '25px Verdana';
+  text = `You killed ${player.stats.killed} slimes.`;
+  context.fillText(text, 160, canvasHeight / 2 + 100);
+  text = `You shot ${player.stats.shots} times.`;
+  context.fillText(text, 160, canvasHeight / 2 + 140);
+  text = `You jumped ${player.stats.jumps} times.`;
+  context.fillText(text, 160, canvasHeight / 2 + 180);
+  text = `You reloaded ${player.stats.reloads} times.`;
+  context.fillText(text, 160, canvasHeight / 2 + 220);
 }

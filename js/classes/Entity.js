@@ -1,4 +1,4 @@
-import { canvasHeiht } from '../Canvas.js';
+import { canvasHeight } from '../Canvas.js';
 import { AnimatedSprite } from './Sprite.js';
 import { collisionBlocks } from './CollisionBlock.js';
 
@@ -59,7 +59,7 @@ export default class Entity extends AnimatedSprite {
   }
 
   applyGravity() {
-    if (this.pos.y + this.height < canvasHeiht) {
+    if (this.pos.y + this.height < canvasHeight) {
       this.vel.y += this.acc.y;
     }
   }
