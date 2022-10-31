@@ -46,22 +46,30 @@ export default class ImageContainer {
    * or just by using getter getImage(path).
    */
   constructor() {
+    this.imageCounter = 0;
+    this.loaded = 0;
+    this.notFound = 0;
     directPaths.forEach((path) => {
+      this.imageCounter += 1;
       const newProp = ImageContainer.getIdentifier(path);
       this[newProp] = new Image();
-      this[newProp].src = path;
       // eslint-disable-next-line no-console
       this[newProp].addEventListener('error', () => { console.error('Not found image with path: ', path); });
+      this[newProp].addEventListener('load', () => { this.loaded += 1; });
+      this[newProp].src = path;
     });
     entitiesPaths.forEach((Beginpath) => {
       entitiesElements.forEach((endPath) => {
+        this.imageCounter += 1;
         const completePath = Beginpath + endPath;
         const newProp = ImageContainer.getIdentifier(completePath);
         this[newProp] = new Image();
+        this[newProp].addEventListener('error', () => { this.notFound += 1; });
+        this[newProp].addEventListener('load', () => { this.loaded += 1; });
         this[newProp].src = completePath;
-        this[newProp].addEventListener('error', function deleteNotFound() { delete this[newProp]; });
       });
     });
+    console.log(this.imageCounter, this.loaded, this.notFound);
   }
 
   /**
