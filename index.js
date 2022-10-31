@@ -6,9 +6,10 @@ import Game from './js/classes/Game.js';
 
 startScreen();
 const images = new ImageContainer();
+export default images;
 const sounds = new WorldSounds();
 sounds.bgmusic.play();
-const game = new Game(canvas, context, images, sounds);
+const game = new Game(canvas, context, sounds);
 loadingFinished();
 
 function mainLoop() {
