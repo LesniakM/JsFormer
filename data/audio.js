@@ -182,11 +182,11 @@ export class KarabinekSounds extends WeaponSounds {
   }
 }
 
-class EntitySoundsPlayer {
-  constructor() {
-    this.slimePlayers = 5;
+class SlimeSoundsPlayer {
+  constructor(slimeAudioOjbs = 5) {
+    this.slimeAudioOjbs = slimeAudioOjbs;
     this.slimeAudioPool = [];
-    for (let i = 0; i < this.slimePlayers; i += 1) {
+    for (let i = 0; i < this.slimeAudioOjbs; i += 1) {
       this.slimeAudioPool.push(new SlimeSounds());
     }
     this.index = {
@@ -205,7 +205,7 @@ class EntitySoundsPlayer {
     this.slimeAudioPool[this.index[sound]][sound].currentTime = 0;
     this.slimeAudioPool[this.index[sound]][sound].play();
     this.index[sound] += 1;
-    if (this.index[sound] >= this.slimePlayers) this.index[sound] = 0;
+    if (this.index[sound] >= this.slimeAudioOjbs) this.index[sound] = 0;
   }
 
   playSplash() {
@@ -214,7 +214,7 @@ class EntitySoundsPlayer {
     this.slimeAudioPool[this.index[sound]][sound].currentTime = 0;
     this.slimeAudioPool[this.index[sound]][sound].play();
     this.index[sound] += 1;
-    if (this.index[sound] >= this.slimePlayers) this.index[sound] = 0;
+    if (this.index[sound] >= this.slimeAudioOjbs) this.index[sound] = 0;
   }
 
   playStomp() {
@@ -223,7 +223,7 @@ class EntitySoundsPlayer {
     this.slimeAudioPool[this.index[sound]][sound].currentTime = 0;
     this.slimeAudioPool[this.index[sound]][sound].play();
     this.index[sound] += 1;
-    if (this.index[sound] >= this.slimePlayers) this.index[sound] = 0;
+    if (this.index[sound] >= this.slimeAudioOjbs) this.index[sound] = 0;
   }
 
   playDamage() {
@@ -239,7 +239,7 @@ class EntitySoundsPlayer {
     this.slimeAudioPool[this.index[sound]][sound].currentTime = 0;
     this.slimeAudioPool[this.index[sound]][sound].play();
     this.index[sound] += 1;
-    if (this.index[sound] >= this.slimePlayers) this.index[sound] = 0;
+    if (this.index[sound] >= this.slimeAudioOjbs) this.index[sound] = 0;
   }
 
   playDamage2() {
@@ -248,7 +248,7 @@ class EntitySoundsPlayer {
     this.slimeAudioPool[this.index[sound]][sound].currentTime = 0;
     this.slimeAudioPool[this.index[sound]][sound].play();
     this.index[sound] += 1;
-    if (this.index[sound] >= this.slimePlayers) this.index[sound] = 0;
+    if (this.index[sound] >= this.slimeAudioOjbs) this.index[sound] = 0;
   }
 
   playDamage3() {
@@ -257,7 +257,7 @@ class EntitySoundsPlayer {
     this.slimeAudioPool[this.index[sound]][sound].currentTime = 0;
     this.slimeAudioPool[this.index[sound]][sound].play();
     this.index[sound] += 1;
-    if (this.index[sound] >= this.slimePlayers) this.index[sound] = 0;
+    if (this.index[sound] >= this.slimeAudioOjbs) this.index[sound] = 0;
   }
 
   playEmpty() {
@@ -265,4 +265,4 @@ class EntitySoundsPlayer {
   }
 }
 
-export const SharedSlimePlayer = new EntitySoundsPlayer();
+export const SharedSlimePlayer = new SlimeSoundsPlayer();
