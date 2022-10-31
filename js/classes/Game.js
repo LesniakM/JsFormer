@@ -13,12 +13,10 @@ export default class Game {
   /**
    * @param {HTMLCanvasElement} canvas
    * @param {CanvasRenderingContext2D} context
-   * @param {ImageContainer} images
    */
-  constructor(canvas, context, images, sounds) {
+  constructor(canvas, context, sounds) {
     this.canvas = canvas;
     this.context = context;
-    this.images = images;
     this.worldsounds = sounds;
     this.backgroundLevel1 = new Sprite({ pos: { x: 0, y: 0 }, imagePath: './images/background1.png' });
 
