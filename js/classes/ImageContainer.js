@@ -16,6 +16,7 @@ const directPaths = [
   './images/hpBar.png',
   './images/jumpDust.png',
   './images/Revolver.png',
+  './images/background1.png',
 ];
 
 const entitiesPaths = [
