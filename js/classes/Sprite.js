@@ -1,12 +1,14 @@
 import { context } from '../Canvas.js';
 import ImageContainer from './ImageContainer.js';
 
-const images = new ImageContainer();
+const imageContainter = new ImageContainer();
 
 export class Sprite {
+  images = imageContainter;
+
   constructor({ pos, imagePath }) {
     this.pos = pos;
-    this.image = images.getImage(imagePath);
+    this.image = this.images.getImage(imagePath);
     this.width = this.image.width;
     this.height = this.image.height;
     this.context = context;
@@ -31,11 +33,13 @@ export class Sprite {
 }
 
 export class AnimatedSprite {
+  images = imageContainter;
+
   constructor({
     pos, imagePath = '', frameCount = 1, animations = {},
   }) {
     this.pos = pos;
-    this.image = images.getImage(imagePath);
+    this.image = this.images.getImage(imagePath);
     this.frameCount = frameCount;
     this.width = this.image.width / this.frameCount;
     this.height = this.image.height;
@@ -51,7 +55,7 @@ export class AnimatedSprite {
       for (const key in this.animations) {
         // eslint-disable-next-line no-continue
         if (key === 'path') continue;
-        this.animations[key].image = images.getImage((`${this.animations.path + key}.png`));
+        this.animations[key].image = this.images.getImage((`${this.animations.path + key}.png`));
       }
     }
   }

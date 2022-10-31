@@ -69,7 +69,6 @@ export default class ImageContainer {
         this[newProp].src = completePath;
       });
     });
-    console.log(this.imageCounter, this.loaded, this.notFound);
   }
 
   /**
@@ -89,5 +88,9 @@ export default class ImageContainer {
    */
   getImage(path) {
     return this[ImageContainer.getIdentifier(path)];
+  }
+
+  loadProgress() {
+    return (this.loaded + this.notFound) / this.imageCounter;
   }
 }

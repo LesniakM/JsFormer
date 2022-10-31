@@ -4,10 +4,11 @@ import {
   updateEntities, updateParticles, updateCollidableParticles, updateClouds,
 } from '../updateFuncs.js';
 import {
-  spawnEnemy, showFPS, endScreen, showEnemyAmount, showParticleAmount,
+  showFPS, endScreen, showEnemyAmount, showParticleAmount,
   drawHpBar, drawGuiWeapon,
 } from '../utils.js';
 import { Sprite } from './Sprite.js';
+import spawnEnemy from '../spawner.js';
 
 export default class Game {
   /**
@@ -19,6 +20,7 @@ export default class Game {
     this.context = context;
     this.worldsounds = sounds;
     this.backgroundLevel1 = new Sprite({ pos: { x: 0, y: 0 }, imagePath: './images/background1.png' });
+    this.images = this.backgroundLevel1.images;
 
     this.backgroundColor = '#64BEC8';
     this.fogColor = '#00000000';
