@@ -9,7 +9,7 @@ export default class Player extends Entity {
      * @param {number} posX Player's left x coordinate
      * @param {number} posY Player's top y coordinate
      */
-  constructor(posX, posY, actions, particles, collidableParticles, entities) {
+  constructor(posX, posY, particles, collidableParticles, entities) {
     super({
       pos: { x: posX, y: posY },
       playerRef: {},
@@ -49,7 +49,6 @@ export default class Player extends Entity {
         },
       },
     });
-    this.actions = actions;
     this.particles = particles;
     this.collidableParticles = collidableParticles;
     this.entities = entities;
@@ -135,7 +134,7 @@ export default class Player extends Entity {
       this.vel.y = -16;
       this.jumping = true;
       Entity.playSound(this.sounds.jump);
-      this.actions.playerJump.pressed = false;
+      actions.playerJump.pressed = false;
     }
   }
 
@@ -208,7 +207,7 @@ export default class Player extends Entity {
   endReload() {
     this.currentWeapon.currentAmmo = this.currentWeapon.magSize;
     this.currentWeapon.sounds.playReload2();
-    this.actions.playerReload.pressed = false;
+    actions.playerReload.pressed = false;
     this.reloading = false;
   }
 
@@ -218,7 +217,7 @@ export default class Player extends Entity {
     this.weaponIndex += 1;
     if (this.weaponIndex >= this.weapons.length) this.weaponIndex = 0;
     this.currentWeapon = this.weapons[this.weaponIndex];
-    this.actions.playerChangeWpn.pressed = false;
+    actions.playerChangeWpn.pressed = false;
   }
 
   changeWeaponSecret() {
@@ -300,10 +299,10 @@ export default class Player extends Entity {
       y: this.pos.y + (this.height - this.hitbox.height) / 2,
     };
 
-    if (this.actions.playerShoot.pressed) this.shoot();
-    if (this.actions.playerJump.pressed) this.jump();
-    if (this.actions.playerReload.pressed) this.reload();
-    if (this.actions.playerChangeWpn.pressed) this.changeWeapon();
+    if (actions.playerShoot.pressed) this.shoot();
+    if (actions.playerJump.pressed) this.jump();
+    if (actions.playerReload.pressed) this.reload();
+    if (actions.playerChangeWpn.pressed) this.changeWeapon();
 
     this.checkHorizontalCollisions();
 
