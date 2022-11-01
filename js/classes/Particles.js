@@ -1,4 +1,5 @@
-import { Sprite, AnimatedSprite } from './Sprite.js';
+import Sprite from './Sprite.js';
+import AnimatedSprite from './AnimatedSprite.js';
 import { context, canvasWidth } from '../Canvas.js';
 import { collisionBlocks } from './CollisionBlock.js';
 

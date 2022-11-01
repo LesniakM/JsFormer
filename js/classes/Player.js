@@ -1,7 +1,9 @@
 import { ShellParticle, JumpParticle } from './Particles.js';
 import Entity from './Entity.js';
-import { Sprite } from './Sprite.js';
-import { Revolver, AK47, Karabinek } from './Weapon.js';
+import Sprite from './Sprite.js';
+import Revolver from './weapons/Revolver.js';
+import AK47 from './weapons/AK47.js';
+import Karabinek from './weapons/Karabinek.js';
 import { PlayerSounds } from '../../data/audio.js';
 
 export default class Player extends Entity {

@@ -1,8 +1,7 @@
-import { RevolverSounds, AKSounds, KarabinekSounds } from '../../data/audio.js';
 import { BulletParticle, ShellParticle } from './Particles.js';
 import { context } from '../Canvas.js';
 
-class Weapon {
+export default class Weapon {
   constructor({
     pos,
     imageSrc,
@@ -174,116 +173,6 @@ class Weapon {
           6,
         ));
       }
-    }
-  }
-}
-
-export class Revolver extends Weapon {
-  constructor(particles, collidableParticles, playerRef) {
-    super({
-      pos: { x: -100, y: -100 },
-      imageSrc: './images/Revolver.png',
-      magSize: 6,
-      weaponOffsets: [[16, 40], [33, 40]],
-      reloadTime: 700,
-      shootIterval: 500,
-      knockback: 4,
-      audioObject: new RevolverSounds(),
-      bulletPosOffsets: [[0, 0], [-20, -12], [0, 0], [0, 0], [0, 0], [0, -12], [0, 0], [0, 0]],
-      bulletSpeed: 14,
-      bulletKnockback: 6,
-      bulletDamage: 30,
-      keepsShells: true,
-      particles,
-      collidableParticles,
-      playerRef,
-    });
-  }
-}
-
-export class AK47 extends Weapon {
-  constructor(particles, collidableParticles, playerRef) {
-    super({
-      pos: { x: -100, y: -100 },
-      imageSrc: './images/AK47.png',
-      magSize: 30,
-      weaponOffsets: [[32, 46], [65, 46]],
-      reloadTime: 1000,
-      shootIterval: 90,
-      knockback: 2,
-      audioObject: new AKSounds(),
-      bulletPosOffsets: [[0, 0], [-10, -14], [0, 0], [0, 0], [0, 0], [10, -14], [0, 0], [0, 0]],
-      bulletSpeed: 20,
-      bulletKnockback: 4,
-      bulletDamage: 15,
-      particles,
-      collidableParticles,
-      playerRef,
-    });
-  }
-}
-
-export class Karabinek extends Weapon {
-  constructor(particles, collidableParticles, playerRef) {
-    super({
-      pos: { x: -100, y: -100 },
-      imageSrc: './images/Karabinek.png',
-      magSize: 120,
-      weaponOffsets: [[40, 46], [50, 46]],
-      reloadTime: 1000,
-      shootIterval: 87,
-      knockback: 0,
-      audioObject: new KarabinekSounds(),
-      bulletPosOffsets: [[0, 0], [-20, -16], [0, 0], [0, 0], [0, 0], [10, -16], [0, 0], [0, 0]],
-      bulletSpeed: 30,
-      bulletKnockback: 10,
-      bulletDamage: 25,
-      particles,
-      collidableParticles,
-      playerRef,
-    });
-  }
-
-  shoot(direction, entities) {
-    this.currentAmmo -= 1;
-    if (!this.player.jumping) this.player.vel.y -= (1.5 + Math.random());
-    if (direction === 'right') {
-      this.collidableParticles.push(new BulletParticle(
-        this.pos.x + this.width / 2 + this.bulletPosOffsets[this.index][0],
-        this.pos.y + this.height / 2 + this.bulletPosOffsets[this.index][1],
-        false,
-        this.bulletSpeed,
-        this.bulletKnockback,
-        this.bulletDamage,
-        this.particles,
-        entities,
-        (1 - Math.random() * 3),
-      ));
-      this.particles.push(new ShellParticle(
-        this.pos.x + this.width / 2 + this.bulletPosOffsets[this.index][0],
-        this.pos.y + this.height / 2 + this.bulletPosOffsets[this.index][1],
-        -1,
-      ));
-    }
-    if (direction === 'left') {
-      this.collidableParticles.push(new BulletParticle(
-        this.pos.x + this.width / 2 + this.bulletPosOffsets[this.index + 4][0],
-        this.pos.y + this.height / 2 + this.bulletPosOffsets[this.index + 4][1],
-        true,
-        this.bulletSpeed,
-        this.bulletKnockback,
-        this.bulletDamage,
-        this.particles,
-        entities,
-        (1 - Math.random() * 3),
-      ));
-
-      this.particles.push(new ShellParticle(
-        this.pos.x + this.width / 2 + this.bulletPosOffsets[this.index + 4][0],
-        this.pos.y + this.height / 2 + this.bulletPosOffsets[this.index + 4][1],
-        1,
-        6,
-      ));
     }
   }
 }

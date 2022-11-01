@@ -1,5 +1,5 @@
 import { canvasHeight } from '../Canvas.js';
-import { AnimatedSprite } from './Sprite.js';
+import AnimatedSprite from './AnimatedSprite.js';
 import { collisionBlocks } from './CollisionBlock.js';
 
 export default class Entity extends AnimatedSprite {

@@ -7,7 +7,7 @@ import {
   showFPS, endScreen, showEnemyAmount, showParticleAmount,
   drawHpBar, drawGuiWeapon,
 } from '../utils.js';
-import { Sprite } from './Sprite.js';
+import Sprite from './Sprite.js';
 import spawnEnemy from '../spawner.js';
 
 export default class Game {
