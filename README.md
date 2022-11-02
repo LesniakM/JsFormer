@@ -31,6 +31,8 @@ Full readme coming soon!
 
 1.0.0 Gameplay video: https://www.youtube.com/watch?v=Hs1RgEZS1rg
 
+14.10.2022 - 02.11.2022 Update: Added loading screen, image and sounds preload. Code is now formated with eslint and splitted to more files with few lines of code in each. Each js file is now imported/exported instead loading to global scope by html <script> tag. Gameplay hasn't change since ver 1.0.0.
+
 Credits:
 
 -Main character sprite [modified]: https://game-endeavor.itch.io/mystic-woods
