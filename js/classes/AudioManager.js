@@ -18,14 +18,14 @@ const playerSounds = [
   ['step2', './data/wavs/StepGrass2.wav', 0.2],
   ['step3', './data/wavs/StepGrass3.wav', 0.2],
   ['step4', './data/wavs/StepGrass4.wav', 0.2],
-  ['switch', './data/wavs/weapons/Click2.wav', 0.25],
+  ['switch', './data/wavs/weapons/Click6.wav', 0.25],
   ['damage1', './data/wavs/Male5.wav', 0.33],
   ['damage2', './data/wavs/Male6.wav', 0.33],
   ['damage3', './data/wavs/Male7.wav', 0.33],
 ];
 
 const weaponSounds = [
-  ['empty', './data/wavs/weapons/Click6.wav', 0.3],
+  ['empty', './data/wavs/weapons/Click2.wav', 0.3],
   ['AK47_shot', './data/wavs/weapons/Gunshot6.wav', 0.27],
   ['AK47_reload1', './data/wavs/weapons/GunMagazine1.wav', 0.35],
   ['AK47_reload2', './data/wavs/weapons/GunMagazine2.wav', 0.35],
@@ -71,6 +71,7 @@ class AudioManager {
         .then((buffer) => {
           this[name][subname] = buffer;
           this[name][subname].volume = volume;
+          this[name][subname].isPlaying = false;
           this.loaded += 1;
         });
     });
@@ -80,18 +81,23 @@ class AudioManager {
    * Play sound with Web Audio API.
    * @param {string} category Category name of sound. bgMusic | slime | player | weapon.
    * @param {string} name Name of choosen sound.
-   * @param {bool} loop True for infinity loop.
-   * @param {bool} volumeOverride If provided, overrides default sound volume.
+   * @param {bool} loop True for infinity loop. False if not provided.
+   * @param {float} volumeOverride Overrides sound's default volume. False if not provided.
+   * @param {bool} preventOverlap True for block overlapping. False if not provided.
    */
-  play(category, name, loop = false, volumeOverride = false) {
-    const track = this.audioContext.createBufferSource();
-    track.buffer = this[category][name];
-    const gainNode = this.audioContext.createGain();
-    track.connect(gainNode);
-    gainNode.gain.value = volumeOverride || this[category][name].volume;
-    gainNode.connect(this.audioContext.destination);
-    track.loop = loop;
-    track.start(0);
+  play(category, name, loop = false, volumeOverride = false, preventOverlap = false) {
+    if (this[category][name].isPlaying === false || preventOverlap === false) {
+      const track = this.audioContext.createBufferSource();
+      track.buffer = this[category][name];
+      const gainNode = this.audioContext.createGain();
+      track.connect(gainNode);
+      gainNode.gain.value = volumeOverride || this[category][name].volume;
+      gainNode.connect(this.audioContext.destination);
+      track.loop = loop;
+      track.start(0);
+      this[category][name].isPlaying = true;
+      track.onended = () => { this[category][name].isPlaying = false; };
+    }
   }
 
   loadProgress() {
