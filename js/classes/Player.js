@@ -4,7 +4,7 @@ import Sprite from './Sprite.js';
 import Revolver from './weapons/Revolver.js';
 import AK47 from './weapons/AK47.js';
 import Karabinek from './weapons/Karabinek.js';
-import { PlayerSounds } from '../../data/audio.js';
+import audioManager from './AudioManager.js';
 
 export default class Player extends Entity {
   /**
@@ -70,7 +70,7 @@ export default class Player extends Entity {
       height: 38,
     };
     this.direction = 'right';
-    this.sounds = new PlayerSounds();
+    this.sounds = audioManager;
     this.speed = 5;
     this.stats = {
       maxHP: 100,
@@ -135,7 +135,7 @@ export default class Player extends Entity {
       this.stats.jumps += 1;
       this.vel.y = -16;
       this.jumping = true;
-      Entity.playSound(this.sounds.jump);
+      this.sounds.play('player', 'jump');
       actions.playerJump.pressed = false;
     }
   }
@@ -143,8 +143,7 @@ export default class Player extends Entity {
   endJump() {
     this.jumping = false;
     if (this.vel.y > 21) this.reduceHP(this.vel.y);
-    this.sounds.stomp.volume = Math.min(this.vel.y / 50, 0.75);
-    Entity.playSound(this.sounds.stomp);
+    this.sounds.play('player', 'stomp', false, Math.min(this.vel.y / 50, 0.75));
     if (this.direction === 'right') this.switchSprite('idleRight');
     if (this.direction === 'left') this.switchSprite('idleLeft');
   }
@@ -215,7 +214,7 @@ export default class Player extends Entity {
 
   changeWeapon() {
     if (this.reloading) return;
-    Entity.playSound(this.sounds.switch);
+    this.sounds.play('player', 'switch');
     this.weaponIndex += 1;
     if (this.weaponIndex >= this.weapons.length) this.weaponIndex = 0;
     this.currentWeapon = this.weapons[this.weaponIndex];
@@ -244,23 +243,23 @@ export default class Player extends Entity {
     this.stepTicks += 1;
     if (this.stepTicks % 6 === 0) {
       if (this.stepIndex === 0) {
-        this.sounds.step1.play();
+        this.sounds.play('player', 'step1');
         this.stepIndex += 1;
       } else if (this.stepIndex === 1) {
-        this.sounds.step2.play();
+        this.sounds.play('player', 'step2');
         this.stepIndex += 1;
       } else if (this.stepIndex === 2) {
-        this.sounds.step3.play();
+        this.sounds.play('player', 'step3');
         this.stepIndex += 1;
       } else {
-        this.sounds.step4.play();
+        this.sounds.play('player', 'step4');
         this.stepIndex = 0;
       }
     }
   }
 
   teleportFromWater() {
-    this.sounds.splash.play();
+    this.sounds.play('player', 'splash');
     this.reduceHP(25);
     this.pos.x = 500;
     this.pos.y = 200;

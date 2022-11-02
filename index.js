@@ -1,13 +1,11 @@
 import {
   canvas, context, startScreen, loadingFinished, loadingProgress,
 } from './js/Canvas.js';
-import { WorldSounds } from './data/audio.js';
 import Game from './js/classes/Game.js';
 
 startScreen();
-const sounds = new WorldSounds();
-sounds.bgmusic.play();
-const game = new Game(canvas, context, sounds);
+// sounds.bgmusic.play();
+const game = new Game(canvas, context);
 
 let imageLoadProgress = 0;
 let audioLoadProgress = 0;
@@ -20,7 +18,7 @@ function mainLoop() {
   } else {
     if (!gameIsReady) {
       imageLoadProgress = game.images.loadProgress();
-      audioLoadProgress = game.images.loadProgress();
+      audioLoadProgress = game.sounds.loadProgress();
       loadingProgress((imageLoadProgress + audioLoadProgress) / 2);
       if (imageLoadProgress === 1 && audioLoadProgress === 1) {
         gameIsReady = true;

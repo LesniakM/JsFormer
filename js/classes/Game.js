@@ -9,16 +9,17 @@ import {
 } from '../utils.js';
 import Sprite from './Sprite.js';
 import spawnEnemy from '../spawner.js';
+import audioManager from './AudioManager.js';
 
 export default class Game {
   /**
    * @param {HTMLCanvasElement} canvas
    * @param {CanvasRenderingContext2D} context
    */
-  constructor(canvas, context, sounds) {
+  constructor(canvas, context) {
     this.canvas = canvas;
     this.context = context;
-    this.worldsounds = sounds;
+    this.sounds = audioManager;
     this.backgroundLevel1 = new Sprite({ pos: { x: 0, y: 0 }, imagePath: './images/background1.png' });
     this.images = this.backgroundLevel1.images;
 
@@ -46,7 +47,7 @@ export default class Game {
 
   startGame() {
     if (!this.gameStarted) {
-      this.worldsounds.bgmusic.play();
+      this.sounds.play('bgMusic', 'background1', true);
       setTimeout(() => { this.spawner(); }, 1000);
       this.gameStarted = true;
     }

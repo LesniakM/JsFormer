@@ -44,7 +44,7 @@ export default class Entity extends AnimatedSprite {
 
   reduceHP(damage) {
     this.stats.HP -= damage;
-    this.sounds.playDamage();
+    // this.sounds.playDamage();
     if (this.stats.HP <= 0) {
       this.alive = false;
       this.stats.HP = 0;
