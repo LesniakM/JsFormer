@@ -151,12 +151,12 @@ export default class Player extends Entity {
   shoot() {
     if (this.shooting || !this.alive || this.reloading) return;
     if (this.currentWeapon.currentAmmo <= 0) {
-      this.currentWeapon.sounds.playEmpty();
+      this.sounds.play('weapon', 'empty', false, false, true);
       return;
     }
     this.shooting = true;
     this.stats.shots += 1;
-    this.currentWeapon.sounds.playShot();
+    this.sounds.play('weapon', `${this.currentWeapon.constructor.name}_shot`);
     if (this.direction === 'right') {
       this.vel.x -= this.currentWeapon.knockback;
       this.currentWeapon.shoot('right', this.entities);
@@ -201,13 +201,13 @@ export default class Player extends Entity {
       }
     }
     this.reloading = true;
-    this.currentWeapon.sounds.playReload1();
+    this.sounds.play('weapon', `${this.currentWeapon.constructor.name}_reload1`);
     setTimeout(() => { this.endReload(); }, this.currentWeapon.reloadTime);
   }
 
   endReload() {
     this.currentWeapon.currentAmmo = this.currentWeapon.magSize;
-    this.currentWeapon.sounds.playReload2();
+    this.sounds.play('weapon', `${this.currentWeapon.constructor.name}_reload2`);
     actions.playerReload.pressed = false;
     this.reloading = false;
   }
