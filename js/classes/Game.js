@@ -75,9 +75,9 @@ export default class Game {
 
       this.player.currentWeapon.draw();
 
-      if (this.debugMode) showEnemyAmount(this.entities);
+      if (actions.debugMode.toggled) showEnemyAmount(this.entities);
       if (this.debugMode) showParticleAmount(this.particles, this.collidableParticles);
-      if (this.debugMode) showFPS();
+      if (actions.debugMode.toggled) showFPS();
 
       this.context.fillStyle = this.fogColor;
       this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -87,6 +87,11 @@ export default class Game {
         ((this.player.stats.MP / this.player.stats.maxMP) * 100),
       );
       drawGuiWeapon(this.player.currentWeapon, this.player);
+
+      if (actions.spawnEnemy.pressed === true) {
+        spawnEnemy(this.entities, this.player, this.canvas.width * Math.random(), 0, 'Slime', 100);
+        actions.spawnEnemy.pressed = false;
+      }
     }
     if (!this.player.alive && !this.endScreenShown) {
       endScreen(this.player);
