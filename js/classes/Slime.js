@@ -1,4 +1,4 @@
-import { SharedSlimePlayer } from '../../data/audio.js';
+import audioManager from './AudioManager.js';
 import { canvasWidth } from '../Canvas.js';
 import Entity from './Entity.js';
 
@@ -58,7 +58,19 @@ class Slime extends Entity {
     };
     this.jumpTicks = 1;
     this.jumpDivier = jumpDelay;
-    this.sounds = SharedSlimePlayer;
+    this.sounds = audioManager;
+  }
+
+  reduceHP(damage) {
+    this.stats.HP -= damage;
+    const rand = Math.random();
+    if (rand < 0.33) this.sounds.play('slime', 'damage1');
+    else if (rand < 0.67) this.sounds.play('slime', 'damage2');
+    else this.sounds.play('slime', 'damage3');
+    if (this.stats.HP <= 0) {
+      this.alive = false;
+      this.stats.HP = 0;
+    }
   }
 
   deccelerate() {
@@ -79,14 +91,14 @@ class Slime extends Entity {
       if (this.player.pos.x > this.pos.x) this.vel.x = 8 + Math.random();
       else this.vel.x = -5 - this.speed - Math.random();
       this.jumping = true;
-      this.sounds.playJump();
+      this.sounds.play('slime', 'jump');
       this.jumpTicks += 1;
     }
   }
 
   endJump() {
     this.jumping = false;
-    this.sounds.playStomp();
+    this.sounds.play('slime', 'stomp');
     if (this.vel.x >= 0) this.switchSprite('idleRight');
     if (this.vel.x < 0) this.switchSprite('idleLeft');
   }
@@ -94,7 +106,7 @@ class Slime extends Entity {
   teleportFromWater() {
     this.pos.x = canvasWidth * Math.random();
     this.pos.y = 0;
-    this.sounds.playSplash();
+    this.sounds.play('slime', 'splash');
   }
 
   update() {
@@ -266,7 +278,10 @@ export class RedSlime extends Slime {
 
   reduceHP(damage) {
     this.stats.HP -= damage;
-    this.sounds.playDamage();
+    const rand = Math.random();
+    if (rand < 0.33) this.sounds.play('slime', 'damage1');
+    else if (rand < 0.67) this.sounds.play('slime', 'damage2');
+    else this.sounds.play('slime', 'damage3');
     if (this.stats.HP <= 0) {
       this.alive = false;
       this.player.restoreHP(10);
