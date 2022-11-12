@@ -33,6 +33,20 @@ Full readme coming soon!
 
 14.10.2022 - 02.11.2022 Update: Added loading screen, image and sounds preload. Code is now formated with eslint and splitted to more files with few lines of code in each. Each js file is now imported/exported instead loading to global scope by html <script> tag. Gameplay hasn't change since ver 1.0.0.
 
+
+Used technologies/packages:
+
+-Node.js - required by Eslint, also provides npm package managemnt.
+
+-http-server - used for local developlment, testing and debugging. Since export/imports are used, there is no way to run game without it from disk on modern browsers.
+
+-Eslint - static code analysis. Used to spot unused variables, bad styling and much more other problems.
+
+-Jest - test framework.
+
+-Babilon - mainly used to translate ES6 import/export to CommonJS. Might be also used to run game on older devices/browsers.
+
+
 Credits:
 
 -Main character sprite [modified]: https://game-endeavor.itch.io/mystic-woods
