@@ -44,7 +44,7 @@ Used technologies/packages:
 
 -Jest - test framework.
 
--Babilon - mainly used to translate ES6 import/export to CommonJS. Might be also used to run game on older devices/browsers.
+-Babel - mainly used to translate ES6 import/export to CommonJS. Might be also used to run game on older devices/browsers.
 
 
 Credits:
