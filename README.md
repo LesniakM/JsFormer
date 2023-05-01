@@ -4,6 +4,8 @@ Control: Space - jump, A - left, D - right, F - shot, Q - change weapon, R - rel
 
 Full readme coming soon!
 
+Gameplay video: https://www.youtube.com/watch?v=Hs1RgEZS1rg
+
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/53059208/194167139-bc35961e-9460-49f1-833b-0b3b48299e45.gif)
 
 
